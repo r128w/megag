@@ -1,10 +1,38 @@
 // main menu before game start
 
+var menu = {}
+
 function runMenu(){
 
     canvasClear()
 
-    ctx.fillStyle = "#aaaaaa"
+    for(var i = 0; i < menu.ps.length;i++){
+        const r = 153*(menu.ps[i].r / menu.maxr)
+        const g = 238*(menu.ps[i].r / menu.maxr)
+        const b = 170*(menu.ps[i].r / menu.maxr)
+        drawCircle(menu.ps[i].x, menu.ps[i].y, menu.ps[i].r, `rgba(${r}, ${g}, ${b}, 255)`)
+
+        const speed = 0.02
+
+        menu.ps[i].x+=menu.vx*menu.ps[i].r*speed
+        menu.ps[i].y+=menu.vy*menu.ps[i].r*speed
+
+        if(menu.ps[i].x > c.width + menu.ps[i].r && menu.vx > 0){
+            menu.ps[i].x -= Math.random()*200 + c.width + menu.ps[i].r*2
+        }
+        if(menu.ps[i].x < -menu.ps[i].r && menu.vx < 0){
+            menu.ps[i].x += c.width + Math.random() * 200 + menu.ps[i].r*2
+        }
+        if(menu.ps[i].y > c.height + menu.ps[i].r && menu.vy > 0){
+            menu.ps[i].y -= Math.random()*200 + c.height + menu.ps[i].r*2
+        }
+        if(menu.ps[i].y < -menu.ps[i].r && menu.vy < 0){
+            menu.ps[i].y += c.height + Math.random() * 200 + menu.ps[i].r*2
+        }
+
+    }
+
+    
 
     // js css
     const mbw = Math.min(c.width/3, 200)// menu button width
@@ -16,14 +44,24 @@ function runMenu(){
     const b2y = c.height/2 - mbh/2// etc
     const b3y = c.height/2 + mbh/2 + mbs
 
+    ctx.fillStyle = "#ffffff33"
+    const margin = 20
+    ctx.fillRect(bx-margin, b1y-margin, (mbw)+margin*2, (3*mbh+2*mbs)+margin*2)
+    ctx.fillStyle = "#aaaaaa"
+
     ctx.fillRect(bx, b1y, mbw, mbh);
     ctx.fillRect(bx, b2y, mbw, mbh);
     ctx.fillRect(bx, b3y, mbw, mbh);
 
-    ctx.font = (mbh-35) + "px " + "monospace"
     ctx.textAlign = "center"
-    // console.log(ctx.font)
+
+    ctx.fillStyle="#dddddd"
+    ctx.font = (mbh+20) + "px " + "Trattatello";
+    ctx.fillText("MegaGravity", (c.width/2), (b1y + mbh+20)/2)
+
     ctx.fillStyle = "#111111"
+    ctx.font = (mbh-35) + "px " + "monospace"
+    // console.log(ctx.font)
     const ts = mbh-20
     ctx.fillText("Play Singleplayer", (c.width/2), b1y+ts)
     ctx.fillText("Play Multiplayer", (c.width/2), b2y+ts)
