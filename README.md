@@ -1,4 +1,4 @@
-# MegaGravity (WIP)
+# ![MegaGravity logo: Mg](https://r128w.github.io/megag/assets/mg.png) MegaGravity (WIP)
 #### A physics-based (planned) sandbox for people who love orbits
 
 # Controls
@@ -9,6 +9,8 @@ S: Accelerate backwards
 A, D: Accelerate rotation left, right - Keep in mind that angular velocity gained must be cancelled later
 
 E: Interact
+
+Tab: Toggle large minimap
 
 # Gameplay
 
