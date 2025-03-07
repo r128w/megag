@@ -43,8 +43,23 @@ c.addEventListener('mousemove', (e)=>{
     // console.log(event)
     input.mx = e.offsetX
     input.my = e.offsetY
+    showCursor()
+    clearTimeout(cursorTimer)
+    cursorTimer = setTimeout(hideCursor, 2000)
 })
+
+var cursorTimer;
+function hideCursor(){
+    c.style.cursor="none"
+}
+function showCursor(cursor="auto"){
+    c.style.cursor=cursor
+}
+
 c.addEventListener('mouseup', (e)=>{
     input.m = true;
     setTimeout(()=>{input.m=false}, 20)// JANK lmao
+    showCursor()
+    clearTimeout(cursorTimer)
+    cursorTimer = setTimeout(hideCursor, 2000)
 })
