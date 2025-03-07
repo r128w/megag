@@ -22,11 +22,33 @@ function runMenu(){
 
     ctx.font = (mbh-35) + "px " + "monospace"
     ctx.textAlign = "center"
-    console.log(ctx.font)
+    // console.log(ctx.font)
     ctx.fillStyle = "#111111"
     const ts = mbh-20
     ctx.fillText("Play Singleplayer", (c.width/2), b1y+ts)
     ctx.fillText("Play Multiplayer", (c.width/2), b2y+ts)
     ctx.fillText("About", (c.width/2), b3y+ts)
+
+    ctx.beginPath()
+    ctx.strokeStyle = "#ffffff"
+    ctx.lineWidth = 5
+    if(input.mx > bx && input.mx < bx + mbw){
+        if(input.my > b1y && input.my < b1y + mbh){
+            ctx.rect(bx, b1y, mbw, mbh)
+            if(input.m){
+                initGame()
+            }
+        }
+        if(input.my > b2y && input.my < b2y + mbh){
+            ctx.rect(bx, b2y, mbw, mbh)
+        }
+        if(input.my > b3y && input.my < b3y + mbh){
+            ctx.rect(bx, b3y, mbw, mbh)
+            if(input.m){
+                window.open("https://github.com/r128w/megag#readme", "_blank")
+            }
+        }
+    }
+    ctx.stroke()
 
 }
