@@ -2,6 +2,7 @@
 var input = {
     mx:-1,
     my:-1,
+    m:false,
     a:false,
     d:false,
     s:false,
@@ -42,4 +43,8 @@ c.addEventListener('mousemove', (e)=>{
     // console.log(event)
     input.mx = e.offsetX
     input.my = e.offsetY
+})
+c.addEventListener('mouseup', (e)=>{
+    input.m = true;
+    setTimeout(()=>{input.m=false}, 20)// JANK lmao
 })
