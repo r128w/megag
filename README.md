@@ -2,13 +2,15 @@
 #### A physics-based (planned) sandbox for people who love orbits
 
 # Controls
-W: Accelerate forwards + Space: Boost forwards acceleration
+W: Accelerate forwards + Shift: Boost forwards acceleration
 
 S: Accelerate backwards
 
 A, D: Accelerate rotation left, right - Keep in mind that angular velocity gained must be cancelled later
 
 E: Interact
+
+Space: Shoot
 
 Tab: Toggle large minimap
 
