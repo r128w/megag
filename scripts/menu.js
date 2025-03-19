@@ -3,6 +3,8 @@
 var menu = {}
 
 function runMenu(){
+    let a = document.getElementById('userinfobox');a.style.left = `${(window.innerWidth-a.clientWidth)/2}px`
+    // console.log(a.clientWidth)
 
     canvasClear()
 
@@ -55,7 +57,7 @@ function runMenu(){
 
     ctx.textAlign = "center"
 
-    ctx.fillStyle="#dddddd"
+    ctx.fillStyle="#ffffff"
     ctx.font = (mbh+20) + "px " + "Trattatello";
     ctx.fillText("MegaGravity", (c.width/2), (b1y + mbh+20)/2)
 
@@ -63,8 +65,8 @@ function runMenu(){
     ctx.font = (mbh-35) + "px " + "monospace"
     // console.log(ctx.font)
     const ts = mbh-20
-    ctx.fillText("Play Singleplayer", (c.width/2), b1y+ts)
-    ctx.fillText("Play Multiplayer", (c.width/2), b2y+ts)
+    ctx.fillText("Play Multiplayer", (c.width/2), b1y+ts)
+    ctx.fillText("Play Singleplayer", (c.width/2), b2y+ts)
     ctx.fillText("About", (c.width/2), b3y+ts)
 
     ctx.beginPath()
@@ -74,11 +76,14 @@ function runMenu(){
         if(input.my > b1y && input.my < b1y + mbh){
             ctx.rect(bx, b1y, mbw, mbh)
             if(input.m){
-                initGame()
+                initGame(true)
             }
         }
         if(input.my > b2y && input.my < b2y + mbh){
             ctx.rect(bx, b2y, mbw, mbh)
+            if(input.m){
+                initGame(false)
+            }
         }
         if(input.my > b3y && input.my < b3y + mbh){
             ctx.rect(bx, b3y, mbw, mbh)
@@ -89,4 +94,13 @@ function runMenu(){
     }
     ctx.stroke()
 
+}
+function loadUserInfo(){
+    let info = JSON.parse(localStorage.getItem('userinfo') || `{"name":"Anonymous","col":"#ffffff"}`)
+    document.getElementById('usernamebox').innerText=info.name
+    document.getElementById('usercolor').value=info.col
+}
+function updateUserInfo(){
+    document.getElementById('userinfobox').className = 'hidden'
+    localStorage.setItem('userinfo', `{"name":"${document.getElementById('usernamebox').innerText}","col":"${document.getElementById('usercolor').value}"}`)
 }

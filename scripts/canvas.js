@@ -58,6 +58,14 @@ function renderFrame(){
     renderPlanets()
     renderPlatforms()
 
+    for(var i = 0; i < config.playerMax; i++){// render players
+        if(sync.conns[i].open){
+            let op = sync.others[i].obj[0]// other player
+            if(!op){continue}
+            // console.log(sync.others[i].obj)
+            drawSpriteRot(sprites.player, op.x, op.y, op.rot)   
+        }
+    }
     drawSpriteRot(sprites.player, p.x, p.y, p.rot)
 
     renderMinimap()
@@ -166,8 +174,8 @@ function renderMinimap(){
 
     //platforms, physics objects
     for(var i = 0; i < pobjects.length; i++){
-        if(pobjects[i] instanceof Player){continue}
-        if(!(pobjects[i] instanceof Platform)){continue}
+        if(pobjects[i].class=='Player'){continue}
+        if(!(pobjects[i].class='Platform')){continue}
         var drawX = xstart
         var drawY = ystart
         drawX += minimapWidth/2
@@ -201,8 +209,58 @@ function renderMinimap(){
     ctx.lineTo(drawX + Math.cos(p.rot+3.142)*drawScale*0.8, drawY + Math.sin(p.rot+3.142)*drawScale*0.8)
     ctx.lineTo(drawX + Math.cos(p.rot-2.356)*drawScale*1.414, drawY + Math.sin(p.rot-2.356)*drawScale*1.414)
 
-    ctx.fillStyle="#ffffff"
+    ctx.fillStyle=p.col
     ctx.fill()
+
+
+    // rendering other players and their stuff
+    for(var i = 0; i < config.playerMax; i ++){
+        if(!sync.conns[i].open){continue}
+
+        let op = sync.others[i].obj[0]
+
+        //other platforms, physics objects
+        for(var ii = 0; ii < sync.others[i].obj.length; ii++){
+            let oo = sync.others[i].obj[ii]// other object
+            if(oo.class=='Player'){continue}
+            if(!oo.class=='Platform'){continue}
+            var drawX = xstart
+            var drawY = ystart
+            drawX += minimapWidth/2
+            drawY += minimapWidth/2
+            drawX += oo.x * minimapScale
+            drawY += oo.y * minimapScale
+
+            drawX -= worldc.x*minimapScale
+            drawY -= worldc.y*minimapScale
+            drawCircle(drawX - cam.xo, drawY - cam.yo, Math.max(1.5, oo.r * minimapScale), oo.col)
+        }
+
+        if(!op){continue}
+
+        // other player
+        var drawX = xstart
+        var drawY = ystart
+        drawX += minimapWidth/2
+        drawY += minimapWidth/2
+        drawX += op.x * minimapScale
+        drawY += op.y * minimapScale
+
+        drawX -= worldc.x*minimapScale
+        drawY -= worldc.y*minimapScale
+
+        const drawScale = Math.max(16*minimapScale, 3)
+
+        ctx.beginPath()
+        ctx.moveTo(drawX + Math.cos(op.rot)*drawScale*1.5, drawY + Math.sin(op.rot)*drawScale*1.5) // front point is a little extralarge
+
+        ctx.lineTo(drawX + Math.cos(op.rot+2.356)*drawScale*1.414, drawY + Math.sin(op.rot+2.356)*drawScale*1.414)
+        ctx.lineTo(drawX + Math.cos(op.rot+3.142)*drawScale*0.8, drawY + Math.sin(op.rot+3.142)*drawScale*0.8)
+        ctx.lineTo(drawX + Math.cos(op.rot-2.356)*drawScale*1.414, drawY + Math.sin(op.rot-2.356)*drawScale*1.414)
+
+        ctx.fillStyle=op.col
+        ctx.fill()
+    }
 
     ctx.restore()
 }

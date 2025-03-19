@@ -19,7 +19,6 @@ function getGravity(x1, y1, x2, y2, distMax=config.gravLimit){// returns the two
         y: -ood2ps*dy*ood2p,
         dist: d2p
     }
-
 }
 
 // function getGravCube(x1, y1, x2, y2){
@@ -66,31 +65,41 @@ class PhysicsObject {
         this.landed = null
     }
     iterate(){
-        this.x += this.vx
-        this.y += this.vy
-        this.rot += this.vr
+       iterateThing(this)
+    }
+}
 
-        for(var i = 0; i < planets.length; i ++){
-            const grav = getGravity(this.x, this.y, planets[i].x, planets[i].y, planets[i].r * config.planetInfluenceFactor)
-            this.vx += -grav.x * planets[i].mass
-            this.vy += -grav.y * planets[i].mass
-            if(grav.dist<this.r+planets[i].r){this.landed = planets[i]}
-            // console.log(planets[i].mass)
-        }
+function iterateThing(thing){
+    thing.x += thing.vx
+    thing.y += thing.vy
+    thing.rot += thing.vr
 
-        if(this.landed != null){
-            const r2p = Math.atan2(this.y-this.landed.y, this.x-this.landed.x)//rot to planet
-            this.rot = r2p
-            this.vr=0;this.vx=0;this.vy=0
-            this.x=this.landed.x+(this.landed.r+this.r*0.9)*Math.cos(r2p)
-            this.y=this.landed.y+(this.landed.r+this.r*0.9)*Math.sin(r2p)
-        }
+    for(var i = 0; i < planets.length; i ++){
+        const grav = getGravity(thing.x, thing.y, planets[i].x, planets[i].y, planets[i].r * config.planetInfluenceFactor)
+        thing.vx += -grav.x * planets[i].mass
+        thing.vy += -grav.y * planets[i].mass
+        if(grav.dist<thing.r+planets[i].r){thing.landed = planets[i]}
+        // console.log(planets[i].mass)
+    }
 
+    if(thing.landed != null){
+        const r2p = Math.atan2(thing.y-thing.landed.y, thing.x-thing.landed.x)//rot to planet
+        thing.rot = r2p
+        thing.vr=0;thing.vx=0;thing.vy=0
+        thing.x=thing.landed.x+(thing.landed.r+thing.r*0.9)*Math.cos(r2p)
+        thing.y=thing.landed.y+(thing.landed.r+thing.r*0.9)*Math.sin(r2p)
     }
 }
 
 function iteratePhysics(){
     for(var i = 0; i < pobjects.length; i++){
         pobjects[i].iterate()
+    }
+    for(var i = 0; i < config.playerMax; i++){
+        if(sync.conns[i].open){
+            for(var ii = 0; ii < sync.others[i].obj.length; ii++){
+                iterateThing(sync.others[i].obj[ii])
+            }
+        }
     }
 }
