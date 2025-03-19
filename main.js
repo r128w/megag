@@ -3,6 +3,7 @@ window.onresize()
 
 var menuTimer;
 function initMenu(){
+
     menuTimer = setInterval(runMenu, 16)
     menu = {
         ps:[],
@@ -15,7 +16,7 @@ function initMenu(){
     }
 }
 
-function initGame(){
+async function initGame(multiplayer=true){
 
     clearTimeout(menuTimer)
 
@@ -24,33 +25,54 @@ function initGame(){
 
     pobjects.push(new Player(-200, -200, 16))
     p = pobjects[0]
+
+    updateUserInfo()// really just hides the box, for now
+    p.col = document.getElementById('usercolor').value
+    p.username = document.getElementById('usernamebox').innerText
+
+    if(multiplayer){
+        await initSync()
+
+        generatePlanets()// this will get overriden if not alone
+
+    }else{
+        initEmptySync()
+        generatePlanets()
+    }
     
     //temp
     pobjects.push(new Platform(-800, -900))
+    pobjects[1].col = p.col
 
-    planets.push(new Planet(0, 0, 800, '#99eeaa'))// starts
-
-    for(var i = 0; i < 10; i++){
-        planets.push(new Planet(
-            (Math.random()-0.5)*10000, (Math.random()-0.5)*10000, (Math.random())*500+50
-        ))
-    }
-    
 
     loadSprites()
+
+    lastFrame = Date.now()
     frameTimer = setInterval(runFrame, 16)
+
 }
 
 
 var frameTimer;
 
+var lastFrame;
+
 function runFrame(){
 
+    let dt = Date.now()-lastFrame
+    for(var i = 0; i < dt / 16 && i < 60; i++){// run additional frames, ensuring no more than 60
+
     iterateFrame()
+    }
+
     renderFrame()
+    lastFrame = Date.now()
+
 }
 function halt(){clearTimeout(frameTimer)}
 
 
 // initGame()
+
+loadUserInfo()
 initMenu()
