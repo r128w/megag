@@ -112,6 +112,9 @@ class Player extends PhysicsObject{
         }
 
     }
+    destroy(){
+        this.hp = this.maxhp// temp
+    }
 }
 
 var p;

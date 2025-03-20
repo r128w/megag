@@ -62,6 +62,7 @@ function renderFrame(){
     renderPlanets()
     renderPlatforms()
     renderBullets()
+    chat.render()// i LOVE switching up my standards
 
     for(var i = 0; i < config.playerMax; i++){// render players
         if(sync.conns[i].open){
@@ -133,10 +134,10 @@ function renderMinimap(){
         drawX -= worldc.x*minimapScale
         drawY -= worldc.y*minimapScale
 
-        drawCircle(drawX - cam.xo, drawY - cam.yo, planets[i].r * minimapScale, planets[i].col)
+        ui.drawCircle(drawX, drawY, planets[i].r * minimapScale, planets[i].col)
 
         if(config.minimap.drawPlanetInfluence){
-            drawCircle(drawX - cam.xo, drawY - cam.yo, planets[i].r * config.planetInfluenceFactor * minimapScale, planets[i].col+"11")
+            ui.drawCircle(drawX, drawY, planets[i].r * config.planetInfluenceFactor * minimapScale, planets[i].col+"11")
         }
         // ctx.beginPath()
         // ctx.moveTo(drawX + gravLimit*minimapScale, drawY)
@@ -196,7 +197,7 @@ function renderMinimap(){
 
         drawX -= worldc.x*minimapScale
         drawY -= worldc.y*minimapScale
-        drawCircle(drawX - cam.xo, drawY - cam.yo, Math.max(1.5, pobjects[i].r * minimapScale), pobjects[i].col)
+        ui.drawCircle(drawX, drawY, Math.max(1.5, pobjects[i].r * minimapScale), pobjects[i].col)
     }
 
 
@@ -245,7 +246,7 @@ function renderMinimap(){
 
             drawX -= worldc.x*minimapScale
             drawY -= worldc.y*minimapScale
-            drawCircle(drawX - cam.xo, drawY - cam.yo, Math.max(1.5, oo.r * minimapScale), oo.col)
+            ui.drawCircle(drawX, drawY, Math.max(1.5, oo.r * minimapScale), oo.col)
         }
 
         if(!op){continue}
@@ -288,8 +289,7 @@ function drawSpriteRot(sprite, x, y, rot){
     ctx.translate(-x-cam.xo, -y-cam.yo)
 }
 function drawSprite(sprite, x, y){ctx.drawImage(sprite, x + cam.xo, y + cam.yo)}
-function drawRect(x, y, w, h){ctx.fillRect(x + cam.xo, y + cam.yo, w, h)}
-function drawRect(x, y, w, h, color){ctx.fillStyle=color;ctx.fillRect(x + cam.xo, y + cam.yo, w, h)}
+function drawRect(x, y, w, h, color="#ffffff"){ctx.fillStyle=color;ctx.fillRect(x + cam.xo, y + cam.yo, w, h)}
 function drawCircle(x, y, r, color){
     ctx.closePath()
     ctx.beginPath()
@@ -303,4 +303,9 @@ function drawBar(x, y, w, p=1, col1="#aaaaaa", col2="#ffffff"){
     const margin = 2
     ctx.fillStyle=col2
     drawRect(x-w/2+margin, y+margin, (w-margin*2)*p, w*0.12-margin*2)
+}
+
+const ui = {
+    drawRect:(x,y,w,h,col="#ffffff")=>{drawRect(x-cam.xo,y-cam.yo,w,h,col)},
+    drawCircle:(x,y,r,col)=>{drawCircle(x-cam.xo,y-cam.yo,r,col)}
 }

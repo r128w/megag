@@ -68,7 +68,8 @@ async function findSpot(){// recursion
         if(id > 0 && id < config.playerMax-1){
             sync.conns[id] = conn
             console.log('got connect: ' + id)
-            sync.conns[id].on('close', ()=>{sync.conns[id].close();console.log('lost connection: ' + id);resetConn(id)})
+            chat.joined('Unknown', id)
+            sync.conns[id].on('close', ()=>{loseConn(id)})
             sync.conns[id].on('data', (stuff)=>{
                 receiveData(stuff, id)
             })
@@ -93,8 +94,8 @@ async function establishConns(){
         if(!sync.conns[i].open){
             msg += i
             sync.conns[i] = sync.self.peer.connect(sync.mainID + String(i))
-            sync.conns[i].on('open', ()=>{console.log('made connect: ' + a)})
-            sync.conns[i].on('close', ()=>{sync.conns[a].close();console.log('lost connection: ' + a);resetConn(a)})
+            sync.conns[i].on('open', ()=>{console.log('made connect: ' + a);chat.joined('Unknown', a)})
+            sync.conns[i].on('close', ()=>{loseConn(a)})
             sync.conns[i].on('data', (stuff)=>{
                 receiveData(stuff, a)
             })
@@ -165,4 +166,11 @@ function smallUpdate(data){
 
         sync.conns[i].send(toSend)// simple for now
     }
+}
+
+function loseConn(id){
+    sync.conns[id].close()// just in case
+    // chat.left(sync.others[id].obj[0].username, id)
+    console.log('lost connection: ' + id)
+    resetConn(id)
 }

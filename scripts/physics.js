@@ -67,7 +67,10 @@ class PhysicsObject {
         this.maxhp = 5
     }
     iterate(){
-       iterateThing(this)
+        iterateThing(this)
+        if(this.hp <= 0){
+            this.destroy()// if this is a player, destroy is overriden
+        }
     }
     destroy(){// if it is destroyed
         pobjects.splice(pobjects.lastIndexOf(this), 1)
