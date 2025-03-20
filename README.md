@@ -1,4 +1,4 @@
-# ![MegaGravity logo: Mg](https://r128w.github.io/megag/assets/mg.png) MegaGravity (WIP)
+# ![Mg](https://r128w.github.io/megag/assets/mg.png) MegaGravity (WIP)
 #### A physics-based (planned) sandbox for people who love orbits
 
 # Controls
