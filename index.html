@@ -4,12 +4,25 @@
         <title>MegaGravity</title>
         <link rel="stylesheet" href="../main.css">
         <link rel="icon" type="icon/x-image" href="https://r128w.github.io/megag/assets/mg.png">
+
+        <style>p{text-align: center;}</style>
+
         <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
     </head>
     <body>
 
-        <canvas id="main-canvas" style="width:100%;height:90vh"></canvas>
+        <canvas id="main-canvas" style="width:100%;height:93vh"></canvas>
         
+        <div id="userinfobox" class="hidden" style="position:fixed;top:30%;width:fit-content;height:fit-content;background-color: #111;min-width:25%">
+            <p>Username</p>
+            <p contenteditable="true" id ='usernamebox' style="text-align:center;background-color: #222;min-width: 150px;max-width: fit-content;margin:auto">Anonymous</p>
+            <p>User Color</p>
+            <input type="color" id="usercolor" value="#ffffff" style="position:absolute;left:35%;width:30%">
+            <br><br><br>
+            <button onclick="updateUserInfo()" style="position:absolute;left:35%;width:30%;bottom:5px">OK</button>
+        </div>
+        
+        <button class="center" onclick="document.getElementById('userinfobox').className=''">Change User Info</button>
 
         <script src="config.js"></script>
         <script src="scripts/menu.js"></script>
@@ -21,6 +34,9 @@
         <script src="scripts/util.js"></script>
         <script src="scripts/planets.js"></script>
         <script src="scripts/platforms.js"></script>
+        <script src="scripts/bullets.js"></script>
+
+        <script src="scripts/sync.js"></script>
 
         <script src="main.js"></script>
 

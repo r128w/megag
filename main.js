@@ -39,7 +39,7 @@ async function initGame(multiplayer=true){
         initEmptySync()
         generatePlanets()
     }
-    
+
     //temp
     pobjects.push(new Platform(-800, -900))
     pobjects[1].col = p.col
