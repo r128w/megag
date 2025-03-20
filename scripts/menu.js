@@ -101,6 +101,10 @@ function loadUserInfo(){
     document.getElementById('usercolor').value=info.col
 }
 function updateUserInfo(){
+    
+    p.col = document.getElementById('usercolor').value
+    p.username = document.getElementById('usernamebox').innerText
+
     document.getElementById('userinfobox').className = 'hidden'
     localStorage.setItem('userinfo', `{"name":"${document.getElementById('usernamebox').innerText}","col":"${document.getElementById('usercolor').value}"}`)
 }
