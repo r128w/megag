@@ -31,6 +31,11 @@ async function initSync(){
     setTimeout(()=>{
         sync.timer = setInterval(sendUpdate, config.updateInterval)
     }, 5000)// 5 seconds after finding spot, start attempting sends
+    
+    window.addEventListener('beforeunload', ()=>{
+        sendUpdate(true)
+        return null
+    })
 }
 
 async function findSpot(){// recursion
@@ -111,14 +116,18 @@ function getConns(){
     return output
 }
 
-async function sendUpdate(){
+async function sendUpdate(a=false){
     // sends update of pobjects to everyone else
     for(var i = 0; i < config.playerMax; i++){
         if(!sync.conns[i]){continue}
         if(!sync.conns[i].open){continue}
         // conn send type 0 = init
         // conn send tyep 1 = update
-        sync.conns[i].send({type:1,payload:pobjects})// simple for now
+        
+        let toSend = {type:1,payload:pobjects}
+        if(a){toSend.payload=[]}// wipe ts
+
+        sync.conns[i].send(toSend)// simple for now
     }
 }
 

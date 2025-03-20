@@ -12,6 +12,9 @@ var sprites = {
     smoke: new Image(),
     platforms: [// all textures, referred to by id
         new Image()
+    ],
+    bullets: [
+        new Image()
     ]
 }
 
@@ -19,6 +22,7 @@ function loadSprites(){
     sprites.player.src = "./assets/player.png"
     sprites.smoke.src = "./assets/smoke.png"
     sprites.platforms[0].src = "./assets/plat-main.png"
+    sprites.bullets[0].src = "./assets/bul-main.png"
 }
 
 var cam = {
@@ -57,6 +61,7 @@ function renderFrame(){
     renderParticles()
     renderPlanets()
     renderPlatforms()
+    renderBullets()
 
     for(var i = 0; i < config.playerMax; i++){// render players
         if(sync.conns[i].open){
@@ -124,7 +129,7 @@ function renderMinimap(){
 
         drawCircle(drawX - cam.xo, drawY - cam.yo, planets[i].r * minimapScale, planets[i].col)
 
-        if(config.drawPlanetInfluence){
+        if(config.minimap.drawPlanetInfluence){
             drawCircle(drawX - cam.xo, drawY - cam.yo, planets[i].r * config.planetInfluenceFactor * minimapScale, planets[i].col+"11")
         }
         // ctx.beginPath()
@@ -140,15 +145,15 @@ function renderMinimap(){
 
 
     // orbital path
-    const steps = 120
-    const factor = 10; // delta factor
+    const steps = config.minimap.pathPredictions
+    const factor = config.minimap.pathPredictionResolution; // delta factor
     var cur = {x:p.x, y:p.y, vx:p.vx, vy:p.vy}
     // ctx.setTransform(minimapScale, 0, 0, minimapScale, -c.width/2 + 20 + (minimapWidth/2), -c.height/2 + 20 + (minimapWidth/2))
     ctx.setTransform(minimapScale, 0, 0, minimapScale, 20 + minimapWidth/2 - worldc.x*minimapScale, 20 + minimapWidth/2 - worldc.y*minimapScale)
 
     ctx.closePath()
     ctx.beginPath()
-    ctx.strokeStyle='#aaaaaa'
+    ctx.strokeStyle='#aaaaaa'// prediction
     ctx.lineWidth=2/minimapScale
     ctx.moveTo(cur.x, cur.y)
     for(var i = 0; i < steps; i++){
@@ -175,7 +180,7 @@ function renderMinimap(){
     //platforms, physics objects
     for(var i = 0; i < pobjects.length; i++){
         if(pobjects[i].class=='Player'){continue}
-        if(!(pobjects[i].class='Platform')){continue}
+        if(!(pobjects[i].class=='Platform')){continue}
         var drawX = xstart
         var drawY = ystart
         drawX += minimapWidth/2

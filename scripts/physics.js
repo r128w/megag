@@ -63,9 +63,14 @@ class PhysicsObject {
         this.rot = 0
         this.r = r
         this.landed = null
+        this.hp = 5
+        this.maxhp = 5
     }
     iterate(){
        iterateThing(this)
+    }
+    destroy(){// if it is destroyed
+        pobjects.splice(pobjects.lastIndexOf(this), 1)
     }
 }
 
@@ -89,7 +94,39 @@ function iterateThing(thing){
         thing.x=thing.landed.x+(thing.landed.r+thing.r*0.9)*Math.cos(r2p)
         thing.y=thing.landed.y+(thing.landed.r+thing.r*0.9)*Math.sin(r2p)
     }
+
+    switch(thing.class){
+        case 'Bullet':
+            thing.vr = 0
+            // thing.rot = Math.atan2(thing.vy, thing.vx)
+            thing.age ++
+            if(thing.landed || thing.age > thing.lifetime){// ten second lifetime on average
+                thing.x = -1000000// remove from game until it gets deleted by owner
+            }
+
+            // collisions
+            if(pobjects.includes(thing)){break}
+
+            // only collides with players' own objects
+            for(var i = 0; i < pobjects.length; i++){
+                // if(pobjects[i] == this){continue}
+                const d = dist(thing.x, thing.y, pobjects[i].x, pobjects[i].y)
+                if(d < thing.r + pobjects[i].r && d != 0){
+                    // hit
+                    pobjects[i].hp -= thing.damage
+                    thing.x = -10000000
+                }
+            }
+
+            break
+        case 'Platform':break
+        case 'Player':break
+    }
+
+
+
 }
+
 
 function iteratePhysics(){
     for(var i = 0; i < pobjects.length; i++){

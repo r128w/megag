@@ -6,13 +6,15 @@ class Player extends PhysicsObject{
         this.class = 'Player'
         this.col = '#ffffff'// default color
         this.username = 'Anonymous'// default name
+
+        this.shoot = {cooldown:0}
     }
     iterate(){
         super.iterate()
 
         // this.vr*=0.95// angular drag for the weak
             
-        const rspeed = 0.004*Math.max(0, 1 - Math.abs(this.vr - 0.2)) * (this.grabbed!=null?1-(0.63*Math.atan(0.1*this.grabbed.r)):1)
+        const rspeed = 0.002*Math.max(0, 1 - Math.abs(this.vr - 0.2)) * (this.grabbed!=null?1-(0.63*Math.atan(0.1*this.grabbed.r)):1)
 
         if(input.a){this.vr-=rspeed}
         if(input.d){this.vr+=rspeed}
@@ -21,7 +23,7 @@ class Player extends PhysicsObject{
         if(input.w){
             const dx = acc * Math.cos(this.rot)
             const dy = acc * Math.sin(this.rot)
-            const speed = (input.space ? 3 : 1)// space to overdrice
+            const speed = (input.shift ? 3 : 1)// shift to overdrive
             this.vx+=dx*speed
             this.vy+=dy*speed
             addParticle({
@@ -35,6 +37,18 @@ class Player extends PhysicsObject{
         if(input.s){
             this.vx+= -0.5 * acc * Math.cos(this.rot)
             this.vy+= -0.5 * acc * Math.sin(this.rot)
+        }
+
+        this.shoot.cooldown--
+        if(input.space && this.shoot.cooldown <= 0 && this.grabbed == null){
+            this.shoot.cooldown = 5
+            const iv = 5 // initial velocity
+            const dx = Math.cos(this.rot)
+            const dy = Math.sin(this.rot)
+            const b = new Bullet(this.x+this.r*dx, this.y+this.r*dy, this.vx+iv*dx, this.vy+iv*dy)
+            b.rot = this.rot
+            pobjects.push(b)
+
         }
 
         if(this.landed != null){
@@ -76,8 +90,8 @@ class Player extends PhysicsObject{
             var nO = null; // nearest object
 
             for(var i = 0; i < pobjects.length; i++){
-                if(pobjects[i] instanceof Player){continue}
-                if(!(pobjects[i] instanceof Platform)){continue}// might remove
+                if(pobjects[i].class == 'Player'){continue}
+                if(!(pobjects[i].class == 'Platform')){continue}// might remove
                 const d = dist(this.x, this.y, pobjects[i].x, pobjects[i].y)
                 if(d < nD){nD = d;nO=pobjects[i]}
             }
