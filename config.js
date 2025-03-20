@@ -1,4 +1,3 @@
-
 var config = {
     minimap:{
         drawPlanetInfluence: false,
@@ -9,5 +8,8 @@ var config = {
     gravLimit: 5000,
     planetInfluenceFactor: 5,
     playerMax: 10,
-    updateInterval: 500
+    sync:{
+        updateInterval: 500,
+        reconnectInterval: 10000
+    }
 }
