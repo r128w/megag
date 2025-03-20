@@ -68,10 +68,16 @@ function renderFrame(){
             let op = sync.others[i].obj[0]// other player
             if(!op){continue}
             // console.log(sync.others[i].obj)
-            drawSpriteRot(sprites.player, op.x, op.y, op.rot)   
+            drawSpriteRot(sprites.player, op.x, op.y, op.rot)
+            if(op.hp != op.maxhp){
+                drawBar(op.x, op.y+op.r+5, 50, op.hp/op.maxhp,"#666666",op.col)
+            }
         }
     }
     drawSpriteRot(sprites.player, p.x, p.y, p.rot)
+    if(p.hp != p.maxhp){
+        drawBar(p.x, p.y+p.r+5, 50, p.hp/p.maxhp,"#666666",p.col)
+    }
 
     renderMinimap()
 
@@ -180,7 +186,7 @@ function renderMinimap(){
     //platforms, physics objects
     for(var i = 0; i < pobjects.length; i++){
         if(pobjects[i].class=='Player'){continue}
-        if(!(pobjects[i].class=='Platform')){continue}
+        if(pobjects[i].class!='Platform'){continue}
         var drawX = xstart
         var drawY = ystart
         drawX += minimapWidth/2
@@ -228,7 +234,8 @@ function renderMinimap(){
         for(var ii = 0; ii < sync.others[i].obj.length; ii++){
             let oo = sync.others[i].obj[ii]// other object
             if(oo.class=='Player'){continue}
-            if(!oo.class=='Platform'){continue}
+            if(oo.class!='Platform'){continue}
+            // console.log(oo.class)
             var drawX = xstart
             var drawY = ystart
             drawX += minimapWidth/2
@@ -289,4 +296,11 @@ function drawCircle(x, y, r, color){
     ctx.fillStyle=color
     ctx.ellipse(x + cam.xo, y + cam.yo, r, r, 0, 0, 6.29)
     ctx.fill()
+}
+function drawBar(x, y, w, p=1, col1="#aaaaaa", col2="#ffffff"){
+    ctx.fillStyle=col1
+    drawRect(x-w/2, y, w, w*0.12)
+    const margin = 2
+    ctx.fillStyle=col2
+    drawRect(x-w/2+margin, y+margin, (w-margin*2)*p, w*0.12-margin*2)
 }

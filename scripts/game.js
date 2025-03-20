@@ -41,13 +41,14 @@ class Player extends PhysicsObject{
 
         this.shoot.cooldown--
         if(input.space && this.shoot.cooldown <= 0 && this.grabbed == null){
-            this.shoot.cooldown = 5
+            this.shoot.cooldown = 30
             const iv = 5 // initial velocity
             const dx = Math.cos(this.rot)
             const dy = Math.sin(this.rot)
             const b = new Bullet(this.x+this.r*dx, this.y+this.r*dy, this.vx+iv*dx, this.vy+iv*dy)
             b.rot = this.rot
             pobjects.push(b)
+            smallUpdate(b)// tell everyone about this shiny new thing
 
         }
 
