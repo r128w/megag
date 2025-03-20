@@ -22,7 +22,10 @@
             <button onclick="updateUserInfo()" style="position:absolute;left:35%;width:30%;bottom:5px">OK</button>
         </div>
         
-        <button class="center" onclick="document.getElementById('userinfobox').className=''">Change User Info</button>
+        <button class="center" onclick="
+            document.getElementById('userinfobox').className='';
+            let a = document.getElementById('userinfobox');a.style.left = `${(window.innerWidth-a.clientWidth)/2}px`
+        ">Change User Info</button>
 
         <script src="config.js"></script>
         <script src="scripts/menu.js"></script>
