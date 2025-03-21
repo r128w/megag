@@ -19,7 +19,7 @@ var sprites = {
 }
 
 function loadSprites(){
-    sprites.player.src = "./assets/player.png"
+    sprites.player.src = "./assets/player2.png"
     sprites.smoke.src = "./assets/smoke.png"
     sprites.platforms[0].src = "./assets/plat-main.png"
     sprites.bullets[0].src = "./assets/bul-main.png"
@@ -78,6 +78,9 @@ function renderFrame(){
     drawSpriteRot(sprites.player, p.x, p.y, p.rot)
     if(p.hp != p.maxhp){
         drawBar(p.x, p.y+p.r+5, 50, p.hp/p.maxhp,"#666666",p.col)
+    }
+    if(p.boost.f != p.boost.max){
+        drawBar(p.x, p.y+p.r+10, 30, p.boost.f/p.boost.max, "#666666", "#ffcc99")
     }
 
     renderMinimap()
@@ -298,11 +301,10 @@ function drawCircle(x, y, r, color){
     ctx.fill()
 }
 function drawBar(x, y, w, p=1, col1="#aaaaaa", col2="#ffffff"){
-    ctx.fillStyle=col1
-    drawRect(x-w/2, y, w, w*0.12)
+    const thick = (w < 50 ? 0.2 : 0.12)
+    drawRect(x-w/2, y, w, w*thick, col1)
     const margin = 2
-    ctx.fillStyle=col2
-    drawRect(x-w/2+margin, y+margin, (w-margin*2)*p, w*0.12-margin*2)
+    drawRect(x-w/2+margin, y+margin, (w-margin*2)*p, w*thick-margin*2, col2)
 }
 
 const ui = {

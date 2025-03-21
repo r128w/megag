@@ -8,6 +8,7 @@ class Player extends PhysicsObject{
         this.username = 'Anonymous'// default name
 
         this.shoot = {cooldown:0}
+        this.boost = {f:0,max:70}
     }
     iterate(){
         super.iterate()
@@ -20,20 +21,25 @@ class Player extends PhysicsObject{
         if(input.d){this.vr+=rspeed}
 
         const acc = 0.02
+
+        this.boost.f = Math.min(this.boost.f+(!!this.landed ? 1 : 0.1), this.boost.max)
+
         if(input.w){
             const dx = acc * Math.cos(this.rot)
             const dy = acc * Math.sin(this.rot)
-            const speed = (input.shift ? 3 : 1)// shift to overdrive
+            const speed = (input.shift && this.boost.f > 1 ? 3 : 1)// shift to overdrive
+            if(input.shift){this.boost.f=Math.max(this.boost.f-1, 0)}
             this.vx+=dx*speed
             this.vy+=dy*speed
             addParticle({
-                    x: this.x - 150*dx + 3*(Math.random()-0.5),
-                    y: this.y - 150*dy + 3*(Math.random()-0.5),
-                    vx: this.vx - 10*dx + (Math.random()-0.5),
-                    vy: this.vy - 10*dy + (Math.random()-0.5),
-                    age: 0
-                })
+                x: this.x - 150*dx + 3*(Math.random()-0.5),
+                y: this.y - 150*dy + 3*(Math.random()-0.5),
+                vx: this.vx - 10*dx + (Math.random()-0.5),
+                vy: this.vy - 10*dy + (Math.random()-0.5),
+                age: 0
+            })
         }
+
         if(input.s){
             this.vx+= -0.5 * acc * Math.cos(this.rot)
             this.vy+= -0.5 * acc * Math.sin(this.rot)
@@ -49,7 +55,6 @@ class Player extends PhysicsObject{
             b.rot = this.rot
             pobjects.push(b)
             smallUpdate(b)// tell everyone about this shiny new thing
-
         }
 
         if(this.landed != null){
