@@ -8,13 +8,19 @@ class Player extends PhysicsObject{
         this.username = 'Anonymous'// default name
 
         this.shoot = {cooldown:0}
-        this.boost = {f:0,max:70}
+        this.boost = {f:70,max:70}
+        this.resources = {
+            mg:30,// magnesium
+            no3:40,
+            se:10,
+            flux:0
+        }
     }
     iterate(){
         super.iterate()
 
         // this.vr*=0.95// angular drag for the weak
-            
+             
         const rspeed = 0.002*Math.max(0, 1 - Math.abs(this.vr - 0.2)) * (this.grabbed!=null?1-(0.63*Math.atan(0.1*this.grabbed.r)):1)
 
         if(input.a){this.vr-=rspeed}
@@ -73,6 +79,17 @@ class Player extends PhysicsObject{
                 this.landed=null
                 // console.log(this.vx)
             }
+
+            if(input.e){// mining
+                if(Math.random()<0.02){
+                    if(this.landed.resources.mg > 0){
+                        this.resources.mg++;this.landed.resources.mg--
+                    }
+                    if(this.landed.resources.no3 > 0){
+                        this.resources.no3++;this.landed.resources.no3--
+                    }
+                }
+            }
         }
 
 
@@ -102,7 +119,7 @@ class Player extends PhysicsObject{
                 if(d < nD){nD = d;nO=pobjects[i]}
             }
 
-            if(nO == null){return}
+            if(nO == null){return false}
 
             this.grabbed = nO;
             this.vr *= 0.5;
@@ -115,6 +132,7 @@ class Player extends PhysicsObject{
 
             this.grabbed = null;
         }
+        return true
 
     }
     destroy(){
@@ -129,6 +147,7 @@ var entities = []
 function iterateFrame(){
 
     iterateParticles()
+    iteratePlanets()
     iteratePhysics()
 
 }

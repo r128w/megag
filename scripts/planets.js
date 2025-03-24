@@ -7,6 +7,30 @@ class Planet {
         this.r = r;
         this.mass = r*r;
         this.col = col;
+        this.name = nameGen()
+        this.resources = {
+            mg:0,
+            no3:0,
+            se:0,
+        }
+    }
+}
+
+function iteratePlanets(){
+    for(var i = 0; i < planets.length; i ++){
+        const pl = planets[i]
+        if(Math.random()>0.005*pl.r){continue}
+        if(Math.random()<0.01){
+            if(pl.resources.mg < pl.r){pl.resources.mg+=1}
+            continue
+        }
+        if(Math.random()<0.008){
+            if(pl.resources.no3 < pl.r*0.8){pl.resources.no3+=1}
+            continue
+        }
+        if(Math.random()<0.005){
+            if(pl.resources.se < pl.r*0.5){pl.resources.se+=1}
+        }
     }
 }
 

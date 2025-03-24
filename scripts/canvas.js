@@ -40,6 +40,11 @@ function canvasClear(){
 }
 
 function renderFrame(){
+
+    ctx.textAlign = "center"
+    ctx.font = 15 + "px " + "monospace";
+
+
     cam.xo=-p.x
     cam.yo=-p.y
     ctx.beginPath()
@@ -81,6 +86,25 @@ function renderFrame(){
     }
     if(p.boost.f != p.boost.max){
         drawBar(p.x, p.y+p.r+10, 30, p.boost.f/p.boost.max, "#666666", "#ffcc99")
+    }
+    if(p.landed != null){
+        const pl = p.landed
+        const w = pl.r > 100 ? 150 : 100
+        const h = pl.r > 100 ? 100 : 50
+        const margin = pl.r > 100 ? 4 : 2
+        const x = (pl.r < 150 ? pl.x : (2*p.x+pl.x)/3) - w/2
+        const y = (pl.r < 150 ? pl.y : (2*p.y+pl.y)/3) - h/2
+        ctx.font = (w/10) + "px monospace"
+        drawRect(x, y, w, h, "#ffffff55")
+        ctx.fillStyle="#000000"
+        ctx.textAlign="left"
+        ui.worldText(pl.name, x+margin, y+w/10+margin, w)
+        ui.worldText("Magnesium: " + pl.resources.mg, x+margin, y+w/5+2*margin)
+        ui.worldText("Nitrate: " + pl.resources.no3, x+margin, y+3*w/10+3*margin)
+        ui.worldText("Selenium: " + pl.resources.se, x+margin, y+4*w/10+4*margin)
+        ui.worldText("Hold E to mine", x+margin, y+5*w/10+5*margin)
+
+        // console.log(pl)
     }
 
     renderMinimap()
@@ -309,5 +333,6 @@ function drawBar(x, y, w, p=1, col1="#aaaaaa", col2="#ffffff"){
 
 const ui = {
     drawRect:(x,y,w,h,col="#ffffff")=>{drawRect(x-cam.xo,y-cam.yo,w,h,col)},
-    drawCircle:(x,y,r,col)=>{drawCircle(x-cam.xo,y-cam.yo,r,col)}
+    drawCircle:(x,y,r,col)=>{drawCircle(x-cam.xo,y-cam.yo,r,col)},
+    worldText:(text, x, y, w=100000)=>{ctx.fillText(text, x+cam.xo, y+cam.yo, w)}
 }

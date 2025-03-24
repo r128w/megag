@@ -24,7 +24,7 @@ window.addEventListener('DOMContentLoaded', ()=>{// who up nesting they listener
             case "d":input.d=true;break
             case "s":input.s=true;break
             case "w":input.w=true;break
-            case "e":input.e=true;p.interact();break
+            case "e":input.e=!p.interact();break// interact returns true if something happened (so e only counts as pressed if the init press didnt do anything)
             case " ":input.space=true;break
             case "shift":input.shift=true;break
             case "tab":input.tab=true;input.tabbed = !input.tabbed;e.preventDefault();break
