@@ -26,9 +26,7 @@ async function initGame(multiplayer=true){
     pobjects.push(new Player(-200, -200, 16))
     p = pobjects[0]
 
-    updateUserInfo()// really just hides the box, for now
-    p.col = document.getElementById('usercolor').value
-    p.username = document.getElementById('usernamebox').innerText
+    updateUserInfo()
 
     if(multiplayer){
         await initSync()

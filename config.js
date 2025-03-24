@@ -11,5 +11,6 @@ var config = {
     sync:{
         updateInterval: 500,
         reconnectInterval: 10000
-    }
+    },
+    chatLength:128
 }
