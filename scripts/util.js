@@ -25,6 +25,20 @@ function chooseRandom(arr){
     return arr[Math.floor(Math.random()*arr.length)]
 }
 
+function colGen(){
+    // generates a nice, pastel-ish desaturated color
+    var r = Math.random()*100 + 150
+    var g = Math.random()*100 + 150
+    var b = Math.random()*100 + 150
+
+    var avg = (r+g+b)/3
+    const f = -0.3// contrast
+    r+=(r-avg)*f// move each away/towards from the average
+    g+=(g-avg)*f
+    b+=(b-avg)*f
+    return `rgb(${r}, ${g}, ${b})`
+}
+
 // for(var i = 0; i < 1000; i++){
 //     console.log(nameGen())
 // }

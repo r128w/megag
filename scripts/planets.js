@@ -6,7 +6,7 @@ class Planet {
         this.y = y;
         this.r = r;
         this.mass = r*r;
-        this.col = col;
+        this.col = colGen()
         this.name = nameGen()
         this.resources = {
             mg:0,
@@ -17,20 +17,20 @@ class Planet {
 }
 
 function iteratePlanets(){
-    console.log(Date.now()%1000)
+    // console.log(Date.now()%1000)
     for(var i = 0; i < planets.length; i ++){
         const pl = planets[i]
-        if(Date.now() % 1001 > 5*pl.r){continue}
-        if(Date.now() % 101 < 1){
-            if(pl.resources.mg < pl.r){pl.resources.mg+=1}
+        if(Date.now() % config.resources.genPeriod > 5*pl.r){continue}
+        if(Date.now() % 101 < 1){// could add more versatile config, but this is prob fine
+            if(pl.resources.mg < pl.r * config.resources.mgMax){pl.resources.mg+=1}
             continue
         }
         if(Date.now() % 126 < 1){
-            if(pl.resources.no3 < pl.r*0.8){pl.resources.no3+=1}
+            if(pl.resources.no3 < pl.r * config.resources.no3Max){pl.resources.no3+=1}
             continue
         }
         if(Date.now() % 201 < 1){
-            if(pl.resources.se < pl.r*0.5){pl.resources.se+=1}
+            if(pl.resources.se < pl.r * config.resources.seMax){pl.resources.se+=1}
         }
     }
 }
