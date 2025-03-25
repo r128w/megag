@@ -34,7 +34,7 @@ function runMenu(){
 
         // const ncol = `rgba(${col.substring(4, col.length-1)}, ${factor})`
         const ncol = `rgb(${col[0].substring(4) * factor}, ${col[1] * factor}, ${col[2].substring(0,col[2].length-1) * factor})`
-        console.log(ncol)
+        // console.log(ncol)
         drawCircle(menu.ps[i].x, menu.ps[i].y, menu.ps[i].r, ncol)
 
         const speed = 0.02

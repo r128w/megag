@@ -15,7 +15,8 @@ var sprites = {
     ],
     bullets: [
         new Image()
-    ]
+    ],
+    resources: new Image()
 }
 
 function loadSprites(){
@@ -23,6 +24,7 @@ function loadSprites(){
     sprites.smoke.src = "./assets/smoke.png"
     sprites.platforms[0].src = "./assets/plat-main.png"
     sprites.bullets[0].src = "./assets/bul-main.png"
+    sprites.resources.src = "./assets/resources.png"
 }
 
 var cam = {
@@ -81,33 +83,9 @@ function renderFrame(){
         }
     }
     drawSpriteRot(sprites.player, p.x, p.y, p.rot)
-    if(p.hp != p.maxhp){
-        drawBar(p.x, p.y+p.r+5, 50, p.hp/p.maxhp,"#666666",p.col)
-    }
-    if(p.boost.f != p.boost.max){
-        drawBar(p.x, p.y+p.r+10, 30, p.boost.f/p.boost.max, "#666666", "#ffcc99")
-    }
-    if(p.landed != null){
-        const pl = p.landed
-        const w = pl.r > 100 ? 150 : 100
-        const h = pl.r > 100 ? 100 : 50
-        const margin = pl.r > 100 ? 4 : 2
-        const x = (pl.r < 150 ? pl.x : (2*p.x+pl.x)/3) - w/2
-        const y = (pl.r < 150 ? pl.y : (2*p.y+pl.y)/3) - h/2
-        ctx.font = (w/10) + "px monospace"
-        drawRect(x, y, w, h, "#ffffff55")
-        ctx.fillStyle="#000000"
-        ctx.textAlign="left"
-        ui.worldText(pl.name, x+margin, y+w/10+margin, w)
-        ui.worldText("Magnesium: " + pl.resources.mg, x+margin, y+w/5+2*margin)
-        ui.worldText("Nitrate: " + pl.resources.no3, x+margin, y+3*w/10+3*margin)
-        ui.worldText("Selenium: " + pl.resources.se, x+margin, y+4*w/10+4*margin)
-        ui.worldText("Hold E to mine", x+margin, y+5*w/10+5*margin)
+    
 
-        // console.log(pl)
-    }
-
-    renderMinimap()
+    renderUI()
 
     ctx.closePath()
 
@@ -305,7 +283,61 @@ function renderMinimap(){
     ctx.restore()
 }
 
+function renderUI(){
+    renderMinimap()
 
+    // hp bar
+    if(p.hp != p.maxhp){
+        drawBar(p.x, p.y+p.r+5, 50, p.hp/p.maxhp,"#666666",p.col)
+    }
+
+    // boost bar
+    if(p.boost.f < p.boost.max){
+        drawBar(p.x, p.y+p.r+10, 30, p.boost.f/p.boost.max, "#666666", "#ffcc99")
+    }
+
+    // planet overlay
+    if(p.landed != null){
+        const pl = p.landed
+        const w = pl.r > 100 ? 150 : 100
+        const h = pl.r > 100 ? 100 : 50
+        const margin = pl.r > 100 ? 4 : 2
+        const x = (pl.r < 150 ? pl.x : (2*p.x+pl.x)/3) - w/2
+        const y = (pl.r < 150 ? pl.y : (2*p.y+pl.y)/3) - h/2
+        ctx.font = (w/10) + "px monospace"
+        drawRect(x, y, w, h, "#ffffff55")
+        ctx.fillStyle="#000000"
+        ctx.textAlign="left"
+        ui.worldText(pl.name, x+margin, y+w/10+margin, w)
+        ui.worldText("Magnesium: " + pl.resources.mg, x+margin, y+w/5+2*margin)
+        ui.worldText("Nitrate: " + pl.resources.no3, x+margin, y+3*w/10+3*margin)
+        ui.worldText("Selenium: " + pl.resources.se, x+margin, y+4*w/10+4*margin)
+        ui.worldText("Hold E to mine", x+margin, y+5*w/10+5*margin)
+    }
+
+    if(!input.tabbed){
+        // build menu, bottom left
+        const margin = 10
+        const w = Math.max(c.width * 0.4, 400) - margin*2
+        const h = c.height/3 - 2*margin
+        const x = -c.width/2
+        const y = c.height/2 - h + margin
+        ui.drawRect(x, y, w, h, "#00000066")
+        ctx.fillStyle=p.col// could make this have contrast or smt idk
+        ctx.font = "20px monospace"
+        ctx.textAlign="left"
+        ctx.fillText(p.username, x, y + 24)
+        ctx.drawImage(sprites.resources, x, y+24+margin/2)
+        ctx.fillStyle="#eeddff"
+        ctx.fillText(`Magnesium: ${p.resources.mg}`, x + 27, y + 48)
+        ctx.fillStyle="#ffddaa"
+        ctx.fillText(`Nitrate: ${p.resources.no3}`, x + 27, y + 72)
+        ctx.fillStyle="#ddffdd"
+        ctx.fillText(`Selenium: ${p.resources.se}`, x + 27, y + 96)
+        
+    }
+
+}
 
 // util drawing
 function drawSpriteRot(sprite, x, y, rot){
