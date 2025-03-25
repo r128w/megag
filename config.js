@@ -4,6 +4,12 @@ var config = {
         pathPredictions:100,
         pathPredictionResolution:10
     },
+    resources:{
+        mgMax:1,
+        no3Max:0.8,
+        seMax:0.5,
+        genPeriod:2001// higher == less frequent, highly recommended to be non-round (prime-ish)
+    },
     bigG: 0.08,
     gravLimit: 5000,
     planetInfluenceFactor: 5,

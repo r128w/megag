@@ -1,21 +1,6 @@
 
 window.onresize()
 
-var menuTimer;
-function initMenu(){
-
-    menuTimer = setInterval(runMenu, 16)
-    menu = {
-        ps:[],
-        vx:Math.random()-0.5,
-        vy:Math.random()-0.5,
-        maxr:c.height/8
-    }
-    for(var i = 15; i >= 0; i --){
-        menu.ps.push({x:Math.random()*3*c.width-c.width, y:Math.random()*3*c.height-c.height, r:(menu.maxr/(Math.pow(2, 0.1*i)))})
-    }
-}
-
 async function initGame(multiplayer=true){
 
     clearTimeout(menuTimer)
