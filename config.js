@@ -8,9 +8,9 @@ var config = {
         mgMax:1,
         no3Max:0.8,
         seMax:0.5,
-        genPeriod:2001// higher == less frequent, highly recommended to be non-round (prime-ish)
+        genPeriod:2081// higher == less frequent, highly recommended to be prime or somewhat prime
     },
-    bigG: 0.08,
+    bigG: 0.1,
     gravLimit: 5000,
     planetInfluenceFactor: 5,
     playerMax: 10,
