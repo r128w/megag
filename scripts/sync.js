@@ -127,7 +127,7 @@ function receiveData(stuff, a){
     switch(stuff.type){
         case 0:
             const overrides = (sync.self.start > stuff.payload.start)
-            console.log("init data from " + a + "used? " + overrides, stuff)
+            console.log("init data from " + a + " used? " + overrides, stuff)
             if(!overrides){break}
             planets = stuff.payload.planets
             break

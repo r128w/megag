@@ -17,18 +17,19 @@ class Planet {
 }
 
 function iteratePlanets(){
+    console.log(Date.now()%1000)
     for(var i = 0; i < planets.length; i ++){
         const pl = planets[i]
-        if(Date.now() % 1000 > 5*pl.r){continue}
-        if(Date.now() % 100 < 1){
+        if(Date.now() % 1001 > 5*pl.r){continue}
+        if(Date.now() % 101 < 1){
             if(pl.resources.mg < pl.r){pl.resources.mg+=1}
             continue
         }
-        if(Date.now() % 1000 < 8){
+        if(Date.now() % 126 < 1){
             if(pl.resources.no3 < pl.r*0.8){pl.resources.no3+=1}
             continue
         }
-        if(Date.now() % 1000 < 5){
+        if(Date.now() % 201 < 1){
             if(pl.resources.se < pl.r*0.5){pl.resources.se+=1}
         }
     }

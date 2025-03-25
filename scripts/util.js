@@ -12,7 +12,7 @@ function nameGen(){
     const alphabet = 'abcdefghijklmnopqrstuvwxyz'
     const vowels = 'aeiouy'
     const consonants = 'bcdfghjklmnpqrstvwxz'
-    let length = Math.max(Math.random()*6, Math.random()*6) + 1
+    let length = Math.max(Math.random()*6, Math.random()*7) + 1
     var output = String(chooseRandom(alphabet)).toUpperCase()
     for(var i = 0; i < length-1; i ++){
         output+=chooseRandom(i % 2 == 0 ? vowels : consonants)
