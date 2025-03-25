@@ -19,16 +19,16 @@ class Planet {
 function iteratePlanets(){
     for(var i = 0; i < planets.length; i ++){
         const pl = planets[i]
-        if(Math.random()>0.005*pl.r){continue}
-        if(Math.random()<0.01){
+        if(Date.now() % 1000 > 5*pl.r){continue}
+        if(Date.now() % 100 < 1){
             if(pl.resources.mg < pl.r){pl.resources.mg+=1}
             continue
         }
-        if(Math.random()<0.008){
+        if(Date.now() % 1000 < 8){
             if(pl.resources.no3 < pl.r*0.8){pl.resources.no3+=1}
             continue
         }
-        if(Math.random()<0.005){
+        if(Date.now() % 1000 < 5){
             if(pl.resources.se < pl.r*0.5){pl.resources.se+=1}
         }
     }

@@ -81,13 +81,15 @@ class Player extends PhysicsObject{
             }
 
             if(input.e){// mining
-                if(Math.random()<0.02){
+                if(Date.now()%100 < 3){
                     if(this.landed.resources.mg > 0){
                         this.resources.mg++;this.landed.resources.mg--
                     }
                     if(this.landed.resources.no3 > 0){
                         this.resources.no3++;this.landed.resources.no3--
                     }
+                    smallUpdate({id:planets.indexOf(this.landed), value:this.landed.resources}, 3)// sync resource amount betwixt players (one shared resource pool)
+                    // this may cause weirdness race conditions etc when two players are mining but its chill
                 }
             }
         }

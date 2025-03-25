@@ -5,6 +5,7 @@ var sync = {
     self:{// stuff bout self
         index:0,
         peer:null,
+        start:null
     },
     // other data, ie of player objects etc
     others:[],
@@ -23,6 +24,9 @@ function resetConn(id){
 }
 
 async function initSync(){
+
+    sync.self.start = Date.now()// who has been here longest
+
     clearInterval(sync.timers.update)// sync.timer starts null, which is not a problem
 
     console.log('start sync')
@@ -73,13 +77,17 @@ async function findSpot(){// recursion
             sync.conns[id].on('data', (stuff)=>{
                 receiveData(stuff, id)
             })
-            setTimeout(()=>{sync.conns[id].send({type:0,payload:{// send init update w/ planetlist
-                planets:planets
-            }
-            })},1000)// another arbitrary delay to ensure the connection is fully established, no delay doesnt work
+            setTimeout(sendInitSync,1000,id)// another arbitrary delay to ensure the connection is fully established, no delay doesnt work
             
         }
     })
+}
+
+function sendInitSync(to){
+    sync.conns[to].send({type:0,payload:{// send init update w/ planetlist
+        start:sync.self.start,
+        planets:planets
+    }})
 }
 
 async function establishConns(){
@@ -94,7 +102,11 @@ async function establishConns(){
         if(!sync.conns[i].open){
             msg += i
             sync.conns[i] = sync.self.peer.connect(sync.mainID + String(i))
-            sync.conns[i].on('open', ()=>{console.log('made connect: ' + a);chat.joined('Unknown', a)})
+            sync.conns[i].on('open', ()=>{
+                console.log('made connect: ' + a)
+                chat.joined('Unknown', a)
+                sendInitSync(a)
+            })
             sync.conns[i].on('close', ()=>{loseConn(a)})
             sync.conns[i].on('data', (stuff)=>{
                 receiveData(stuff, a)
@@ -106,19 +118,36 @@ async function establishConns(){
 }
 
 function receiveData(stuff, a){
-    // console.log('data: ' + a)
-    // console.log(stuff)
+    // 0: init
+    // 1: full pobject update
+    // 2: additional object (shooting ,etc)
+    // 3: planet update
+
+
     switch(stuff.type){
         case 0:
-            console.log("init data: " + a)
-            console.log(stuff)
+            const overrides = (sync.self.start > stuff.payload.start)
+            console.log("init data from " + a + "used? " + overrides, stuff)
+            if(!overrides){break}
             planets = stuff.payload.planets
             break
         case 1:
             sync.others[a].obj = stuff.payload
             break
         case 2:
+            // wip
+            // const timesince = Date.now() - stuff.ts
+            // for(var i = 0; i < Math.min(30, timesince/16); i ++){// push forward in physics up to 30 frames (0.5s), according to when it was sent
+            //     iterateThing(stuff.payload)
+            // }
             sync.others[a].obj.push(stuff.payload)
+            break
+        case 3:
+
+            console.log('received planet update', stuff.payload)
+
+            planets[stuff.payload.id].resources = stuff.payload.value
+            break
     }
 }
 
@@ -139,10 +168,10 @@ async function sendUpdate(a=false){
         // conn send type 0 = init
         // conn send tyep 1 = update
         
-        let toSend = {type:1,payload:pobjects}
-        if(a){toSend.payload=[]}// wipe ts
+        let toSend = {type:1,payload:pobjects,ts:Date.now()}// timestamp/time sent
+        if(a){toSend.payload=[]}// wipe update
 
-        sync.conns[i].send(toSend)// simple for now
+        sync.conns[i].send(toSend)
     }
 }
 
@@ -152,19 +181,16 @@ function initEmptySync(){
     }
 }
 
-function smallUpdate(data){
-    // sends small update (type 2) w additional stuff
-    // this is intended for, ie, bullets shooting so that everyone hears about every boolet
+function smallUpdate(data, type=2){
+
+    // sends small update (type 2+)
     for(var i = 0; i < config.playerMax; i++){
         if(!sync.conns[i]){continue}
         if(!sync.conns[i].open){continue}
-        // conn send type 0 = init
-        // conn send tyep 1 = update
-        // conn send type 2 = minor additional
         
-        let toSend = {type:2,payload:data}
+        let toSend = {type:type,payload:data,ts:Date.now()}
 
-        sync.conns[i].send(toSend)// simple for now
+        sync.conns[i].send(toSend)
     }
 }
 
