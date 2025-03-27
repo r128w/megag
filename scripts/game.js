@@ -8,12 +8,11 @@ class Player extends PhysicsObject{
         this.username = 'Anonymous'// default name
 
         this.shoot = {cooldown:0}
-        this.boost = {f:70,max:70}
+        this.boost = {f:90,max:90}// just enough to orbit
         this.resources = {
             mg:30,// magnesium
             no3:40,
-            se:10,
-            flux:0
+            se:10
         }
     }
     iterate(){
@@ -21,7 +20,9 @@ class Player extends PhysicsObject{
 
         // this.vr*=0.95// angular drag for the weak
              
-        const rspeed = 0.002*Math.max(0, 1 - Math.abs(this.vr - 0.2)) * (this.grabbed!=null?1-(0.63*Math.atan(0.1*this.grabbed.r)):1)
+        const rspeed = 0.002 * 
+        Math.max(0, 1 - Math.abs(this.vr - 0.2)) 
+        * (this.grabbed!=null ? 1-(0.63*Math.atan(0.1*this.grabbed.r)):1)
 
         if(input.a){this.vr-=rspeed}
         if(input.d){this.vr+=rspeed}
@@ -111,20 +112,24 @@ class Player extends PhysicsObject{
         if(this.grabbed == null){
             // grab nearest physicsobject/platform
 
-            var nD = 32; // nearest dist is this (anything above wont be registered, this is the grab limit)
+            var nD = 16; // nearest dist is this (anything above wont be registered, this is the grab limit)
             var nO = null; // nearest object
 
             for(var i = 0; i < pobjects.length; i++){
                 if(pobjects[i].class == 'Player'){continue}
                 if(!(pobjects[i].class == 'Platform')){continue}// might remove
-                const d = dist(this.x, this.y, pobjects[i].x, pobjects[i].y)
+                const d = dist(this.x, this.y, pobjects[i].x, pobjects[i].y) - pobjects[i].r
                 if(d < nD){nD = d;nO=pobjects[i]}
             }
 
             if(nO == null){return false}
 
             this.grabbed = nO;
-            this.vr *= 0.5;
+            this.vr *= 0.5 * (1-(0.63*Math.atan(0.1*this.grabbed.r)));
+            const massFactor = this.r*this.r / (this.r*this.r + this.grabbed.r*this.grabbed.r)
+            this.vx = this.vx*massFactor + this.grabbed.vx*(1-massFactor)
+            this.vy = this.vy*massFactor + this.grabbed.vy*(1-massFactor)
+
         }else{
             const str = (this.r + this.grabbed.r) * this.vr
 

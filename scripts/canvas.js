@@ -1,6 +1,8 @@
 const c = document.getElementById('main-canvas');
 const ctx = c.getContext('2d')
 
+ctx.imageSmoothingEnabled=false
+
 window.onresize = function(){
     c.width = c.clientWidth// clientwidth/height is that which is specified by the css on the canvas object
     c.height = c.clientHeight
@@ -11,6 +13,7 @@ var sprites = {
     player: new Image(),
     smoke: new Image(),
     platforms: [// all textures, referred to by id
+        new Image(),
         new Image()
     ],
     bullets: [
@@ -22,9 +25,10 @@ var sprites = {
 function loadSprites(){
     sprites.player.src = "./assets/player2.png"
     sprites.smoke.src = "./assets/smoke.png"
-    sprites.platforms[0].src = "./assets/plat-main.png"
+    sprites.platforms[0].src = "./assets/platforms/plat-main.png"
+    sprites.platforms[1].src = "./assets/dock-main.png"
     sprites.bullets[0].src = "./assets/bul-main.png"
-    sprites.resources.src = "./assets/resources.png"
+    sprites.resources.src = "./assets/resources2.png"
 }
 
 var cam = {
@@ -125,9 +129,8 @@ function renderMinimap(){
 
     const minimapScale = Math.min(0.3*minimapWidth/(dist2p+30*Math.sqrt(p.vx*p.vx+p.vy*p.vy)) * (input.tabbed ? 0.5 : 1), 0.3);
 
-
-
     ctx.fillRect(-c.width/2+20, -c.height/2+20, minimapWidth, minimapWidth)
+
 
     for(var i = 0; i < planets.length; i++){
         var drawX = xstart
@@ -340,10 +343,14 @@ function renderUI(){
 }
 
 // util drawing
-function drawSpriteRot(sprite, x, y, rot){
+function drawSpriteRot(sprite, x, y, rot, r=-1){
     ctx.translate(x+cam.xo, y+cam.yo)
     ctx.rotate(rot)
-    ctx.drawImage(sprite, -sprite.width/2, -sprite.height/2)
+    if(r<=0){
+        ctx.drawImage(sprite, -sprite.width/2, -sprite.height/2, sprite.width, sprite.height)
+    }else{
+        ctx.drawImage(sprite, -r, -r, r*2, r*2)
+    }
     ctx.rotate(-rot)
     ctx.translate(-x-cam.xo, -y-cam.yo)
 }

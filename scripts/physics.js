@@ -71,6 +71,7 @@ class PhysicsObject {
         if(this.hp <= 0){
             this.destroy()// if this is a player, destroy is overriden
         }
+        if(Math.abs(this.x) + Math.abs(this.y) > config.systemSize){this.destroy()}
     }
     destroy(){// if it is destroyed
         pobjects.splice(pobjects.lastIndexOf(this), 1)
@@ -94,8 +95,8 @@ function iterateThing(thing){
         const r2p = Math.atan2(thing.y-thing.landed.y, thing.x-thing.landed.x)//rot to planet
         thing.rot = r2p
         thing.vr=0;thing.vx=0;thing.vy=0
-        thing.x=thing.landed.x+(thing.landed.r+thing.r*0.9)*Math.cos(r2p)
-        thing.y=thing.landed.y+(thing.landed.r+thing.r*0.9)*Math.sin(r2p)
+        thing.x=thing.landed.x+(thing.landed.r+thing.r - 2)*Math.cos(r2p)
+        thing.y=thing.landed.y+(thing.landed.r+thing.r - 2)*Math.sin(r2p)
     }
 
     switch(thing.class){
