@@ -11,7 +11,8 @@ var input = {
     space:false,
     shift:false,
     tab:false,
-    tabbed: false // ...
+    tabbed: false, // ...
+    other: null
 }
 // console.log("ds")
 window.addEventListener('DOMContentLoaded', ()=>{// who up nesting they listeners
@@ -29,6 +30,7 @@ window.addEventListener('DOMContentLoaded', ()=>{// who up nesting they listener
             case "shift":input.shift=true;break
             case "tab":input.tab=true;input.tabbed = !input.tabbed;e.preventDefault();break
             // default:console.log(e.key);break
+            default: input.other = key;setTimeout(()=>{input.other=null},20);break
         }
     })
     window.addEventListener('keyup', (e) => {

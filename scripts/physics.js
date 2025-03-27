@@ -124,7 +124,17 @@ function iterateThing(thing){
 
             break
         case 'Platform':break
-        case 'Player':break
+        case 'Player':
+            if(thing.grabbed != null){
+                thing.grabbed.landed = null;
+                thing.grabbed.x = thing.x + (thing.r+thing.grabbed.r)*Math.cos(thing.rot) - thing.vx // correction terms for visual disconnect
+                thing.grabbed.y = thing.y + (thing.r+thing.grabbed.r)*Math.sin(thing.rot) - thing.vy
+                thing.grabbed.vx = thing.vx
+                thing.grabbed.vy = thing.vy
+                thing.grabbed.rot = thing.rot
+                thing.grabbed.vr = thing.vr
+            }
+            break
     }
 
 

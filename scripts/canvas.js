@@ -14,6 +14,12 @@ var sprites = {
     smoke: new Image(),
     platforms: [// all textures, referred to by id
         new Image(),
+        new Image(),
+        new Image(),
+        new Image(),
+        new Image(),
+        new Image(),
+        new Image(),
         new Image()
     ],
     bullets: [
@@ -25,8 +31,17 @@ var sprites = {
 function loadSprites(){
     sprites.player.src = "./assets/player2.png"
     sprites.smoke.src = "./assets/smoke.png"
+
     sprites.platforms[0].src = "./assets/platforms/plat-main.png"
     sprites.platforms[1].src = "./assets/dock-main.png"
+
+    sprites.platforms[2].src = "./assets/platforms/mg-empty.png"
+    sprites.platforms[3].src = "./assets/platforms/mg-full.png"
+    sprites.platforms[4].src = "./assets/platforms/no3-empty.png"
+    sprites.platforms[5].src = "./assets/platforms/no3-full.png"
+    sprites.platforms[6].src = "./assets/platforms/se-empty.png"
+    sprites.platforms[7].src = "./assets/platforms/se-full.png"
+
     sprites.bullets[0].src = "./assets/bul-main.png"
     sprites.resources.src = "./assets/resources2.png"
 }

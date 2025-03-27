@@ -10,13 +10,12 @@ class Player extends PhysicsObject{
         this.shoot = {cooldown:0}
         this.boost = {f:90,max:90}// just enough to orbit
         this.resources = {
-            mg:30,// magnesium
-            no3:40,
+            mg:300,// magnesium
+            no3:400,
             se:10
         }
     }
     iterate(){
-        super.iterate()
 
         // this.vr*=0.95// angular drag for the weak
              
@@ -96,15 +95,18 @@ class Player extends PhysicsObject{
         }
 
 
-        if(this.grabbed != null){
-            this.grabbed.landed = null;
-            this.grabbed.x = this.x + (this.r+this.grabbed.r)*Math.cos(this.rot) - this.vx // correction terms for visual disconnect
-            this.grabbed.y = this.y + (this.r+this.grabbed.r)*Math.sin(this.rot) - this.vy
-            this.grabbed.vx = this.vx
-            this.grabbed.vy = this.vy
-            this.grabbed.rot = this.rot
-            this.grabbed.vr = this.vr
-        }
+        super.iterate()
+
+
+        // if(this.grabbed != null){
+        //     this.grabbed.landed = null;
+        //     this.grabbed.x = this.x + (this.r+this.grabbed.r)*Math.cos(this.rot) - this.vx // correction terms for visual disconnect
+        //     this.grabbed.y = this.y + (this.r+this.grabbed.r)*Math.sin(this.rot) - this.vy
+        //     this.grabbed.vx = this.vx
+        //     this.grabbed.vy = this.vy
+        //     this.grabbed.rot = this.rot
+        //     this.grabbed.vr = this.vr
+        // }
 
     }
     interact(){// called onkeyup by input.js
@@ -125,10 +127,11 @@ class Player extends PhysicsObject{
             if(nO == null){return false}
 
             this.grabbed = nO;
-            this.vr *= 0.5 * (1-(0.63*Math.atan(0.1*this.grabbed.r)));
+
             const massFactor = this.r*this.r / (this.r*this.r + this.grabbed.r*this.grabbed.r)
             this.vx = this.vx*massFactor + this.grabbed.vx*(1-massFactor)
             this.vy = this.vy*massFactor + this.grabbed.vy*(1-massFactor)
+            this.vr = this.vr*massFactor + this.grabbed.vr*(1-massFactor)
 
         }else{
             const str = (this.r + this.grabbed.r) * this.vr

@@ -5,6 +5,7 @@ var chat = {
     addMessage:function(msg, type=0){
         //type 0 - normal chat
         // 1 - system meessage (join/leave, etc)
+        // 2 - error/problem message (not enough resources, etc)
 
         this.history.push({
             content:msg,
@@ -26,7 +27,12 @@ var chat = {
         for(var i = 0;i<Math.min(this.history.length, 16);i++){
             const msg = this.history[this.history.length-i-1]
             ctx.textAlign='left'
-            ctx.fillStyle=(msg.type == 0 ? "#000000" : "#002200")
+            let col = "#000000"
+            switch(msg.type){
+                case 1: col = "#002200";break
+                case 2: col = "#220000";break
+            }
+            ctx.fillStyle=col
             ctx.fillText(msg.content, c.width/2-w+2, -c.height/2+h-i*20-2)
         }
     },
@@ -35,5 +41,8 @@ var chat = {
     },
     left:function(username, id){
         chat.addMessage(`${username} (${id}) left the game.`, 1)
+    },
+    problem:function(msg){// sends a message like 'not enough resources.'
+        chat.addMessage(msg, 2)
     }
 }
