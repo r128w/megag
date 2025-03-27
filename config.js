@@ -19,5 +19,10 @@ var config = {
         updateInterval: 500,
         reconnectInterval: 10000
     },
-    chatLength:128
+    chatLength:128,
+    buildings:{
+        names:["Base Platform", "Magnesium Mine", "Nitrate Farm", "Selenium Mine"],
+        reqs:[{mg:10,no3:5}, {mg:40,no3:50}, {mg:50,no3:40}, {mg:100,no3:120}],
+        buildtimes:[120, 480, 480, 960]
+    }
 }
