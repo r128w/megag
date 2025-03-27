@@ -1,5 +1,5 @@
 # ![Mg](https://r128w.github.io/megag/assets/mg.png) MegaGravity (WIP)
-#### A physics-based (planned) sandbox for people who love orbits
+#### A physics-based multiplayer sandbox for people who love orbits
 
 # Controls
 W: Accelerate forwards + Shift: Boost forwards acceleration
@@ -29,3 +29,5 @@ Each player has a dock, which they can use to build mines and other platforms. T
 ### Planned
 
 Create and destroy platforms using planet-based or space-based buildings. Play against others through PeerJS-enabled almost-serverless multiplayer.
+
+Make factions, wage interplanetary war, both in defense and offense.
