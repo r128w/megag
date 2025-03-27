@@ -142,7 +142,8 @@ function renderMinimap(){
         y:(p.y+closestPlanet.y)/2
     } : {x:p.x, y:p.y}));// world center of minimap
 
-    const minimapScale = Math.min(0.3*minimapWidth/(dist2p+30*Math.sqrt(p.vx*p.vx+p.vy*p.vy)) * (input.tabbed ? 0.5 : 1), 0.3);
+    const minimapScale = (config.minimap.hellaZoom ? 0.02 : 
+    Math.min(0.3*minimapWidth/(dist2p+30*Math.sqrt(p.vx*p.vx+p.vy*p.vy)) * (input.tabbed ? 0.5 : 1), 0.3))
 
     ctx.fillRect(-c.width/2+20, -c.height/2+20, minimapWidth, minimapWidth)
 

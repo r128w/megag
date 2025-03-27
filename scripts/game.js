@@ -1,6 +1,6 @@
 class Player extends PhysicsObject{
-    constructor(x, y, r){
-        super(x, y, r)
+    constructor(x, y){
+        super(x, y, 16)
         this.grabbed = null
         this.username = ''
         this.class = 'Player'
