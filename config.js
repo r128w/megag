@@ -14,6 +14,7 @@ var config = {
     gravLimit: 5000,
     planetInfluenceFactor: 5,
     playerMax: 10,
+    systemSize:30000,// how far out before things are deleted
     sync:{
         updateInterval: 500,
         reconnectInterval: 10000

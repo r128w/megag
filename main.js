@@ -24,8 +24,8 @@ async function initGame(multiplayer=true){
     }
 
     //temp
-    pobjects.push(new Platform(-800, -900))
-    pobjects[1].col = p.col
+    pobjects.push(new Dock(-800, -900))
+    pobjects.push(new Mine(-600, -900, 'mg'))
 
 
     loadSprites()
