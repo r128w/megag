@@ -33,7 +33,7 @@ function loadSprites(){
     sprites.smoke.src = "./assets/smoke.png"
 
     sprites.platforms[0].src = "./assets/platforms/plat-main.png"
-    sprites.platforms[1].src = "./assets/dock-main.png"
+    sprites.platforms[1].src = "./assets/platforms/dock-main.png"
 
     sprites.platforms[2].src = "./assets/platforms/mg-empty.png"
     sprites.platforms[3].src = "./assets/platforms/mg-full.png"
