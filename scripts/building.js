@@ -88,4 +88,7 @@ class Dock extends Platform {
             }
         }
     }
+    renderUI(){// renders
+
+    }
 }

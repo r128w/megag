@@ -144,7 +144,7 @@ function receiveData(stuff, a){
             break
         case 3:
 
-            console.log('received planet update', stuff.payload)
+            // console.log('received planet update', stuff.payload)
 
             planets[stuff.payload.id].resources = stuff.payload.value
             break

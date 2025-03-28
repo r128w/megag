@@ -10,6 +10,8 @@ class Platform extends PhysicsObject{
         this.vx = 0
         this.vy = 0
         this.platformID = 0
+        this.maxhp = 15
+        this.hp = 15
     }
 }
 
