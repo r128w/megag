@@ -29,6 +29,9 @@ function renderPlatforms(){
             let obj = sync.others[i].obj[ii]
             if(obj.class == 'Platform'){
                 drawSpriteRot(sprites.platforms[obj.textureID], obj.x, obj.y, obj.rot, obj.r)
+                if(obj.hp != obj.maxhp){
+                    drawBar(obj.x, obj.y+obj.r+5, 50, obj.hp/obj.maxhp,"#666666", obj.col)
+                }
             }
         }
     }
