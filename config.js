@@ -25,7 +25,7 @@ var config = {
     playerMax: 10,
     systemSize:40000,// how far out before things are deleted
     sync:{
-        updateInterval: 500,
+        updateInterval: 150,
         reconnectInterval: 10000
     },
     chatLength:128,
