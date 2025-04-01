@@ -9,7 +9,8 @@ var config = {
         mgMax:1,
         no3Max:0.8,
         seMax:0.5,
-        genPeriod:2081// higher == less frequent, highly recommended to be prime or somewhat prime
+        genPeriod:2081,// higher == less frequent, highly recommended to be prime or somewhat prime
+        colors:{mg:"#eeddff",no3:"#ffddaa",se:"#ddffdd"}
     },
     bigG: 0.1,
     worldGen:{
@@ -25,7 +26,7 @@ var config = {
     playerMax: 10,
     systemSize:40000,// how far out before things are deleted
     sync:{
-        updateInterval: 150,
+        updateInterval: 500,
         reconnectInterval: 10000
     },
     chatLength:128,

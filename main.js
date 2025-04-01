@@ -8,7 +8,7 @@ async function initGame(multiplayer=true){
     pobjects = [];
     planets = [];
 
-    pobjects.push(new Player(-200, -200, 16))
+    pobjects.push(new Player(Math.random()-0.5, Math.random()-0.5))
     p = pobjects[0]
 
     updateUserInfo()
