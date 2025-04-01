@@ -1,8 +1,6 @@
 const c = document.getElementById('main-canvas');
 const ctx = c.getContext('2d')
 
-ctx.imageSmoothingEnabled=false
-
 window.onresize = function(){
     c.width = c.clientWidth// clientwidth/height is that which is specified by the css on the canvas object
     c.height = c.clientHeight
@@ -62,6 +60,8 @@ function canvasClear(){
 
 function renderFrame(){
 
+    ctx.imageSmoothingEnabled=false
+
     ctx.textAlign = "center"
     ctx.font = 15 + "px " + "monospace";
 
@@ -95,13 +95,13 @@ function renderFrame(){
             let op = sync.others[i].obj[0]// other player
             if(!op){continue}
             // console.log(sync.others[i].obj)
-            drawSpriteRot(sprites.player, op.x, op.y, op.rot)
+            drawSpriteRot(sprites.player, op.x, op.y, op.rot, op.r, true)
             if(op.hp != op.maxhp){
                 drawBar(op.x, op.y+op.r+5, 50, op.hp/op.maxhp,"#666666",op.col)
             }
         }
     }
-    drawSpriteRot(sprites.player, p.x, p.y, p.rot)
+    drawSpriteRot(sprites.player, p.x, p.y, p.rot, p.r, true)
     
 
     renderUI()
@@ -130,7 +130,7 @@ function renderMinimap(){
     
     ctx.clip()
 
-    ctx.fillStyle="#333333"+(input.tabbed ? "99" : "")
+    ctx.fillStyle="#333333"+(input.tabbed ? "66" : "aa")
     var closestPlanet = null
     var dist2p = 10000000
     for(var i = 0; i < planets.length; i ++){
@@ -303,7 +303,6 @@ function renderMinimap(){
 }
 
 function renderUI(){
-    renderMinimap()
 
     // hp bar
     if(p.hp != p.maxhp){
@@ -312,7 +311,13 @@ function renderUI(){
 
     // boost bar
     if(p.boost.f < p.boost.max){
-        drawBar(p.x, p.y+p.r+10, 30, p.boost.f/p.boost.max, "#666666", "#ffcc99")
+        drawBar(p.x, p.y+p.r+10, 30, p.boost.f/p.boost.max)
+    }
+
+    if(p.grabbed != null){
+        if(p.grabbed.dock == true){
+            p.grabbed.renderUI()
+        }
     }
 
     // planet overlay
@@ -345,21 +350,23 @@ function renderUI(){
         ctx.fillStyle=p.col// could make this have contrast or smt idk
         ctx.font = "20px monospace"
         ctx.textAlign="left"
-        ctx.fillText(p.username, x, y + 24)
+        ui.drawText(p.username, x, y + 24, p.col)
         ctx.drawImage(sprites.resources, x, y+24+margin/2)
-        ctx.fillStyle="#eeddff"
-        ctx.fillText(`Magnesium: ${p.resources.mg}`, x + 27, y + 48)
-        ctx.fillStyle="#ffddaa"
-        ctx.fillText(`Nitrate: ${p.resources.no3}`, x + 27, y + 72)
-        ctx.fillStyle="#ddffdd"
-        ctx.fillText(`Selenium: ${p.resources.se}`, x + 27, y + 96)
+       
+        ui.drawText(`Magnesium: ${p.resources.mg}`, x + 27, y + 48, config.resources.colors.mg)
+        ui.drawText(`Nitrate: ${p.resources.no3}`, x + 27, y + 72, config.resources.colors.no3)
+        ui.drawText(`Selenium: ${p.resources.se}`, x + 27, y + 96, config.resources.colors.se)
         
     }
+
+
+    renderMinimap()
 
 }
 
 // util drawing
-function drawSpriteRot(sprite, x, y, rot, r=-1){
+function drawSpriteRot(sprite, x, y, rot, r=-1, smoothed=false){
+    ctx.imageSmoothingEnabled = smoothed // by default
     ctx.translate(x+cam.xo, y+cam.yo)
     ctx.rotate(rot)
     if(r<=0){
@@ -369,6 +376,7 @@ function drawSpriteRot(sprite, x, y, rot, r=-1){
     }
     ctx.rotate(-rot)
     ctx.translate(-x-cam.xo, -y-cam.yo)
+    ctx.imageSmoothingEnabled = false
 }
 function drawSprite(sprite, x, y){ctx.drawImage(sprite, x + cam.xo, y + cam.yo)}
 function drawRect(x, y, w, h, color="#ffffff"){ctx.fillStyle=color;ctx.fillRect(x + cam.xo, y + cam.yo, w, h)}
@@ -379,7 +387,7 @@ function drawCircle(x, y, r, color){
     ctx.ellipse(x + cam.xo, y + cam.yo, r, r, 0, 0, 6.29)
     ctx.fill()
 }
-function drawBar(x, y, w, p=1, col1="#aaaaaa", col2="#ffffff"){
+function drawBar(x, y, w, p=1, col1="#666666", col2="#ffcc99"){
     const thick = (w < 50 ? 0.2 : 0.12)
     drawRect(x-w/2, y, w, w*thick, col1)
     const margin = 2
@@ -389,5 +397,6 @@ function drawBar(x, y, w, p=1, col1="#aaaaaa", col2="#ffffff"){
 const ui = {
     drawRect:(x,y,w,h,col="#ffffff")=>{drawRect(x-cam.xo,y-cam.yo,w,h,col)},
     drawCircle:(x,y,r,col)=>{drawCircle(x-cam.xo,y-cam.yo,r,col)},
-    worldText:(text, x, y, w=100000)=>{ctx.fillText(text, x+cam.xo, y+cam.yo, w)}
+    worldText:(text, x, y, w=100000)=>{ctx.fillText(text, x+cam.xo, y+cam.yo, w)},
+    drawText:(text, x, y, col="#000000")=>{ctx.fillStyle=col;ctx.fillText(text, x, y)}
 }

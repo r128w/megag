@@ -8,16 +8,23 @@ var input = {
     s:false,
     w:false,
     e:false,
+    mc:false,
     space:false,
     shift:false,
     tab:false,
     tabbed: false, // ...
-    other: null
+    other: null,
+    mousePos:()=>{// for use in game, with reference to ui/rendering which is relative to center of screen rather than corner
+        return {
+            x:input.mx - c.width/2,
+            y:input.my - c.height/2
+        }
+    }
 }
 // console.log("ds")
 window.addEventListener('DOMContentLoaded', ()=>{// who up nesting they listeners
     window.addEventListener('keydown', (e) => {
-        // console.log(e)
+        
         let key=e.key.toLowerCase()
 
         switch(key){
@@ -68,8 +75,8 @@ function showCursor(cursor="auto"){
 }
 
 c.addEventListener('mouseup', (e)=>{
-    input.m = true;
-    setTimeout(()=>{input.m=false}, 20)// JANK lmao
+    input.mc = true;
+    setTimeout(()=>{input.mc=false}, 20)// JANK lmao
     showCursor()
     clearTimeout(cursorTimer)
     cursorTimer = setTimeout(hideCursor, 2000)

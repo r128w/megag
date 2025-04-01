@@ -18,20 +18,18 @@ class Dock extends Platform {
 
         if(this.building.progress != null || this.building.id != null){return}
 
-        const m = config.buildings.reqs[id].mg || 0
-        const n = config.buildings.reqs[id].no3 || 0
-        const s = config.buildings.reqs[id].se || 0
+        const cost = getBuildCost(id)
 
-        if(p.resources.mg < m){chat.problem("Not enough Magnesium.")
+        if(p.resources.mg < cost.mg){chat.problem("Not enough Magnesium.")
             return}
-        if(p.resources.no3 < n){chat.problem("Not enough Nitrate.")
+        if(p.resources.no3 < cost.no3){chat.problem("Not enough Nitrate.")
             return}
-        if(p.resources.se < s){chat.problem("Not enough Selenium.")
+        if(p.resources.se < cost.se){chat.problem("Not enough Selenium.")
             return}
 
-        p.resources.mg-=m
-        p.resources.no3-=n
-        p.resources.se-=s
+        p.resources.mg-=cost.mg
+        p.resources.no3-=cost.no3
+        p.resources.se-=cost.se
 
         this.building.id = id
         this.building.progress = 0
@@ -43,13 +41,11 @@ class Dock extends Platform {
 
             if(this.landed != null || (p.grabbed == this && p.landed != null)){
 
-                const m = config.buildings.reqs[this.building.id].mg || 0
-                const n = config.buildings.reqs[this.building.id].no3 || 0
-                const s = config.buildings.reqs[this.building.id].se || 0
+                const cost = getBuildCost(this.building.id)
 
-                p.resources.mg+=m*0.5
-                p.resources.no3+=n*0.5
-                p.resources.se+=s*0.5
+                p.resources.mg+=cost.mg*0.5
+                p.resources.no3+=cost.no3*0.5
+                p.resources.se+=cost.se*0.5
                 chat.problem("Build interrupted by landing.")
 
                 this.building.id = null
@@ -57,7 +53,7 @@ class Dock extends Platform {
             }
         }
 
-        if(this.building.progress > 100){
+        if(this.building.progress > config.buildings.buildtimes[this.building.id]){
             this.building.progress = null
             const ev = 1; // ejection velocity
             let nObj;
@@ -88,7 +84,111 @@ class Dock extends Platform {
             }
         }
     }
-    renderUI(){// renders
+    renderUI(){// renders the interface with the dock, around building
 
+        ctx.textAlign = "center"
+        ctx.font="15px monospace"
+
+        if(this.landed || p.landed){
+            const w = 220
+            const h = 20
+            const x = -w/2
+            const y = -h - 50
+            ctx.font="12px monospace"
+            ui.drawRect(x, y, w, h, "#ffffff66")
+            ui.drawText("Cannot build while grounded.", 0, y+15, "#220000")
+            return
+        }
+
+        if(this.building.id!=null){
+            drawBar(this.x, this.y+10, 60, this.building.progress / (config.buildings.buildtimes[this.building.id]))
+        }
+
+        // console.log("asd")
+
+        const w = 300
+        const h = 200
+        const x = -w/2
+        const y = -h - 50
+        ui.drawRect(x, y, w, h, "#ffffff44")
+        const w2 = 140
+        const h2 = 20
+        ui.drawRect(-w2/2, y - h2, w2, h2, "#ffffff44")
+
+        ui.drawText("Build at Dock", 0, y-3, "#000000")
+
+        const binds = ["n/a","T", "Y", "U"]// index 0 = the base platform
+        const textureIDs = [-1, 2, 4, 6]// ie, default textures (index of appearance in sprites.platforms[])
+        // ignore base platform
+
+        // each build panel should be 100x100
+
+        const margin = 5;
+        const pw = 100 - margin*2
+        const rows = 3
+
+        let mouseOver = -1
+
+        for(var i = 0; i < rows; i ++){
+            for(var ii = 0; ii < 2; ii ++){
+                const x2 = x + i*(pw + margin*2) + margin
+                const y2 = y + ii*(pw + margin*2) + margin
+                ui.drawRect(x2, y2, pw, pw, "#ffffff22")
+                const index = i + ii*rows + 1// +1 to skip over base platform
+                ctx.font="10px monospace"
+                ui.drawText(config.buildings.names[index] || "Locked", x2 + pw/2, y2 + pw - 6, "#000000")
+                ui.drawText(binds[index] || "", x2 + 5, y2 + 12, "#000000")
+                
+                const mp = input.mousePos()
+                // console.log(mp)
+                
+                if(mp.x > x2 && mp.x < x2 + pw && mp.y > y2 && mp.y < y2 + pw){
+                    //temporary ternary until other buildings added
+                    mouseOver = index > 3 ? -1 : index
+                }
+
+                if(textureIDs[index]){
+                    const scale = 0.7
+                    ctx.drawImage(sprites.platforms[textureIDs[index]], x2 + pw*(1-scale)/2, y2 + pw*(1-scale)/2 - 5, pw*scale, pw*scale)
+                }
+            }
+        }
+
+        if(mouseOver != -1){
+            const mp = input.mousePos()
+            ui.drawRect(mp.x, mp.y, pw, pw/2, "#00000044")
+            ui.drawText(config.buildings.names[mouseOver], mp.x + pw/2, mp.y + 15, "#ffffff")
+            const cost = getBuildCost(mouseOver)
+            let a = 2
+            if(cost.mg > 0){
+                ui.drawText("Mg: " + cost.mg, mp.x + pw/2, mp.y + 15*a, config.resources.colors.mg)
+                a++
+            }
+            if(cost.no3 > 0){
+                ui.drawText("NO3: " + cost.no3, mp.x + pw/2, mp.y + 15*a, config.resources.colors.no3)
+                a++
+            }
+            if(cost.se > 0){
+                ui.drawText("Se: " + cost.se, mp.x + pw/2, mp.y + 15*a, config.resources.colors.se)
+                a++
+            }
+            if(input.mc && this.building.id==null){
+                this.build(mouseOver)
+            }
+        }
+
+
+
+    }
+}
+
+function getBuildCost(index){
+    const m = config.buildings.reqs[index].mg || 0
+    const n = config.buildings.reqs[index].no3 || 0
+    const s = config.buildings.reqs[index].se || 0
+    return {
+        mg:m,
+        no3:n,
+        se:s
     }
 }
