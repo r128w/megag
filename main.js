@@ -24,8 +24,9 @@ async function initGame(multiplayer=true){
     }
 
     //temp
-    pobjects.push(new Dock(-800, -900))
-    pobjects.push(new Mine(-600, -900, 'mg'))
+    let angle = Math.random()*360;// angle is in radians
+    pobjects.push(new Dock(1000 * Math.cos(angle), 1000 * Math.sin(angle)))
+    pobjects.push(new Turret(1000 * Math.cos(angle+0.1), 1000 * Math.sin(angle+0.1), 'gun'))
 
 
     loadSprites()
@@ -43,9 +44,8 @@ var lastFrame;
 function runFrame(){
 
     let dt = Date.now()-lastFrame
-    for(var i = 0; i < dt / 16 && i < 60; i++){// run additional frames, ensuring no more than 60
-
-    iterateFrame()
+    for(var i = 0; i < dt / 16 && i < 60; i++){// run additional frames, ensuring no more than 60 (1 second catchup)
+        iterateFrame()
     }
 
     renderFrame()

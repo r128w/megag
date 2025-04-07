@@ -26,13 +26,13 @@ var config = {
     playerMax: 10,
     systemSize:40000,// how far out before things are deleted
     sync:{
-        updateInterval: 500,
+        updateInterval: 150, // might make this adjustable easily
         reconnectInterval: 10000
     },
     chatLength:128,
     buildings:{
-        names:["Base Platform", "Magnesium Mine", "Nitrate Farm", "Selenium Mine"],
-        reqs:[{mg:10,no3:5}, {mg:40,no3:50}, {mg:50,no3:40}, {mg:100,no3:120}],
-        buildtimes:[120, 480, 480, 960]
+        names:["Base Platform", "Magnesium Mine", "Nitrate Farm", "Selenium Mine", "Basic Turret"],
+        reqs:[{mg:10,no3:5}, {mg:40,no3:50}, {mg:50,no3:40}, {mg:100,no3:120}, {mg:200,no3:150}],
+        buildtimes:[120, 480, 480, 960, 480]
     }
 }
