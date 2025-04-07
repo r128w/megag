@@ -77,7 +77,7 @@ async function findSpot(){// recursion
         if(id > 0 && id < config.playerMax-1){
             sync.conns[id] = conn
             console.log('got connect: ' + id)
-            chat.joined('Unknown', id)
+            chat.joined(id)
             sync.conns[id].on('close', ()=>{loseConn(id)})
             sync.conns[id].on('data', (stuff)=>{
                 receiveData(stuff, id)
@@ -109,7 +109,7 @@ async function establishConns(){
             sync.conns[i] = sync.self.peer.connect(sync.mainID + String(i))
             sync.conns[i].on('open', ()=>{
                 console.log('made connect: ' + a)
-                chat.joined('Unknown', a)
+                chat.joined(a)
                 sendInitSync(a)
             })
             sync.conns[i].on('close', ()=>{loseConn(a)})
@@ -205,7 +205,7 @@ function smallUpdate(data, type=2){
 
 function loseConn(id){
     sync.conns[id].close()// just in case
-    // chat.left(sync.others[id].obj[0].username, id)
+    // chat.left(id)
     console.log('lost connection: ' + id)
     resetConn(id)
 }

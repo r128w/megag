@@ -82,11 +82,11 @@ class Dock extends Platform {
         if(p.grabbed == this){
             // console.log('grabbed')
 
-            switch(input.other){
-                case't':this.build(1);break
-                case'y':this.build(2);break
-                case'u':this.build(3);break
-                case'i':this.build(4);break
+            for(var i = 0; i < config.buildings.binds.length; i++){
+                if(config.buildings.binds[i] == input.other){
+                    this.build(i)
+                    break
+                }
             }
         }
     }
@@ -128,7 +128,6 @@ class Dock extends Platform {
 
         ui.drawText("Build at Dock", 0, y-3, "#000000")
 
-        const binds = ["n/a","T", "Y", "U", "I"]// index 0 = the base platform
         const textureIDs = [-1, 2, 4, 6, 8]// ie, default textures (index of appearance in sprites.platforms[])
         // ignore base platform
 
@@ -148,7 +147,7 @@ class Dock extends Platform {
                 const index = i + ii*rows + 1// +1 to skip over base platform
                 ctx.font="10px monospace"
                 ui.drawText(config.buildings.names[index] || "Locked", x2 + pw/2, y2 + pw - 6, "#000000")
-                ui.drawText(binds[index] || "", x2 + 5, y2 + 12, "#000000")
+                ui.drawText(config.buildings.binds[index].toUpperCase() || "", x2 + 5, y2 + 12, "#000000")
                 
                 const mp = input.mousePos()
                 // console.log(mp)

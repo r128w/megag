@@ -36,13 +36,16 @@ var chat = {
             ctx.fillText(msg.content, c.width/2-w+2, -c.height/2+h-i*20-2)
         }
     },
-    joined:function(username, id){
-        chat.addMessage(`${username} (${id}) joined the game.`, 1)
+    joined:function(id){
+        chat.addMessage(`ID ${id} joined the game.`, 1)
     },
-    left:function(username, id){
-        chat.addMessage(`${username} (${id}) left the game.`, 1)
+    left:function(id){
+        chat.addMessage(`ID ${id} left the game.`, 1)
     },
     problem:function(msg){// sends a message like 'not enough resources.'
         chat.addMessage(msg, 2)
+    },
+    system:function(msg){
+        chat.addMessage(msg, 1)
     }
 }
