@@ -1,5 +1,5 @@
 # ![Mg](https://r128w.github.io/megag/assets/mg.png) MegaGravity (WIP)
-#### A physics-based multiplayer sandbox for people who love orbits
+#### A physics-based multiplayer sandbox
 
 # Controls
 W: Accelerate forwards + Shift: Boost forwards acceleration
@@ -20,14 +20,18 @@ Tab: Toggle large minimap
 
 Fly around the system. Planets are stationary, static masses which pull objects towards them. To allow for some stable orbits (see [3-body problem](https://en.wikipedia.org/wiki/three_body_problem)), planets have a limit to their gravitational influence, proportional to their radius, beyond which they have no gravity.
 
-Interact with platforms, which are objects that float around the world as the player does. Currently, there are four platforms: the dock, from which players can build other platforms, and three mines for Magnesium, Nitrate, and Selenium, the three in-game resources.
+Interact with platforms, which are objects that float around the world as the player does. Currently, there are five platforms: the dock, from which players can build other platforms; the three mines for Magnesium, Nitrate, and Selenium, the three in-game resources; and the basic turret, which shoots at other players and their buildings.
 
 Mines collect resources from planets, which slowly regenerate resources. Planets can also be mined manually by the player by holding E. Resources from mines are collected when the player who owns them flies nearby.
 
-Each player has a dock, which they can use to build mines and other platforms. To build from the dock, you need to be grabbed to it, and then press a hotkey (UI pending, T -> Mg Mine, Y -> NO3 Farm, U -> Se Mine). The dock only works when not grounded.
+Each player has a dock, which they can use to build mines and other platforms. To build from the dock, you need to be grabbed to it, and then build via the UI or hotkey. The dock only works when off the ground.
 
 ### Planned
 
-Create and destroy platforms using planet-based or space-based buildings. Play against others through PeerJS-enabled almost-serverless multiplayer.
+- Make factions, wage interplanetary war, both in defense and offense.
 
-Make factions, wage interplanetary war, both in defense and offense.
+- In-game chat
+
+- More turret types
+
+- More stable, reliable sync
