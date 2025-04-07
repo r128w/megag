@@ -67,6 +67,11 @@ async function findSpot(){// recursion
         establishConns()
     })
 
+    sync.self.peer.on('disconnect', (id)=>{
+        console.log('peer disconnected')
+        initMenu()// take it back
+    })
+
     sync.self.peer.on('connection', (conn)=>{
         let id = Number(conn.peer.replace(sync.mainID, ""))
         if(id > 0 && id < config.playerMax-1){
@@ -110,6 +115,10 @@ async function establishConns(){
             sync.conns[i].on('close', ()=>{loseConn(a)})
             sync.conns[i].on('data', (stuff)=>{
                 receiveData(stuff, a)
+            })
+            sync.conns[i].on('error', (e)=>{
+                console.log('connect failed, ', e)
+                resetConn(a)
             })
         }
     }

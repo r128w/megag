@@ -55,17 +55,22 @@ class Dock extends Platform {
 
         if(this.building.progress > config.buildings.buildtimes[this.building.id]){
             this.building.progress = null
-            const ev = 1; // ejection velocity
             let nObj;
             switch(this.building.id){
                 case 1:nObj = new Mine(this.x, this.y, 'mg');break
                 case 2:nObj = new Mine(this.x, this.y, 'no3');break
                 case 3:nObj = new Mine(this.x, this.y, 'se');break
 
+                case 4:nObj = new Turret(this.x, this.y, 'gun');break
+
                 default:nObj = new Platform(this.x, this.y);break
             }
-            nObj.vx = this.vx
-            nObj.vy = this.vy
+
+            const ev = 1; // ejection velocity
+            const sd = 0.95 // slowdown factor, so they generally fall inwards from the orbit
+
+            nObj.vx = this.vx * sd
+            nObj.vy = this.vy * sd 
             nObj.vr = this.vr
             nObj.vx += ev*(Math.random()-0.5)
             nObj.vy += ev*(Math.random()-0.5)
@@ -81,10 +86,20 @@ class Dock extends Platform {
                 case't':this.build(1);break
                 case'y':this.build(2);break
                 case'u':this.build(3);break
+                case'i':this.build(4);break
             }
         }
     }
+    render(){
+        super.render()
+    }
     renderUI(){// renders the interface with the dock, around building
+        if(this.building.id!=null){
+            drawBar(this.x, this.y+10, 60, this.building.progress / (config.buildings.buildtimes[this.building.id]))
+        }
+
+        if(p.grabbed != this){return}
+
 
         ctx.textAlign = "center"
         ctx.font="15px monospace"
@@ -100,10 +115,6 @@ class Dock extends Platform {
             return
         }
 
-        if(this.building.id!=null){
-            drawBar(this.x, this.y+10, 60, this.building.progress / (config.buildings.buildtimes[this.building.id]))
-        }
-
         // console.log("asd")
 
         const w = 300
@@ -117,8 +128,8 @@ class Dock extends Platform {
 
         ui.drawText("Build at Dock", 0, y-3, "#000000")
 
-        const binds = ["n/a","T", "Y", "U"]// index 0 = the base platform
-        const textureIDs = [-1, 2, 4, 6]// ie, default textures (index of appearance in sprites.platforms[])
+        const binds = ["n/a","T", "Y", "U", "I"]// index 0 = the base platform
+        const textureIDs = [-1, 2, 4, 6, 8]// ie, default textures (index of appearance in sprites.platforms[])
         // ignore base platform
 
         // each build panel should be 100x100

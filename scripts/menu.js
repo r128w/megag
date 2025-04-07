@@ -5,6 +5,8 @@ var menu = {}
 var menuTimer;
 function initMenu(){
 
+    clearInterval(frameTimer)
+
     menuTimer = setInterval(runMenu, 16)
     menu = {
         ps:[],

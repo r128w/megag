@@ -124,8 +124,9 @@ function iterateThing(thing){
 
             break
         case 'Platform':break
-        case 'Player':
+        case 'Player':// fix this later todo
             if(thing.grabbed != null){
+                // console.log('sd')
                 thing.grabbed.landed = null;
                 thing.grabbed.x = thing.x + (thing.r+thing.grabbed.r)*Math.cos(thing.rot) - thing.vx // correction terms for visual disconnect
                 thing.grabbed.y = thing.y + (thing.r+thing.grabbed.r)*Math.sin(thing.rot) - thing.vy

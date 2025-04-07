@@ -7,7 +7,11 @@ class Player extends PhysicsObject{
         this.col = '#ffffff'// default color
         this.username = 'Anonymous'// default name
 
-        this.shoot = {cooldown:0}
+        this.shoot = {
+            cooldown:0,
+            damage:1,
+            iv:5
+        }
         this.boost = {f:90,max:90}// just enough to orbit
         this.resources = {
             mg:300,// magnesium
@@ -54,11 +58,11 @@ class Player extends PhysicsObject{
         this.shoot.cooldown--
         if(input.space && this.shoot.cooldown <= 0 && this.grabbed == null){
             this.shoot.cooldown = 30
-            const iv = 5 // initial velocity
             const dx = Math.cos(this.rot)
             const dy = Math.sin(this.rot)
-            const b = new Bullet(this.x+this.r*dx, this.y+this.r*dy, this.vx+iv*dx, this.vy+iv*dy)
+            const b = new Bullet(this.x+this.r*dx, this.y+this.r*dy, this.vx+this.shoot.iv*dx, this.vy+this.shoot.iv*dy)
             b.rot = this.rot
+            b.damage = this.shoot.damage
             pobjects.push(b)
             smallUpdate(b)// tell everyone about this shiny new thing
         }
@@ -94,6 +98,14 @@ class Player extends PhysicsObject{
             }
         }
 
+        if(this.grabbed!=null){
+            if(this.grabbed.dock){
+                if(this.hp < this.maxhp){
+                    this.hp=Math.min(this.hp+0.005, this.maxhp)
+                }
+            }
+        }
+
 
         super.iterate()
 
@@ -114,7 +126,7 @@ class Player extends PhysicsObject{
         if(this.grabbed == null){
             // grab nearest physicsobject/platform
 
-            var nD = 16; // nearest dist is this (anything above wont be registered, this is the grab limit)
+            var nD = 32; // nearest dist is this (anything above wont be registered, this is the grab limit)
             var nO = null; // nearest object
 
             for(var i = 0; i < pobjects.length; i++){

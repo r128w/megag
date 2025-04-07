@@ -18,8 +18,13 @@ var sprites = {
         new Image(),
         new Image(),
         new Image(),
+        new Image(),
         new Image()
     ],
+    barrels:[
+        new Image()
+    ],
+
     bullets: [
         new Image()
     ],
@@ -30,7 +35,7 @@ function loadSprites(){
     sprites.player.src = "./assets/player2.png"
     sprites.smoke.src = "./assets/smoke.png"
 
-    sprites.platforms[0].src = "./assets/platforms/plat-main.png"
+    sprites.platforms[0].src = "./assets/platforms/small.png"
     sprites.platforms[1].src = "./assets/platforms/dock-main.png"
 
     sprites.platforms[2].src = "./assets/platforms/mg-empty.png"
@@ -39,6 +44,11 @@ function loadSprites(){
     sprites.platforms[5].src = "./assets/platforms/no3-full.png"
     sprites.platforms[6].src = "./assets/platforms/se-empty.png"
     sprites.platforms[7].src = "./assets/platforms/se-full.png"
+
+    sprites.platforms[8].src = "./assets/platforms/turret-base.png"
+
+
+    sprites.barrels[0].src = "./assets/barrels/barrel-main.png"
 
     sprites.bullets[0].src = "./assets/bul-main.png"
     sprites.resources.src = "./assets/resources2.png"
@@ -89,6 +99,8 @@ function renderFrame(){
     renderPlatforms()
     renderBullets()
     chat.render()// i LOVE switching up my standards
+
+    // console.log(cam.xo)
 
     for(var i = 0; i < config.playerMax; i++){// render players
         if(sync.conns[i].open){
@@ -314,12 +326,6 @@ function renderUI(){
         drawBar(p.x, p.y+p.r+10, 30, p.boost.f/p.boost.max)
     }
 
-    if(p.grabbed != null){
-        if(p.grabbed.dock == true){
-            p.grabbed.renderUI()
-        }
-    }
-
     // planet overlay
     if(p.landed != null){
         const pl = p.landed
@@ -357,6 +363,12 @@ function renderUI(){
         ui.drawText(`Nitrate: ${p.resources.no3}`, x + 27, y + 72, config.resources.colors.no3)
         ui.drawText(`Selenium: ${p.resources.se}`, x + 27, y + 96, config.resources.colors.se)
         
+    }
+
+    for(var i = 0; i < pobjects.length; i ++){
+        if(pobjects[i].class == 'Platform'){
+            pobjects[i].renderUI()
+        }
     }
 
 
