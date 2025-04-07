@@ -14,11 +14,13 @@ async function initGame(multiplayer=true){
     updateUserInfo()
 
     if(multiplayer){
+        chat.system("Joined Multiplayer")
         await initSync()
 
         generatePlanets()// this will get overriden if not alone
 
     }else{
+        chat.system("Joined Singleplayer")
         initEmptySync()
         generatePlanets()
     }
