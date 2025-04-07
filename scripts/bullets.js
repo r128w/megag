@@ -16,20 +16,21 @@ class Bullet extends PhysicsObject {
     }
     iterate(){
         iterateThing(this)
-        if(this.age > this.lifetime || this.landed){
+        if(this.age > this.lifetime || this.landed || this.x < -config.systemSize){
             this.destroy()
-       }
-       for(var i = 0; i < config.playerMax; i++){
-            if(!sync.conns[i].open){continue}
+        }
+        // redundant, done in iterateThing
+        // for(var i = 0; i < config.playerMax; i++){
+        //     if(!sync.conns[i].open){continue}
 
-            for(var ii = 0; ii < sync.others[i].obj.length; ii++){
-                let o = sync.others[i].obj[ii]
-                if(dist(this.x, this.y, o.x, o.y) < this.r + o.r){
-                    o.hp-=this.damage // will get overridden with what is 'correct'
-                    this.destroy()
-                }
-            }
-       }
+        //     for(var ii = 0; ii < sync.others[i].obj.length; ii++){
+        //         let o = sync.others[i].obj[ii]
+        //         if(dist(this.x, this.y, o.x, o.y) < this.r + o.r){
+        //             o.hp-=this.damage // will get overridden with what is 'correct'
+        //             this.destroy()
+        //         }
+        //     }
+        // }
     }
 
 }

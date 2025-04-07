@@ -129,6 +129,7 @@ class Dock extends Platform {
         ui.drawText("Build at Dock", 0, y-3, "#000000")
 
         const textureIDs = [-1, 2, 4, 6, 8]// ie, default textures (index of appearance in sprites.platforms[])
+        const barrels = [-1, -1, -1, -1, 0]// barrel sprite index, much as same fashion as above, -1 == no barrel
         // ignore base platform
 
         // each build panel should be 100x100
@@ -147,26 +148,29 @@ class Dock extends Platform {
                 const index = i + ii*rows + 1// +1 to skip over base platform
                 ctx.font="10px monospace"
                 ui.drawText(config.buildings.names[index] || "Locked", x2 + pw/2, y2 + pw - 6, "#000000")
-                ui.drawText(config.buildings.binds[index].toUpperCase() || "", x2 + 5, y2 + 12, "#000000")
+                ui.drawText((config.buildings.binds[index] || "").toUpperCase(), x2 + 5, y2 + 12, "#000000")
                 
                 const mp = input.mousePos()
                 // console.log(mp)
                 
                 if(mp.x > x2 && mp.x < x2 + pw && mp.y > y2 && mp.y < y2 + pw){
                     //temporary ternary until other buildings added
-                    mouseOver = index > 3 ? -1 : index
+                    mouseOver = index > 4 ? -1 : index
                 }
 
                 if(textureIDs[index]){
                     const scale = 0.7
                     ctx.drawImage(sprites.platforms[textureIDs[index]], x2 + pw*(1-scale)/2, y2 + pw*(1-scale)/2 - 5, pw*scale, pw*scale)
+                    if(barrels[index]!=-1){
+                        ctx.drawImage(sprites.barrels[barrels[index]], x2 + pw*(1-scale)/2, y2 + pw*(1-scale)/2 - 5, pw*scale, pw*scale)
+                    }
                 }
             }
         }
 
         if(mouseOver != -1){
             const mp = input.mousePos()
-            ui.drawRect(mp.x, mp.y, pw, pw/2, "#00000044")
+            ui.drawRect(mp.x, mp.y, pw, pw*0.6, "#00000044")
             ui.drawText(config.buildings.names[mouseOver], mp.x + pw/2, mp.y + 15, "#ffffff")
             const cost = getBuildCost(mouseOver)
             let a = 2

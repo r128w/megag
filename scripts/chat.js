@@ -37,10 +37,10 @@ var chat = {
         }
     },
     joined:function(id){
-        chat.addMessage(`ID ${id} joined the game.`, 1)
+        chat.addMessage(`Connected with ID ${id}.`, 1)
     },
     left:function(id){
-        chat.addMessage(`ID ${id} left the game.`, 1)
+        chat.addMessage(`Disconnected with ID ${id}.`, 1)
     },
     problem:function(msg){// sends a message like 'not enough resources.'
         chat.addMessage(msg, 2)

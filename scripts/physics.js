@@ -105,7 +105,7 @@ function iterateThing(thing){
             // thing.rot = Math.atan2(thing.vy, thing.vx)
             thing.age ++
             if(thing.landed || thing.age > thing.lifetime){// ten second lifetime on average
-                thing.x = -1000000// remove from game until it gets deleted by owner
+                thing.x = -10000000// remove from game until it gets deleted by owner
             }
 
             // collisions
@@ -118,6 +118,8 @@ function iterateThing(thing){
                 if(d < thing.r + pobjects[i].r && d != 0){
                     // hit
                     pobjects[i].hp -= thing.damage
+
+                    // sent to the shadow realm so that it can be deleted, later
                     thing.x = -10000000
                 }
             }

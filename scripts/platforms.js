@@ -103,7 +103,7 @@ class Turret extends Platform{
             damage: 1,
             range: 400,
             cooldown: 0,
-            iv: 5
+            iv: 6
         }
 
         this.tr = 0 // turret rotation
@@ -112,7 +112,7 @@ class Turret extends Platform{
         this.textureID = 8
 
         switch(type){
-            case'gun':this.r=16;break
+            case'gun':break
         }
 
     }
@@ -136,7 +136,9 @@ class Turret extends Platform{
             if(!sync.conns[i].open){continue}
             for(var ii = 0; ii < sync.others[i].obj.length;ii++){
                 let obj = sync.others[i].obj[ii]
-                targets.push(obj)
+                if(obj.class == 'Player' || obj.class == 'Platform'){
+                    targets.push(obj)
+                }
             }
         }
 

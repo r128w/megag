@@ -378,6 +378,9 @@ function renderUI(){
 
 // util drawing
 function drawSpriteRot(sprite, x, y, rot, r=-1, smoothed=false){
+    if(Math.abs(x)+Math.abs(y) > config.systemSize){// rotation render limit
+        return// otherwise, floating point weirdness with the translate, rotate, untranslate, unrotate
+    }
     ctx.imageSmoothingEnabled = smoothed // by default
     ctx.translate(x+cam.xo, y+cam.yo)
     ctx.rotate(rot)
