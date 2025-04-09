@@ -29,7 +29,7 @@ function iteratePlanets(){
             if(pl.resources.no3 < pl.r * config.resources.no3Max){pl.resources.no3+=1}
             continue
         }
-        if(Date.now() % 201 < 1){
+        if(Date.now() % 221 < 1){
             if(pl.resources.se < pl.r * config.resources.seMax){pl.resources.se+=1}
         }
     }

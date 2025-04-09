@@ -72,10 +72,21 @@ class PhysicsObject {
         if(this.hp <= 0){
             this.destroy()// if this is a player, destroy is overriden
         }
-        if(Math.abs(this.x) + Math.abs(this.y) > config.systemSize){this.destroy()}
+        if(Math.abs(this.x) + Math.abs(this.y) > config.systemSize){this.destroy()}//destroys most objects, respawns players
     }
     destroy(){// if it is destroyed
         pobjects.splice(pobjects.lastIndexOf(this), 1)
+        for(var i = 0; i < 20; i ++){
+            const angle = Math.random()*360//radians
+            const s = Math.random()*4
+            addParticle({
+                x: this.x,
+                y: this.y,
+                vx: this.vx - s*Math.cos(angle),
+                vy: this.vy - s*Math.sin(angle),
+                age: 0
+            })
+        }
     }
 }
 

@@ -62,6 +62,7 @@ class Dock extends Platform {
                 case 3:nObj = new Mine(this.x, this.y, 'se');break
 
                 case 4:nObj = new Turret(this.x, this.y, 'gun');break
+                case 5:nObj = new Turret(this.x, this.y, 'mini');break
 
                 default:nObj = new Platform(this.x, this.y);break
             }
@@ -128,8 +129,8 @@ class Dock extends Platform {
 
         ui.drawText("Build at Dock", 0, y-3, "#000000")
 
-        const textureIDs = [-1, 2, 4, 6, 8]// ie, default textures (index of appearance in sprites.platforms[])
-        const barrels = [-1, -1, -1, -1, 0]// barrel sprite index, much as same fashion as above, -1 == no barrel
+        const textureIDs = [-1, 2, 4, 6, 8, 9]// ie, default textures (index of appearance in sprites.platforms[])
+        const barrels = [-1, -1, -1, -1, 0, 1]// barrel sprite index, much as same fashion as above, -1 == no barrel
         // ignore base platform
 
         // each build panel should be 100x100
@@ -155,7 +156,7 @@ class Dock extends Platform {
                 
                 if(mp.x > x2 && mp.x < x2 + pw && mp.y > y2 && mp.y < y2 + pw){
                     //temporary ternary until other buildings added
-                    mouseOver = index > 4 ? -1 : index
+                    mouseOver = index > config.buildings.names.length - 1 ? -1 : index
                 }
 
                 if(textureIDs[index]){

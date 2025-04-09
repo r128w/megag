@@ -19,9 +19,11 @@ var sprites = {
         new Image(),
         new Image(),
         new Image(),
+        new Image(),
         new Image()
     ],
     barrels:[
+        new Image(),
         new Image()
     ],
 
@@ -46,9 +48,11 @@ function loadSprites(){
     sprites.platforms[7].src = "./assets/platforms/se-full.png"
 
     sprites.platforms[8].src = "./assets/platforms/turret-base.png"
+    sprites.platforms[9].src = './assets/platforms/small.png'
 
 
     sprites.barrels[0].src = "./assets/barrels/barrel-main.png"
+    sprites.barrels[1].src = './assets/barrels/barrel-small.png'
 
     sprites.bullets[0].src = "./assets/bul-main.png"
     sprites.resources.src = "./assets/resources2.png"
@@ -406,7 +410,7 @@ function drawBar(x, y, w, p=1, col1="#666666", col2="#ffcc99"){
     const thick = (w < 50 ? 0.2 : 0.12)
     drawRect(x-w/2, y, w, w*thick, col1)
     const margin = 2
-    drawRect(x-w/2+margin, y+margin, (w-margin*2)*p, w*thick-margin*2, col2)
+    drawRect(x-w/2+margin, y+margin, (w-margin*2)*Math.max(0,Math.min(p,1)), w*thick-margin*2, col2)
 }
 
 const ui = {

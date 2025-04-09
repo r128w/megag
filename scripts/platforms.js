@@ -113,6 +113,12 @@ class Turret extends Platform{
 
         switch(type){
             case'gun':break
+            case'mini':
+            this.shoot = {firerate:3,damage:0.3,range:300,cooldown:0,iv:8,spread:0.5}
+            this.textureID = 9
+            this.r = 8
+            this.ttextureID = 1
+            break
         }
 
     }
@@ -168,11 +174,12 @@ class Turret extends Platform{
         this.tr = Math.atan2(best.y + delay*best.vy - this.y - this.vx*delay, best.x + delay*best.vx - this.x - this.vx*delay)
 
         if(this.shoot.cooldown <= 0){
+            const sr = this.tr + (this.shoot.spread || 0)
             this.shoot.cooldown = this.shoot.firerate
-            const dx = Math.cos(this.tr)
-            const dy = Math.sin(this.tr)
+            const dx = Math.cos(sr)
+            const dy = Math.sin(sr)
             const b = new Bullet(this.x+this.r*dx, this.y+this.r*dy, this.vx+this.shoot.iv*dx, this.vy+this.shoot.iv*dy)
-            b.rot = this.tr
+            b.rot = sr
             b.damage = this.shoot.damage
             pobjects.push(b)
             smallUpdate(b)// tell everyone about this shiny new thing
