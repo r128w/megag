@@ -65,6 +65,7 @@ class PhysicsObject {
         this.landed = null
         this.hp = 5
         this.maxhp = 5
+        this.id = Date.now()-Math.trunc(Math.random()*100000000)// has gotta be unique ong
     }
     iterate(){
         iterateThing(this)
@@ -108,19 +109,30 @@ function iterateThing(thing){
                 thing.x = -10000000// remove from game until it gets deleted by owner
             }
 
-            // collisions
-            if(pobjects.includes(thing)){break}
+            if(!pobjects.includes(thing)){
+                // only collides with players' own objects
+                for(var i = 0; i < pobjects.length; i++){
 
-            // only collides with players' own objects
-            for(var i = 0; i < pobjects.length; i++){
-                // if(pobjects[i] == this){continue}
-                const d = dist(thing.x, thing.y, pobjects[i].x, pobjects[i].y)
-                if(d < thing.r + pobjects[i].r && d != 0){
-                    // hit
-                    pobjects[i].hp -= thing.damage
+                    // if(pobjects[i] == this){continue}
+                    const d = dist(thing.x, thing.y, pobjects[i].x, pobjects[i].y)
+                    if(d < thing.r + pobjects[i].r && d != 0){
+                        // hit
+                        pobjects[i].hp -= thing.damage
+                        // sent to the shadow realm so that it can be deleted, later
+                        thing.x = -10000000
+                    }
+                }
+            }
 
-                    // sent to the shadow realm so that it can be deleted, later
-                    thing.x = -10000000
+            for(var i = 0; i < config.playerMax; i++){
+                if(!sync.conns[i].open){continue}
+                if(sync.others[i].obj.includes(thing)){continue}// to replace w alliance check or similar
+                for(var ii = 0; ii < sync.others[i].obj.length; ii++){
+                    let o = sync.others[i].obj[ii]
+                    if(dist(thing.x, thing.y, o.x, o.y) < thing.r + o.r){
+                        o.hp-=thing.damage // will get overwritten with what is 'correct'
+                        thing.x = -10000000
+                    }
                 }
             }
 
@@ -128,14 +140,23 @@ function iterateThing(thing){
         case 'Platform':break
         case 'Player':// fix this later todo
             if(thing.grabbed != null){
-                // console.log('sd')
-                thing.grabbed.landed = null;
-                thing.grabbed.x = thing.x + (thing.r+thing.grabbed.r)*Math.cos(thing.rot) - thing.vx // correction terms for visual disconnect
-                thing.grabbed.y = thing.y + (thing.r+thing.grabbed.r)*Math.sin(thing.rot) - thing.vy
-                thing.grabbed.vx = thing.vx
-                thing.grabbed.vy = thing.vy
-                thing.grabbed.rot = thing.rot
-                thing.grabbed.vr = thing.vr
+                let grabbedobj = null
+                if(thing.id == sync.self.index){grabbedobj = thing.grabbed}
+                for(var i = 0; i < sync.others[thing.id].obj.length; i ++){
+                    if(sync.others[thing.id].obj[i].id == thing.grabbed.id){
+                        grabbedobj = sync.others[thing.id].obj[i]
+                        break
+                    }
+                }
+                if(grabbedobj == null){console.log('weird grab value');break}// shouldnt happen ordinarily
+                grabbedobj.landed = null;
+                grabbedobj.x = thing.x + (thing.r+grabbedobj.r)*Math.cos(thing.rot) - thing.vx // correction terms for visual disconnect
+                grabbedobj.y = thing.y + (thing.r+grabbedobj.r)*Math.sin(thing.rot) - thing.vy
+                grabbedobj.vx = thing.vx
+                grabbedobj.vy = thing.vy
+                grabbedobj.rot = thing.rot
+                grabbedobj.vr = thing.vr
+                // console.log(thing.grabbed)
             }
             break
     }

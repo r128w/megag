@@ -103,7 +103,7 @@ class Turret extends Platform{
             damage: 1,
             range: 400,
             cooldown: 0,
-            iv: 6
+            iv: 8
         }
 
         this.tr = 0 // turret rotation

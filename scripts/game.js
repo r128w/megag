@@ -6,6 +6,7 @@ class Player extends PhysicsObject{
         this.class = 'Player'
         this.col = '#ffffff'// default color
         this.username = 'Anonymous'// default name
+        this.id = 0
 
         this.shoot = {
             cooldown:0,
@@ -150,7 +151,7 @@ class Player extends PhysicsObject{
 
             this.grabbed.vx+=str*Math.cos(this.rot+1.57)
             this.grabbed.vy+=str*Math.sin(this.rot+1.57)
-            this.grabbed.vr += this.vr
+            this.grabbed.vr+=this.vr
 
             this.grabbed = null;
         }
@@ -158,7 +159,25 @@ class Player extends PhysicsObject{
 
     }
     destroy(){
-        this.hp = this.maxhp// temp
+        this.hp = this.maxhp// reset health
+        // respawn
+        let respawnloc = {x:Math.random()-0.5, y:Math.random()-0.5}
+
+        this.grabbed = null
+
+        this.x = respawnloc.x
+        this.y = respawnloc.y
+
+        for(var i = 0; i < pobjects.length; i ++){
+            if(pobjects[i].dock){// respawn at first dock in pobjects (should only have one anyway)
+                this.x=pobjects[i].x
+                this.y=pobjects[i].y
+                this.vx=pobjects[i].vx
+                this.vy=pobjects[i].vy
+                this.vr=pobjects[i].vr
+                break
+            }
+        }
     }
 }
 

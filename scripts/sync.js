@@ -64,6 +64,7 @@ async function findSpot(){// recursion
 
     sync.self.peer.on('open', (id)=>{
         console.log(id + " | " + sync.self.index + " | connected")
+        p.id = sync.self.index
         establishConns()
     })
 
@@ -145,10 +146,10 @@ function receiveData(stuff, a){
             break
         case 2:
             // wip
-            // const timesince = Date.now() - stuff.ts
-            // for(var i = 0; i < Math.min(30, timesince/16); i ++){// push forward in physics up to 30 frames (0.5s), according to when it was sent
-            //     iterateThing(stuff.payload)
-            // }
+            const timesince = Date.now() - stuff.ts
+            for(var i = 0; i < Math.min(30, timesince/16); i ++){// push forward in physics up to 30 frames (0.5s), according to when it was sent
+                iterateThing(stuff.payload)
+            }
             sync.others[a].obj.push(stuff.payload)
             break
         case 3:
