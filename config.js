@@ -34,6 +34,6 @@ var config = {
         names:["Base Platform", "Magnesium Mine", "Nitrate Farm", "Selenium Mine", "Basic Turret"],
         reqs:[{mg:10,no3:5}, {mg:40,no3:50}, {mg:50,no3:40}, {mg:100,no3:120}, {mg:200,no3:150}],
         buildtimes:[120, 480, 480, 960, 480],
-        binds:['n/a', 't', 'u', 'v', 'g']
+        binds:['n/a', 't', 'y', 'u', 'g', 'h', 'j']
     }
 }
