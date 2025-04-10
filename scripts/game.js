@@ -15,9 +15,9 @@ class Player extends PhysicsObject{
         }
         this.boost = {f:90,max:90}// just enough to orbit
         this.resources = {
-            mg:300,// magnesium
-            no3:400,
-            se:10
+            mg:30,// magnesium
+            no3:30,
+            se:0
         }
     }
     iterate(){
