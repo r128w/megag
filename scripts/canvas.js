@@ -27,17 +27,14 @@ function loadSprites(){
     loadSprite('player2', 'player')
     loadSprite('smoke', 'smoke')
 
-    loadSprite('platforms/small', 'platforms')// platforms textureid 0
-    loadSprite('platforms/dock-main', 'platforms')// 1
-
-    loadSprite('platforms/mg-empty', 'platforms')// 2
-    loadSprite('platforms/mg-full', 'platforms')
-    loadSprite('platforms/no3-empty', 'platforms')// 4
-    loadSprite('platforms/no3-full', 'platforms')
-    loadSprite('platforms/se-empty', 'platforms')// 6
-    loadSprite('platforms/se-full', 'platforms')
-
-    loadSprite('platforms/turret-base', 'platforms')// 8
+    platformSprites = [
+        'small', 'dock-main',// textureID 0-1
+        'mg-empty','mg-full','no3-empty','no3-full','se-empty','se-full',// 2-7
+        'turret-base'// 8
+    ]
+    for(var i = 0; i < platformSprites.length;i++){
+        loadSprite('platforms/'+platformSprites[i], 'platforms')
+    }
 
     loadSprite('barrels/barrel-main', 'barrels')// barrels textureid 0
     loadSprite('barrels/barrel-small', 'barrels')
