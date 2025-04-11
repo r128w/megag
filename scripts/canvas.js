@@ -28,6 +28,7 @@ var sprites = {
     ],
 
     bullets: [
+        new Image(),
         new Image()
     ],
     resources: new Image()
