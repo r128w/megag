@@ -7,57 +7,45 @@ window.onresize = function(){
     canvasClear()
 }
 
-var sprites = {
-    player: new Image(),
-    smoke: new Image(),
-    platforms: [// all textures, referred to by id
-        new Image(),
-        new Image(),
-        new Image(),
-        new Image(),
-        new Image(),
-        new Image(),
-        new Image(),
-        new Image(),
-        new Image(),
-        new Image()
-    ],
-    barrels:[
-        new Image(),
-        new Image()
-    ],
+var sprites = {}
 
-    bullets: [
-        new Image(),
-        new Image()
-    ],
-    resources: new Image()
+function loadSprite(path, sublist){
+    var item = new Image()
+    item.src = './assets/'+path+'.png'
+    if(sprites[sublist]){
+        if(Array.isArray(sprites[sublist])){
+            sprites[sublist].push(item)
+        }else{
+            sprites[sublist] = [sprites[sublist], item]
+        }
+    }else{
+        sprites[sublist] = item
+    }
 }
 
 function loadSprites(){
-    sprites.player.src = "./assets/player2.png"
-    sprites.smoke.src = "./assets/smoke.png"
+    loadSprite('player2', 'player')
+    loadSprite('smoke', 'smoke')
 
-    sprites.platforms[0].src = "./assets/platforms/small.png"
-    sprites.platforms[1].src = "./assets/platforms/dock-main.png"
+    loadSprite('platforms/small', 'platforms')// platforms textureid 0
+    loadSprite('platforms/dock-main', 'platforms')// 1
 
-    sprites.platforms[2].src = "./assets/platforms/mg-empty.png"
-    sprites.platforms[3].src = "./assets/platforms/mg-full.png"
-    sprites.platforms[4].src = "./assets/platforms/no3-empty.png"
-    sprites.platforms[5].src = "./assets/platforms/no3-full.png"
-    sprites.platforms[6].src = "./assets/platforms/se-empty.png"
-    sprites.platforms[7].src = "./assets/platforms/se-full.png"
+    loadSprite('platforms/mg-empty', 'platforms')// 2
+    loadSprite('platforms/mg-full', 'platforms')
+    loadSprite('platforms/no3-empty', 'platforms')// 4
+    loadSprite('platforms/no3-full', 'platforms')
+    loadSprite('platforms/se-empty', 'platforms')// 6
+    loadSprite('platforms/se-full', 'platforms')
 
-    sprites.platforms[8].src = "./assets/platforms/turret-base.png"
-    sprites.platforms[9].src = './assets/platforms/small.png'
+    loadSprite('platforms/turret-base', 'platforms')// 8
 
+    loadSprite('barrels/barrel-main', 'barrels')// barrels textureid 0
+    loadSprite('barrels/barrel-small', 'barrels')
 
-    sprites.barrels[0].src = "./assets/barrels/barrel-main.png"
-    sprites.barrels[1].src = './assets/barrels/barrel-small.png'
+    loadSprite('bullets/bul-main', 'bullets')// bullets textureid 0
+    loadSprite('bullets/bomb', 'bullets')
 
-    sprites.bullets[0].src = "./assets/bullets/bul-main.png"
-    sprites.bullets[1].src = './assets/bullets/bomb.png'
-    sprites.resources.src = "./assets/resources2.png"
+    loadSprite('resources2', 'resources')// resources sprite
 }
 
 var cam = {

@@ -110,7 +110,7 @@ class Turret extends Platform{
             case'gun':break
             case'mini':
             this.shoot = config.bulstats[1]
-            this.textureID = 9
+            this.textureID = 0
             this.r = 8
             this.ttextureID = 1
             break

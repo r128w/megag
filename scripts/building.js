@@ -158,7 +158,7 @@ class Dock extends Platform {
                     mouseOver = index
                 }
 
-                if(config.buildings.previews[index]){
+                if(config.buildings.previews[index]+1){
                     const scale = 0.7
                     ctx.drawImage(sprites.platforms[config.buildings.previews[index]], x2 + pw*(1-scale)/2, y2 + pw*(1-scale)/2 - 5, pw*scale, pw*scale)
                     if(config.buildings.previewb[index]!=-1){
