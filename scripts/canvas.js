@@ -54,7 +54,8 @@ function loadSprites(){
     sprites.barrels[0].src = "./assets/barrels/barrel-main.png"
     sprites.barrels[1].src = './assets/barrels/barrel-small.png'
 
-    sprites.bullets[0].src = "./assets/bul-main.png"
+    sprites.bullets[0].src = "./assets/bullets/bul-main.png"
+    sprites.bullets[1].src = './assets/bullets/bomb.png'
     sprites.resources.src = "./assets/resources2.png"
 }
 

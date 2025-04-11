@@ -2,7 +2,6 @@ class Player extends PhysicsObject{
     constructor(x, y){
         super(x, y, 16)
         this.grabbed = null
-        this.username = ''
         this.class = 'Player'
         this.col = '#ffffff'// default color
         this.username = 'Anonymous'// default name
