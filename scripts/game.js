@@ -8,11 +8,8 @@ class Player extends PhysicsObject{
         this.username = 'Anonymous'// default name
         this.id = 0
 
-        this.shoot = {
-            cooldown:0,
-            damage:1,
-            iv:5
-        }
+        this.shoot = config.bulstats[0]
+        this.shoot.cooldown = 0
         this.boost = {f:90,max:90}// just enough to orbit
         this.resources = {
             mg:30,// magnesium

@@ -100,19 +100,19 @@ function runMenu(){
     if(input.mx > bx && input.mx < bx + mbw){
         if(input.my > b1y && input.my < b1y + mbh){
             ctx.rect(bx, b1y, mbw, mbh)
-            if(input.mc){
+            if(input.mc()){
                 initGame(true)
             }
         }
         if(input.my > b2y && input.my < b2y + mbh){
             ctx.rect(bx, b2y, mbw, mbh)
-            if(input.mc){
+            if(input.mc()){
                 initGame(false)
             }
         }
         if(input.my > b3y && input.my < b3y + mbh){
             ctx.rect(bx, b3y, mbw, mbh)
-            if(input.mc){
+            if(input.mc()){
                 window.open("https://github.com/r128w/megag#readme", "_blank")
             }
         }

@@ -98,13 +98,8 @@ class Turret extends Platform{
     constructor (x, y, type='gun'){
         super(x,y,16)
 
-        this.shoot = {
-            firerate: 15, // actually a cooldown
-            damage: 1,
-            range: 400,
-            cooldown: 0,
-            iv: 8
-        }
+        this.shoot = config.bulstats[0]
+        this.shoot.cooldown = 0
 
         this.tr = 0 // turret rotation
         this.ttextureID = 0
@@ -114,7 +109,7 @@ class Turret extends Platform{
         switch(type){
             case'gun':break
             case'mini':
-            this.shoot = {firerate:3,damage:0.3,range:300,cooldown:0,iv:8,spread:0.5}
+            this.shoot = config.bulstats[1]
             this.textureID = 9
             this.r = 8
             this.ttextureID = 1
@@ -164,8 +159,6 @@ class Turret extends Platform{
 
             return
         }
-
-
 
         // im on a whole nother level im geeking
 

@@ -2,23 +2,34 @@
 var input = {
     mx:-1,
     my:-1,
-    m:false,
     a:false,
     d:false,
     s:false,
     w:false,
     e:false,
-    mc:false,
+    _mc:false,
     space:false,
     shift:false,
     tab:false,
     tabbed: false, // ...
-    other: null,
+    _other: null,
     mousePos:()=>{// for use in game, with reference to ui/rendering which is relative to center of screen rather than corner
         return {
             x:input.mx - c.width/2,
             y:input.my - c.height/2
         }
+    },
+    mc:()=>{
+        if(input._mc){input._mc = false;return true}
+        return input._mc
+    },
+    other:()=>{
+        if(input._other != null){
+            temp = input._other
+            input._other = null
+            return temp
+        }
+        return input._other
     }
 }
 // console.log("ds")
@@ -37,7 +48,7 @@ window.addEventListener('DOMContentLoaded', ()=>{// who up nesting they listener
             case "shift":input.shift=true;break
             case "tab":input.tab=true;input.tabbed = !input.tabbed;e.preventDefault();break
             // default:console.log(e.key);break
-            default: input.other = key;setTimeout(()=>{input.other=null},20);break
+            default: input._other = key;setTimeout(()=>{input._other=null},30);break
         }
     })
     window.addEventListener('keyup', (e) => {
@@ -75,8 +86,8 @@ function showCursor(cursor="auto"){
 }
 
 c.addEventListener('mouseup', (e)=>{
-    input.mc = true;
-    setTimeout(()=>{input.mc=false}, 20)// JANK lmao
+    input._mc = true;
+    setTimeout(()=>{input._mc=false}, 30)// JANK lmao
     showCursor()
     clearTimeout(cursorTimer)
     cursorTimer = setTimeout(hideCursor, 2000)

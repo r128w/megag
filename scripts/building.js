@@ -5,6 +5,7 @@ class Dock extends Platform {
         this.class='Platform'// acts as platform for all people without class info (ie other players)
         this.dock = true
         this.building = {id:null,progress:null}
+        this.options = [1,2,3,4,5,-1]
     }
     build(id){
         // build a platform
@@ -81,11 +82,12 @@ class Dock extends Platform {
         }
 
         if(p.grabbed == this){
-            // console.log('grabbed')
+
+            const other = (input.other()||"").toLowerCase()
 
             for(var i = 0; i < config.buildings.binds.length; i++){
-                if(config.buildings.binds[i] == input.other){
-                    this.build(i)
+                if(config.buildings.binds[i] == other){
+                    this.build(this.options[i])
                     break
                 }
             }
@@ -129,8 +131,6 @@ class Dock extends Platform {
 
         ui.drawText("Build at Dock", 0, y-3, "#000000")
 
-        const textureIDs = [-1, 2, 4, 6, 8, 9]// ie, default textures (index of appearance in sprites.platforms[])
-        const barrels = [-1, -1, -1, -1, 0, 1]// barrel sprite index, much as same fashion as above, -1 == no barrel
         // ignore base platform
 
         // each build panel should be 100x100
@@ -146,24 +146,23 @@ class Dock extends Platform {
                 const x2 = x + i*(pw + margin*2) + margin
                 const y2 = y + ii*(pw + margin*2) + margin
                 ui.drawRect(x2, y2, pw, pw, "#ffffff22")
-                const index = i + ii*rows + 1// +1 to skip over base platform
+                const index = this.options[i + ii*rows]
                 ctx.font="10px monospace"
                 ui.drawText(config.buildings.names[index] || "Locked", x2 + pw/2, y2 + pw - 6, "#000000")
-                ui.drawText((config.buildings.binds[index] || "").toUpperCase(), x2 + 5, y2 + 12, "#000000")
+                ui.drawText((config.buildings.binds[i + ii * rows] || "").toUpperCase(), x2 + 5, y2 + 12, "#000000")
                 
                 const mp = input.mousePos()
-                // console.log(mp)
-                
+
                 if(mp.x > x2 && mp.x < x2 + pw && mp.y > y2 && mp.y < y2 + pw){
                     //temporary ternary until other buildings added
-                    mouseOver = index > config.buildings.names.length - 1 ? -1 : index
+                    mouseOver = index
                 }
 
-                if(textureIDs[index]){
+                if(config.buildings.previews[index]){
                     const scale = 0.7
-                    ctx.drawImage(sprites.platforms[textureIDs[index]], x2 + pw*(1-scale)/2, y2 + pw*(1-scale)/2 - 5, pw*scale, pw*scale)
-                    if(barrels[index]!=-1){
-                        ctx.drawImage(sprites.barrels[barrels[index]], x2 + pw*(1-scale)/2, y2 + pw*(1-scale)/2 - 5, pw*scale, pw*scale)
+                    ctx.drawImage(sprites.platforms[config.buildings.previews[index]], x2 + pw*(1-scale)/2, y2 + pw*(1-scale)/2 - 5, pw*scale, pw*scale)
+                    if(config.buildings.previewb[index]!=-1){
+                        ctx.drawImage(sprites.barrels[config.buildings.previewb[index]], x2 + pw*(1-scale)/2, y2 + pw*(1-scale)/2 - 5, pw*scale, pw*scale)
                     }
                 }
             }
@@ -171,7 +170,7 @@ class Dock extends Platform {
 
         if(mouseOver != -1){
             const mp = input.mousePos()
-            ui.drawRect(mp.x, mp.y, pw, pw*0.6, "#00000044")
+            ui.drawRect(mp.x, mp.y, pw, pw*0.7, "#00000044")
             ui.drawText(config.buildings.names[mouseOver], mp.x + pw/2, mp.y + 15, "#ffffff")
             const cost = getBuildCost(mouseOver)
             let a = 2
@@ -187,7 +186,7 @@ class Dock extends Platform {
                 ui.drawText("Se: " + cost.se, mp.x + pw/2, mp.y + 15*a, config.resources.colors.se)
                 a++
             }
-            if(input.mc && this.building.id==null){
+            if(input.mc() && this.building.id==null){
                 this.build(mouseOver)
             }
         }
