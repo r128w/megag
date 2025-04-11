@@ -35,7 +35,7 @@ var config = {
         reqs:[{mg:10,no3:5}, {mg:40,no3:50}, {mg:50,no3:40}, {mg:100,no3:120}, {mg:200,no3:150}, {mg:50,no3:25,se:75}],
         buildtimes:[120, 480, 480, 960, 480, 1080],
         binds:['y', 'u', 'i', 'h', 'j', 'k'],// shared between all docks/menus
-        previews:[-1, 2, 4, 6, 8 ,9],// preview sprites for build menu
+        previews:[-1, 2, 4, 6, 8, 0],// preview sprites for build menu
         previewb:[-1, -1, -1, -1, 0, 1]// preview barrels
     },
     bulstats:[
@@ -50,7 +50,11 @@ var config = {
         },
         {// minigun bullet
             firerate:3,damage:0.3,range:300,iv:8,spread:0.5,name:"Minigun",textureID:0,
-            make:{cost:{mg:25,no3:30},amount:100}
+            make:{cost:{mg:25,no3:30},amount:150}
+        },
+        {// bomb
+            firerate:60,damage:10,range:300,iv:2,spread:1,name:"Bomb",textureID:1,
+            make:{cost:{mg:10,no3:50},amount:5}
         }
     ]
 }
