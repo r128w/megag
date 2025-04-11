@@ -35,3 +35,13 @@ Each player has a dock, which they can use to build mines and other platforms. T
 - More turret types
 
 - More stable, reliable sync
+
+- Specialized docks for building turrets, defense, ammo platforms
+
+   - Dock builds: Mg Mine, NO3 Farm, Se Mine, Turret Dock, Defense Dock, Ammo Factory
+ 
+   - Turret dock builds: Basic Turret, Miniturret, TBD, TBD, TBD, TBD
+ 
+   - Defense dock builds: Local Shield, Planetary Shield, TBD, TBD, TBD, TBD
+ 
+   - Ammo Factory makes: Minigun Ammo, Bombs, Tesla Charges, Laser Cells, TBD, TBD
