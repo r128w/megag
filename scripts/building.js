@@ -5,7 +5,7 @@ class Dock extends Platform {
         this.class='Platform'// acts as platform for all people without class info (ie other players)
         this.dock = true
         this.building = {id:null,progress:null}
-        this.options = [1,2,3,4,5,-1]
+        this.options = [1,2,3,4,5,6]
     }
     build(id){
         // build a platform
@@ -64,6 +64,7 @@ class Dock extends Platform {
 
                 case 4:nObj = new Turret(this.x, this.y, 'gun');break
                 case 5:nObj = new Turret(this.x, this.y, 'mini');break
+                case 6:nObj = new AmmoFactory(this.x, this.y);break
 
                 default:nObj = new Platform(this.x, this.y);break
             }

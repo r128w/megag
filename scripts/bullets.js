@@ -70,7 +70,7 @@ class AmmoFactory extends Platform {
         ctx.font="15px monospace"
 
         if(this.landed || p.landed){
-            const w = 220
+            const w = 240
             const h = 20
             const x = -w/2
             const y = -h - 50
@@ -121,7 +121,12 @@ class AmmoFactory extends Platform {
 
                 if(config.bulstats[index]){
                     const scale = 0.7
-                    ctx.drawImage(sprites.bullets[config.bulstats[index].textureID], x2 + pw*(1-scale)/2, y2 + pw*(1-scale)/2 - 5, pw*scale, pw*scale)
+                    ctx.globalAlpha = 0.7
+                    ctx.drawImage(
+                        sprites.bulicons, 
+                        index*16,0,16,16,
+                        x2 + pw*(1-scale)/2, y2 + pw*(1-scale)/2 - 5, pw*scale, pw*scale)
+                    ctx.globalAlpha = 1
                 }
             }
         }
@@ -153,6 +158,17 @@ class AmmoFactory extends Platform {
         if(config.bulstats[id]){
             // todo
             console.log('make', id)
+            const cost = config.bulstats[id].make.cost
+            if(cost.mg>p.resources.mg){chat.problem('Not enough Magnesium.');return}
+            if(cost.no3>p.resources.no3){chat.problem('Not enough Nitrate.');return}
+            if(cost.se>p.resources.se){chat.problem('Not enough Selenium.');return}
+
+            if(cost.mg > 0){p.resources.mg -= cost.mg}
+            if(cost.no3 > 0){p.resources.no3 -= cost.no3}
+            if(cost.se > 0){p.resources.se -= cost.se}
+
+            p.stuff.ammo[id] = (p.stuff.ammo[id] || 0) + config.bulstats[id].make.amount
+
         }
     }
 }

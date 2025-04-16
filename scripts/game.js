@@ -15,6 +15,10 @@ class Player extends PhysicsObject{
             no3:30,
             se:0
         }
+
+        this.stuff = {
+            ammo:[]// array of numbers, each index corresponding to its bullet type 
+        }
     }
     iterate(){
 

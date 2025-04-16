@@ -43,6 +43,7 @@ function loadSprites(){
     loadSprite('bullets/bomb', 'bullets')
 
     loadSprite('resources2', 'resources')// resources sprite
+    loadSprite('bul-icons', 'bulicons')// for bullets, hotbar etc
 }
 
 var cam = {
@@ -65,7 +66,6 @@ function renderFrame(){
 
     ctx.textAlign = "center"
     ctx.font = 15 + "px " + "monospace";
-
 
     cam.xo=-p.x
     cam.yo=-p.y
@@ -339,7 +339,7 @@ function renderUI(){
     if(!input.tabbed){
         // build menu, bottom left
         const margin = 10
-        const w = Math.max(c.width * 0.4, 400) - margin*2
+        const w = Math.min(Math.max(c.width * 0.4, 250), 400) - margin*2
         const h = c.height/3 - 2*margin
         const x = -c.width/2
         const y = c.height/2 - h + margin
@@ -359,6 +359,44 @@ function renderUI(){
     for(var i = 0; i < pobjects.length; i ++){
         if(pobjects[i].class == 'Platform'){
             pobjects[i].renderUI()
+        }
+    }
+
+    // ammo types 'hotbar' at bottom
+    let a = 0
+    for(var i = 0; i < p.stuff.ammo.length; i ++){
+        if(p.stuff.ammo[i]){a++}}
+        // console.log(a)
+
+    const spacing = Math.max(50 - (a*5), 20)
+    const bmargin = 70
+    const scale = 3
+    ctx.textAlign = 'center'
+    ctx.font = '15px monospace'
+    let b = 0
+    for(var i = 0; i < p.stuff.ammo.length; i ++){
+        if(p.stuff.ammo[i]){
+            const x = ((scale*16)*a + spacing*(a-1))*-0.5 + b * (spacing + (scale*16))
+            ctx.drawImage(
+                sprites.bulicons,
+                i*16,0,16,16,
+                x,
+                c.height/2 - bmargin,
+                16*scale,16*scale
+            )
+            ui.drawText(
+                config.bulstats[i].name,
+                x + scale*16 / 2,
+                c.height/2 - bmargin - 5,
+                "#ffffff"
+            )
+            ui.drawText(
+                p.stuff.ammo[i],
+                x + scale*16 / 2,
+                c.height/2 - bmargin + scale*16 + 10,
+                "#ffffff"
+            )
+            b++ // peak mentioned
         }
     }
 
