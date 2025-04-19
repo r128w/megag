@@ -31,12 +31,12 @@ var config = {
     },
     chatLength:128,
     buildings:{
-        names:["Base Platform", "Magnesium Mine", "Nitrate Farm", "Selenium Mine", "Basic Turret", "Miniturret"],
-        reqs:[{mg:10,no3:5}, {mg:40,no3:50}, {mg:50,no3:40}, {mg:100,no3:120}, {mg:200,no3:150}, {mg:50,no3:25,se:75}],
-        buildtimes:[120, 480, 480, 960, 480, 1080],
+        names:["Base Platform", "Magnesium Mine", "Nitrate Farm", "Selenium Mine", "Basic Turret", "Miniturret", "Ammo Factory"],
+        reqs:[{mg:10,no3:5}, {mg:40,no3:50}, {mg:50,no3:40}, {mg:100,no3:120}, {mg:200,no3:150}, {mg:50,no3:25,se:75}, {mg:75,no3:10,se:25}],
+        buildtimes:[120, 480, 480, 960, 480, 1080, 960],
         binds:['y', 'u', 'i', 'h', 'j', 'k'],// shared between all docks/menus
-        previews:[-1, 2, 4, 6, 8, 0],// preview sprites for build menu
-        previewb:[-1, -1, -1, -1, 0, 1]// preview barrels
+        previews:[-1, 2, 4, 6, 8, 0, 8],// preview sprites for build menu
+        previewb:[-1, -1, -1, -1, 0, 1, -1]// preview barrels
     },
     bulstats:[
         {// base bullet
