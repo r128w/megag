@@ -44,9 +44,9 @@ class Dock extends Platform {
 
                 const cost = getBuildCost(this.building.id)
 
-                p.resources.mg+=cost.mg*0.5
-                p.resources.no3+=cost.no3*0.5
-                p.resources.se+=cost.se*0.5
+                p.resources.mg+=Math.floor(cost.mg*0.5)
+                p.resources.no3+=Math.floor(cost.no3*0.5)
+                p.resources.se+=Math.floor(cost.se*0.5)
                 chat.problem("Build interrupted by landing.")
 
                 this.building.id = null
@@ -198,6 +198,7 @@ class Dock extends Platform {
 }
 
 function getBuildCost(index){
+    if(!config.buildings.reqs[index]){return{mg:0,no3:0,se:0}}
     const m = config.buildings.reqs[index].mg || 0
     const n = config.buildings.reqs[index].no3 || 0
     const s = config.buildings.reqs[index].se || 0

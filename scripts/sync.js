@@ -17,9 +17,17 @@ var sync = {
 }
 
 function resetConn(id){
+    try{sync.conns[id].close()}catch(e){
+        console.log('did jack', e)/*do jack*/}
     sync.others[id] = {
         obj:[]
     }
+    sync.conns[id] = null// something something garbage collection
+    // cant figureo ut how to make this reset/clear faster, but it does clear eventually
+    // shouldnt hit the 500 limit on these objects
+    // calling .close() and setting to null still wont delete them immediately though,
+    // can pile up to 150 of these dead conn objects when playing w playerMax:10 reconninterval:1000 
+    // issues shouldnt occur though, at normal values of around 10 and 10k
     sync.conns[id] = {open:false}
 }
 
@@ -106,6 +114,13 @@ async function establishConns(){
         let a = i
 
         if(!sync.conns[i].open){
+            try{
+                resetConn(i)
+                // console.log('closed', i)
+            }catch(e){
+                // do jack
+                console.log('did jack', e)
+            }
             msg += i
             sync.conns[i] = sync.self.peer.connect(sync.mainID + String(i))
             sync.conns[i].on('open', ()=>{
