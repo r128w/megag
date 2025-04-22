@@ -15,8 +15,8 @@ var config = {
     bigG: 0.1,
     worldGen:{
         numPlanets:14,
-        spacing:4500,
-        minSpacing:1000,
+        spacing:1200,
+        minSpacing:500,
         minPSize:200,
         maxPSize:600,
         initSpread:7000

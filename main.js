@@ -1,6 +1,8 @@
 
 window.onresize()
 
+loadSprites()
+
 async function initGame(multiplayer=true){
 
     clearTimeout(menuTimer)
@@ -28,10 +30,9 @@ async function initGame(multiplayer=true){
     //temp
     let angle = Math.random()*360;// angle is in radians
     pobjects.push(new Dock(1000 * Math.cos(angle), 1000 * Math.sin(angle)))
-    pobjects.push(new AmmoFactory(1000 * Math.cos(angle+0.1), 1000 * Math.sin(angle+0.1)))
+    // pobjects.push(new AmmoFactory(1000 * Math.cos(angle+0.1), 1000 * Math.sin(angle+0.1)))
 
 
-    loadSprites()
 
     lastFrame = Date.now()
     frameTimer = setInterval(runFrame, 16)
@@ -60,9 +61,6 @@ function runFrame(){
 
 }
 function halt(){clearTimeout(frameTimer)}
-
-
-// initGame()
 
 loadUserInfo()
 initMenu()
