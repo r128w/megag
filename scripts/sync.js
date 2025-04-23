@@ -18,7 +18,8 @@ var sync = {
 
 function resetConn(id){
     try{sync.conns[id].close()}catch(e){
-        console.log('did jack', e)/*do jack*/}
+        //console.log('did jack', e)/*do jack*/}
+    }
     sync.others[id] = {
         obj:[]
     }
@@ -119,7 +120,7 @@ async function establishConns(){
                 // console.log('closed', i)
             }catch(e){
                 // do jack
-                console.log('did jack', e)
+                // console.log('did jack', e)
             }
             msg += i
             sync.conns[i] = sync.self.peer.connect(sync.mainID + String(i))

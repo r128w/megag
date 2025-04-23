@@ -19,8 +19,12 @@ function initMenu(){
             {x:Math.random()*3*c.width-c.width, 
             y:Math.random()*3*c.height-c.height, 
             r:(menu.maxr/(Math.pow(2, 0.1*i))),
-            col:colGen()}
+            col:color.colGen()}
         )
+    }
+    for(var i = 0; i < menu.ps.length; i ++){
+        const factor = Math.sqrt((menu.ps[i].r / menu.maxr))
+        menu.ps[i].col = color.interpolate(menu.ps[i].col, '#000000', 1-factor)
     }
 }
 
@@ -31,13 +35,8 @@ function runMenu(){
     canvasClear()
 
     for(var i = 0; i < menu.ps.length;i++){
-        const factor = Math.sqrt((menu.ps[i].r / menu.maxr))
-        const col = menu.ps[i].col.split(', ')
 
-        // const ncol = `rgba(${col.substring(4, col.length-1)}, ${factor})`
-        const ncol = `rgb(${col[0].substring(4) * factor}, ${col[1] * factor}, ${col[2].substring(0,col[2].length-1) * factor})`
-        // console.log(ncol)
-        drawCircle(menu.ps[i].x, menu.ps[i].y, menu.ps[i].r, ncol)
+        drawCircle(menu.ps[i].x, menu.ps[i].y, menu.ps[i].r, menu.ps[i].col)
 
         const speed = 0.02
 

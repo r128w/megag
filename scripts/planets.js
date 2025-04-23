@@ -53,7 +53,7 @@ function generatePlanets(){
 
     while(planets.length < config.worldGen.numPlanets){
 
-        if(planets.length < config.worldGen.numPlanets * 0.25){
+        if(planets.length < config.worldGen.numPlanets * 0.5){
             let valid = true
             for(var i = 0; i < 10; i ++){
                 let x = (Math.random()-0.5) * 2 * config.worldGen.initSpread
@@ -67,7 +67,7 @@ function generatePlanets(){
                 if(valid2){valid=true
                     planets.push(new Planet(x, y, 
                         config.worldGen.minPSize + Math.random()*(config.worldGen.maxPSize-config.worldGen.minPSize), 
-                        colGen()))
+                        color.colGen()))
                     break
                 }
             }
@@ -77,29 +77,35 @@ function generatePlanets(){
 
         let angle = Math.random()*360// radians :-)
 
-        let x = baseP.x + config.worldGen.spacing * Math.cos(angle)
-        let y = baseP.y + config.worldGen.spacing * Math.sin(angle)
+        let spacing = config.worldGen.spacing * baseP.r/((config.worldGen.maxPSize-config.worldGen.minPSize)/2)
+
+        let x = baseP.x + spacing * Math.cos(angle)
+        let y = baseP.y + spacing * Math.sin(angle)
 
 
         for(var i = 0; i < 15; i ++){// 15 tries
 
             angle = Math.random()*360// radians :-)
 
-            x = baseP.x + config.worldGen.spacing * Math.cos(angle)
-            y = baseP.y + config.worldGen.spacing * Math.sin(angle)
+            x = baseP.x + spacing * Math.cos(angle)
+            y = baseP.y + spacing * Math.sin(angle)
 
             let valid = true
 
             for(var ii = 0; ii < planets.length ;ii ++){
-                if(dist(planets[ii].x, planets[ii].y, x, y) < config.worldGen.minSpacing + planets[ii].r){
+                // console.log(config.worldGen.minSpacing + (planets[ii].r * config.planetInfluenceFactor))
+                if(dist(planets[ii].x, planets[ii].y, x, y) < 
+                    config.worldGen.minSpacing + (planets[ii].r * config.planetInfluenceFactor)
+                ){
                     valid=false;break
                 }
             }
+            spacing *= 1.1
             if(valid){break}
         }
 
         planets.push(new Planet(x, y, 
             config.worldGen.minPSize + Math.random()*(config.worldGen.maxPSize-config.worldGen.minPSize)
-            , colGen()))
+            , color.colGen()))
     }
 }
