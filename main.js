@@ -10,7 +10,19 @@ async function initGame(multiplayer=true){
     pobjects = [];
     planets = [];
 
-    pobjects.push(new Player(Math.random()-0.5, Math.random()-0.5))
+
+    const angle = Math.random()*360;// angle is in radians
+
+    pobjects.push(new Player(800 * Math.cos(angle), 800 * Math.sin(angle)))
+    pobjects.push(new Dock(1000 * Math.cos(angle+0.1), 1000 * Math.sin(angle+0.1)))
+
+    for(var i = 0; i < pobjects.length; i ++){// give the starting objects some random nudges
+        pobjects[i].vr = 0.01 * (Math.random()-0.5)
+        pobjects[i].rot = angle
+        pobjects[i].vx = Math.random()-0.5
+        pobjects[i].vy = Math.random()-0.5
+    }
+
     p = pobjects[0]
 
     updateUserInfo()
@@ -26,12 +38,6 @@ async function initGame(multiplayer=true){
         initEmptySync()
         generatePlanets()
     }
-
-    //temp
-    let angle = Math.random()*360;// angle is in radians
-    pobjects.push(new Dock(1000 * Math.cos(angle), 1000 * Math.sin(angle)))
-    // pobjects.push(new AmmoFactory(1000 * Math.cos(angle+0.1), 1000 * Math.sin(angle+0.1)))
-
 
 
     lastFrame = Date.now()
