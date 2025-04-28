@@ -43,13 +43,9 @@ function renderPlanets(){
 }
 
 function generatePlanets(){
-    planets.push(new Planet(0, 0, 600, '#99eeaa'))// starts
 
-    // for(var i = 0; i < 10; i++){
-    //     planets.push(new Planet(
-    //         (Math.random()-0.5)*15000, (Math.random()-0.5)*15000, (Math.random())*500+50
-    //     ))
-    // }
+    planets.push(new Planet(0, 0, 600, '#99eeaa'))// starting planet
+    planets[0].name = "Spawn"
 
     while(planets.length < config.worldGen.numPlanets){
 
