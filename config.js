@@ -27,7 +27,8 @@ var config = {
     systemSize:30000,// how far out before things are deleted
     sync:{
         updateInterval: 150, // might make this adjustable easily
-        reconnectInterval: 10000
+        reconnectInterval: 10000,
+        smallInterval: 50 // for individual objects
     },
     chatLength:128,
     buildings:{
@@ -50,8 +51,8 @@ var config = {
             make:{cost:null,amount:null},
         },
         {// minigun bullet
-            firerate:3,damage:0.3,range:300,iv:8,spread:0.5,name:"Minigun",textureID:0,id:1,
-            make:{cost:{mg:25,no3:30},amount:150}
+            firerate:5,damage:0.3,range:300,iv:8,spread:0.3,name:"Minigun",textureID:0,id:1,
+            make:{cost:{mg:25,no3:30},amount:75}
         },
         {// bomb
             firerate:60,damage:10,range:300,iv:2,spread:1,name:"Bomb",textureID:1,id:2,
