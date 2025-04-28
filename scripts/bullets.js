@@ -108,7 +108,9 @@ class AmmoFactory extends Platform {
                 ui.drawRect(x2, y2, pw, pw, "#ffffff22")
                 const index = this.options[i + ii*rows]
                 ctx.font="10px monospace"
-                ui.drawText((config.bulstats[index] || {name:"Locked"}).name, x2 + pw/2, y2 + pw - 6, "#000000")
+                let toWrite = (config.bulstats[index] || {name:"Locked"}).name
+                if(toWrite!='Locked'){toWrite+=` x${config.bulstats[index].make.amount}`}
+                ui.drawText(toWrite, x2 + pw/2, y2 + pw - 6, "#000000")
                 ui.drawText((config.buildings.binds[i + ii*rows] || "").toUpperCase(), x2 + 5, y2 + 12, "#000000")
 
                 if(!config.bulstats[index]){continue}

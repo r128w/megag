@@ -17,7 +17,7 @@ class Player extends PhysicsObject{
         }
 
         this.stuff = {
-            ammo:[]// array of numbers, each index corresponding to its bullet type 
+            ammo:[0, 30, 3]// array of numbers, each index corresponding to its bullet type 
         }
     }
     iterate(){
@@ -56,16 +56,38 @@ class Player extends PhysicsObject{
             this.vy+= -0.5 * acc * Math.sin(this.rot)
         }
 
-        this.shoot.cooldown--
+        if(input.num != null){// bultype switching
+            let index = input.num != 0 ? input.num - 1 : 9 // make 0 go to end
+
+            for(var i = 0; i < config.bulstats.length; i ++){// find indexth non-empty element 
+                if(this.stuff.ammo[i] || i == 0){// if have this ammo type (i==0 is normal bullets, which are infinite)
+                    if(index == 0){
+                        this.shoot = config.bulstats[i]
+                        break
+                    }
+                    index --
+                }
+            }
+            // if index is too high (ie, no valid bullet), nothing happens
+        }
+
+        this.shoot.cooldown = (this.shoot.cooldown || 0)-1
         if(input.space && this.shoot.cooldown <= 0 && this.grabbed == null){
-            this.shoot.cooldown = 30
-            const dx = Math.cos(this.rot)
-            const dy = Math.sin(this.rot)
-            const b = new Bullet(this.x+this.r*dx, this.y+this.r*dy, this.vx+this.shoot.iv*dx, this.vy+this.shoot.iv*dy)
-            b.rot = this.rot
-            b.damage = this.shoot.damage
-            pobjects.push(b)
-            smallUpdate(b)// tell everyone about this shiny new thing
+            this.shoot.cooldown = this.shoot.firerate
+            if(this.stuff.ammo[this.shoot.id] <= 0 && this.shoot.id != 0){
+                chat.problem(`Not enough ${this.shoot.name} ammo.`)
+            }else{
+                this.stuff.ammo[this.shoot.id] --
+                const spmod = (this.shoot.spread || 0) * (Math.random()-0.5)// spread mod
+                const dx = Math.cos(this.rot+spmod)
+                const dy = Math.sin(this.rot+spmod)
+                const b = new Bullet(this.x+this.r*dx, this.y+this.r*dy, this.vx+this.shoot.iv*dx, this.vy+this.shoot.iv*dy)
+                b.rot = this.rot
+                b.damage = this.shoot.damage
+                b.textureID = this.shoot.textureID
+                pobjects.push(b)
+                smallUpdate(b)// tell everyone about this shiny new thing
+            }
         }
 
         if(this.landed != null){

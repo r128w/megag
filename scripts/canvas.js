@@ -365,38 +365,46 @@ function renderUI(){
     // ammo types 'hotbar' at bottom
     let a = 0
     for(var i = 0; i < p.stuff.ammo.length; i ++){
-        if(p.stuff.ammo[i]){a++}}
-        // console.log(a)
+        if(p.stuff.ammo[i] || i == 0){a++}}
 
-    const spacing = Math.max(50 - (a*5), 20)
-    const bmargin = 70
-    const scale = 3
-    ctx.textAlign = 'center'
-    ctx.font = '15px monospace'
-    let b = 0
-    for(var i = 0; i < p.stuff.ammo.length; i ++){
-        if(p.stuff.ammo[i]){
-            const x = ((scale*16)*a + spacing*(a-1))*-0.5 + b * (spacing + (scale*16))
-            ctx.drawImage(
-                sprites.bulicons,
-                i*16,0,16,16,
-                x,
-                c.height/2 - bmargin,
-                16*scale,16*scale
-            )
-            ui.drawText(
-                config.bulstats[i].name,
-                x + scale*16 / 2,
-                c.height/2 - bmargin - 5,
-                "#ffffff"
-            )
-            ui.drawText(
-                p.stuff.ammo[i],
-                x + scale*16 / 2,
-                c.height/2 - bmargin + scale*16 + 10,
-                "#ffffff"
-            )
-            b++ // peak mentioned
+    if(!(p.shoot.id == 0 && a == 1)){
+        const spacing = Math.max(50 - (a*5), 20)
+        const bmargin = 70
+        const scale = 3
+        ctx.textAlign = 'center'
+        ctx.font = '15px monospace'
+        let b = 0
+        for(var i = 0; i < p.stuff.ammo.length; i ++){
+            if(p.stuff.ammo[i] > 0 || i == 0){
+
+                const x = ((scale*16)*a + spacing*(a-1))*-0.5 + b * (spacing + (scale*16))
+                
+                if(p.shoot.id == i){// highlight if selected
+                    const extra = 15// margin
+                    ui.drawRect(x - extra, c.height/2 - bmargin - extra, 16*scale + 2*extra, 16*scale + 2*extra, "#ffffff55")
+                }
+
+                ctx.drawImage(
+                    sprites.bulicons,
+                    i*16,0,16,16,
+                    x,
+                    c.height/2 - bmargin,
+                    16*scale,16*scale
+                )
+                ui.drawText(
+                    config.bulstats[i].name,
+                    x + scale*16 / 2,
+                    c.height/2 - bmargin,
+                    "#ffffff"
+                )
+                ui.drawText(
+                    i == 0 ? "Inf" : p.stuff.ammo[i],
+                    x + scale*16 / 2,
+                    c.height/2 - bmargin + scale*16 + 10,
+                    "#ffffff"
+                )
+                b++ // peak mentioned
+            }
         }
     }
 

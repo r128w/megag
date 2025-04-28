@@ -12,8 +12,10 @@ var sync = {
     conns:[],
     timers:{
         update:null,
-        recon:null
-    } // for resetting
+        recon:null,
+        small:null
+    }, // for resetting
+    smallqueue:[]
 }
 
 function resetConn(id){
@@ -37,6 +39,8 @@ async function initSync(){
     sync.self.start = Date.now()// who has been here longest
 
     clearInterval(sync.timers.update)// sync.timer starts null, which is not a problem
+    clearInterval(sync.timers.recon)
+    clearInterval(sync.timers.small)
 
     console.log('start sync')
     for(var i = 0; i < config.playerMax; i++){
@@ -47,6 +51,7 @@ async function initSync(){
     setTimeout(()=>{
         sync.timers.update = setInterval(sendUpdate, config.sync.updateInterval)
         sync.timers.recon = setInterval(establishConns, config.sync.reconnectInterval)
+        sync.timers.small = setInterval(sendSmallUpdate, config.sync.smallInterval)
     }, 5000)// 5 seconds after finding spot, start attempting sends
     
     window.addEventListener('beforeunload', ()=>{
@@ -163,10 +168,12 @@ function receiveData(stuff, a){
         case 2:
             // wip
             const timesince = Date.now() - stuff.ts
-            for(var i = 0; i < Math.min(30, timesince/16); i ++){// push forward in physics up to 30 frames (0.5s), according to when it was sent
-                iterateThing(stuff.payload)
+            for(var i = 0; i < stuff.payload.length; i ++){
+                for(var ii = 0; ii < Math.min(30, timesince/16); ii ++){// push forward in physics up to 30 frames (0.5s), according to when it was sent
+                    iterateThing(stuff.payload[i])
+                }
+                sync.others[a].obj.push(stuff.payload[i])
             }
-            sync.others[a].obj.push(stuff.payload)
             break
         case 3:
 
@@ -207,9 +214,32 @@ function initEmptySync(){
     }
 }
 
-function smallUpdate(data, type=2){
+function sendSmallUpdate(){
 
+    if(sync.smallqueue.length == 0){return}
+
+    for(var i = 0; i < config.playerMax; i++){
+        if(!sync.conns[i]){continue}
+        if(!sync.conns[i].open){continue}
+        
+        let toSend = {type:2,payload:sync.smallqueue,ts:Date.now()}
+
+        sync.conns[i].send(toSend)
+    }
+    
+    sync.smallqueue = []// empty queue after sending
+}
+
+function smallUpdate(data, type=2){
     // sends small update (type 2+)
+    // 2 - object
+    // 3 - planet
+
+    if(type==2){
+        // add to queue
+        sync.smallqueue.push(data)
+        return
+    }
     for(var i = 0; i < config.playerMax; i++){
         if(!sync.conns[i]){continue}
         if(!sync.conns[i].open){continue}
@@ -218,6 +248,7 @@ function smallUpdate(data, type=2){
 
         sync.conns[i].send(toSend)
     }
+    
 }
 
 function loseConn(id){

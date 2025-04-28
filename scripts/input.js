@@ -11,6 +11,7 @@ var input = {
     space:false,
     shift:false,
     tab:false,
+    num:null,// number keys
     tabbed: false, // ...
     _other: null,
     mousePos:()=>{// for use in game, with reference to ui/rendering which is relative to center of screen rather than corner
@@ -43,6 +44,18 @@ window.addEventListener('DOMContentLoaded', ()=>{// who up nesting they listener
             case "d":input.d=true;break
             case "s":input.s=true;break
             case "w":input.w=true;break
+
+            case "0":input.num=0;break
+            case "1":input.num=1;break
+            case "2":input.num=2;break
+            case "3":input.num=3;break
+            case "4":input.num=4;break
+            case "5":input.num=5;break
+            case "6":input.num=6;break
+            case "7":input.num=7;break
+            case "8":input.num=8;break
+            case "9":input.num=9;break
+
             case "e":input.e=!p.interact();break// interact returns true if something happened (so e only counts as pressed if the init press didnt do anything)
             case " ":input.space=true;break
             case "shift":input.shift=true;break
@@ -61,6 +74,18 @@ window.addEventListener('DOMContentLoaded', ()=>{// who up nesting they listener
             case "s":input.s=false;break
             case "w":input.w=false;break
             case "e":input.e=false;break
+
+            case "0":input.num=null;break
+            case "1":input.num=null;break
+            case "2":input.num=null;break
+            case "3":input.num=null;break
+            case "4":input.num=null;break
+            case "5":input.num=null;break
+            case "6":input.num=null;break
+            case "7":input.num=null;break
+            case "8":input.num=null;break
+            case "9":input.num=null;break
+           
             case " ":input.space=false;break
             case "shift":input.shift=false;break
             case "tab":input.tab=false;e.preventDefault();break
