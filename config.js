@@ -43,17 +43,18 @@ var config = {
             firerate: 15, // actually a cooldown
             damage: 1,
             range: 400,
-            iv: 8,
+            iv: 6,
             name: "Bullet",
             textureID:0,
-            make:{cost:null,amount:null}
+            id:0,
+            make:{cost:null,amount:null},
         },
         {// minigun bullet
-            firerate:3,damage:0.3,range:300,iv:8,spread:0.5,name:"Minigun",textureID:0,
+            firerate:3,damage:0.3,range:300,iv:8,spread:0.5,name:"Minigun",textureID:0,id:1,
             make:{cost:{mg:25,no3:30},amount:150}
         },
         {// bomb
-            firerate:60,damage:10,range:300,iv:2,spread:1,name:"Bomb",textureID:1,
+            firerate:60,damage:10,range:300,iv:2,spread:1,name:"Bomb",textureID:1,id:2,
             make:{cost:{mg:10,no3:50},amount:5}
         }
     ]
