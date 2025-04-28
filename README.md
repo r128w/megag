@@ -10,6 +10,8 @@ A, D: Accelerate rotation left, right - Keep in mind that angular velocity gaine
 
 E: Interact - Grab and release platforms
 
+1-9: Switch weapon type
+
 Space: Shoot
 
 Tab: Toggle large minimap
@@ -23,6 +25,8 @@ Fly around the system. Planets are stationary, static masses which pull objects 
 Interact with platforms, which are objects that float around the world as the player does. Currently, there are five platforms: the dock, from which players can build other platforms; the three mines for Magnesium, Nitrate, and Selenium, the three in-game resources; and the basic turret, which shoots at other players and their buildings.
 
 Mines collect resources from planets, which slowly regenerate resources. Planets can also be mined manually by the player by holding E. Resources from mines are collected when the player who owns them flies nearby.
+
+The Ammo Factory allows the crafting of different ammo types through the same UI as the main Dock.L
 
 Each player has a dock, which they can use to build mines and other platforms. To build from the dock, you need to be grabbed to it, and then build via the UI or hotkey. The dock only works when off the ground.
 
