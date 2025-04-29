@@ -1,11 +1,14 @@
 class Dock extends Platform {
-    constructor(x, y){
+    constructor(x, y, options={
+        builds:[1,2,3,6,7,8],
+        textureID:1
+    }){
         super(x, y, 32)
-        this.textureID=1
+        this.textureID = options.textureID
         this.class='Platform'// acts as platform for all people without class info (ie other players)
         this.dock = true
         this.building = {id:null,progress:null}
-        this.options = [1,2,3,4,5,6]
+        this.options = options.builds
     }
     build(id){
         // build a platform
@@ -64,7 +67,17 @@ class Dock extends Platform {
 
                 case 4:nObj = new Turret(this.x, this.y, 'gun');break
                 case 5:nObj = new Turret(this.x, this.y, 'mini');break
+
                 case 6:nObj = new AmmoFactory(this.x, this.y);break
+                case 7:nObj = new Dock(this.x, this.y, {// turret dock
+                    builds:[4, 5, -1, -1, -1, -1],
+                    textureID:10
+                });break
+                case 7:nObj = new Dock(this.x, this.y, {// defense dock
+                    builds:[-1, -1, -1, -1, -1, -1],
+                    textureID:11
+                });break
+                case 8:break
 
                 default:nObj = new Platform(this.x, this.y);break
             }
