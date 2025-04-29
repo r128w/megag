@@ -43,8 +43,8 @@ function renderBullets(){
 
 class AmmoFactory extends Platform {
     constructor(x,y){
-        super(x, y, 16)
-        this.textureID = 8 // temp id until custom sprite made
+        super(x, y, 24)
+        this.textureID = 9 // temp id until custom sprite made
         this.options = [1, 2, 3, 4, 5, 6]// 0 is base bullet
     }
     iterate(){

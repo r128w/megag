@@ -1,9 +1,10 @@
 class Dock extends Platform {
     constructor(x, y, options={
         builds:[1,2,3,6,7,8],
-        textureID:1
+        textureID:1,
+        r:32
     }){
-        super(x, y, 32)
+        super(x, y, options.r)
         this.textureID = options.textureID
         this.class='Platform'// acts as platform for all people without class info (ie other players)
         this.dock = true
@@ -71,11 +72,11 @@ class Dock extends Platform {
                 case 6:nObj = new AmmoFactory(this.x, this.y);break
                 case 7:nObj = new Dock(this.x, this.y, {// turret dock
                     builds:[4, 5, -1, -1, -1, -1],
-                    textureID:10
+                    textureID:10,r:24
                 });break
                 case 7:nObj = new Dock(this.x, this.y, {// defense dock
                     builds:[-1, -1, -1, -1, -1, -1],
-                    textureID:11
+                    textureID:11,r:24
                 });break
                 case 8:break
 
@@ -112,7 +113,8 @@ class Dock extends Platform {
     }
     renderUI(){// renders the interface with the dock, around building
         if(this.building.id!=null){
-            drawBar(this.x, this.y+10, 60, this.building.progress / (config.buildings.buildtimes[this.building.id]))
+            // scales with radius (for diff sized docks)
+            drawBar(this.x, this.y+10, 60 * (this.r/32), this.building.progress / (config.buildings.buildtimes[this.building.id]))
         }
 
         if(p.grabbed != this){return}
