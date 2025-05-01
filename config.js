@@ -34,7 +34,7 @@ var config = {
     buildings:{
         names:["Base Platform", "Magnesium Mine", "Nitrate Farm", "Selenium Mine", "Basic Turret", // ids 0-4
             "Miniturret", "Ammo Factory", "Turret Dock", "Defense Dock", "Local Shield", // 5-9
-            "Planetary Shield"],// 10-14
+            "Regional Shield","Planetary Shield"],// 10-14
         reqs:[{mg:10,no3:5}, {mg:40,no3:50}, {mg:50,no3:40}, {mg:100,no3:120}, {mg:200,no3:150}, 
             {mg:50,no3:25,se:75}, {mg:75,no3:10,se:25}, {mg:50,no3:80}, {mg:80,no3:50}, {mg:20,se:60},
             {mg:45,se:125}],
@@ -43,11 +43,16 @@ var config = {
             1080],
         binds:['y', 'u', 'i', 'h', 'j', 'k'],// shared between all docks/menus
         previews:[-1, 2, 4, 6, 8,
-            0, 9, 10, 11, 0,
-            0],// preview sprites for build menu
+            0, 9, 10, 11, 8,
+            8],// preview sprites for build menu
         previewb:[-1, -1, -1, -1, 0,
             1, -1, -1, -1, -1,
-            -1]// preview barrels
+            -1],// preview barrels
+        stats:{// misc stats
+            9:{maxhp:5, r:100, col:'#66aaee'},// local shield
+            10:{maxhp:8, r:200, col:'#66aaee'},// large local shield
+            11:{maxhp:15, r:150, col:'#66aaee'}// planetary shield
+        }
     },
     bulstats:[
         {// base bullet
