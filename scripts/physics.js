@@ -76,6 +76,7 @@ class PhysicsObject {
     }
     destroy(){// if it is destroyed
         pobjects.splice(pobjects.lastIndexOf(this), 1)
+        this.dead = true
         for(var i = 0; i < 20; i ++){
             const angle = Math.random()*360//radians
             const s = Math.random()*4
@@ -91,6 +92,7 @@ class PhysicsObject {
 }
 
 function iterateThing(thing){
+
     thing.x += thing.vx
     thing.y += thing.vy
     thing.rot += thing.vr
@@ -103,14 +105,15 @@ function iterateThing(thing){
         // console.log(planets[i].mass)
     }
 
+
     if(thing.landed != null){
         const r2p = Math.atan2(thing.y-thing.landed.y, thing.x-thing.landed.x)//rot to planet
         thing.rot = r2p
         thing.vr=0;thing.vx=0;thing.vy=0
-        thing.x=thing.landed.x+(thing.landed.r+thing.r - 2)*Math.cos(r2p)
-        thing.y=thing.landed.y+(thing.landed.r+thing.r - 2)*Math.sin(r2p)
+        thing.x=thing.landed.x+(thing.landed.r+thing.r - 1)*Math.cos(r2p)
+        thing.y=thing.landed.y+(thing.landed.r+thing.r - 1)*Math.sin(r2p)
     }
-
+    
     switch(thing.class){
         case 'Bullet':
             thing.vr = 0
@@ -120,15 +123,17 @@ function iterateThing(thing){
                 thing.x = -10000000// remove from game until it gets deleted by owner
             }
 
-            if(!pobjects.includes(thing)){
+            if(!pobjects.includes(thing)){// if this is someone elses bullet
                 // only collides with players' own objects
                 for(var i = 0; i < pobjects.length; i++){
 
-                    // if(pobjects[i] == this){continue}
-                    const d = dist(thing.x, thing.y, pobjects[i].x, pobjects[i].y)
-                    if(d < thing.r + pobjects[i].r && d != 0){
+                    let o = pobjects[i]
+                    if(o.shield){o=o.shield;console.log('shield')}
+
+                    const d = dist(thing.x, thing.y, o.x, o.y)
+                    if(d < thing.r + o.r && d != 0){
                         // hit
-                        pobjects[i].hp -= thing.damage
+                        o.hp -= thing.damage
                         // sent to the shadow realm so that it can be deleted, later
                         thing.x = -10000000
                     }
@@ -137,9 +142,12 @@ function iterateThing(thing){
 
             for(var i = 0; i < config.playerMax; i++){
                 if(!sync.conns[i].open){continue}
+
                 if(sync.others[i].obj.includes(thing)){continue}// to replace w alliance check or similar
+
                 for(var ii = 0; ii < sync.others[i].obj.length; ii++){
                     let o = sync.others[i].obj[ii]
+                    if(o.shield){o=o.shield}
                     if(dist(thing.x, thing.y, o.x, o.y) < thing.r + o.r){
                         o.hp-=thing.damage // will get overwritten with what is 'correct'
                         thing.x = -10000000
@@ -148,7 +156,14 @@ function iterateThing(thing){
             }
 
             break
-        case 'Platform':break
+        case 'Platform':
+            if(thing.shield){
+                thing.shield.x = thing.x
+                thing.shield.y = thing.y
+                thing.shield.vx = thing.vx
+                thing.shield.vy = thing.vy
+            }
+            break
         case 'Player':// fix this later todo
             if(thing.grabbed != null){
                 let grabbedobj = null
@@ -171,8 +186,6 @@ function iterateThing(thing){
             }
             break
     }
-
-
 
 }
 

@@ -214,3 +214,12 @@ function iterateFrame(){
     iteratePhysics()
 
 }
+
+function getPobjectById(id){
+    for(var i = 0; i < pobjects.length; i ++){
+        if(pobjects[i].id == id){
+            return pobjects[i]
+        }
+    }
+    return null
+}

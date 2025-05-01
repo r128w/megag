@@ -32,7 +32,7 @@ function loadSprites(){
         'mg-empty','mg-full','no3-empty','no3-full','se-empty','se-full',// 2-7
         'turret-base', 'dock-ammo', 'dock-turret', 'dock-defense'// 8-11
     ]
-    
+
     for(var i = 0; i < platformSprites.length;i++){
         loadSprite('platforms/'+platformSprites[i], 'platforms')
     }
@@ -87,10 +87,8 @@ function renderFrame(){
     }
 
     renderParticles()
-    renderPlanets()
     renderPlatforms()
     renderBullets()
-    chat.render()// i LOVE switching up my standards
 
     // console.log(cam.xo)
 
@@ -107,6 +105,10 @@ function renderFrame(){
     }
     drawSpriteRot(sprites.player, p.x, p.y, p.rot, p.r, true)
     
+
+    renderFields()
+
+    renderPlanets()
 
     renderUI()
 
@@ -212,7 +214,7 @@ function renderMinimap(){
     ctx.setTransform(1, 0, 0, 1, c.width/2, c.height/2)
 
 
-    //platforms, physics objects
+    //platforms, no fields or non-platform objects
     for(var i = 0; i < pobjects.length; i++){
         if(pobjects[i].class=='Player'){continue}
         if(pobjects[i].class!='Platform'){continue}
@@ -411,6 +413,7 @@ function renderUI(){
 
 
     renderMinimap()
+    chat.render()// i LOVE switching up my standards
 
 }
 

@@ -74,11 +74,10 @@ class Dock extends Platform {
                     builds:[4, 5, -1, -1, -1, -1],
                     textureID:10,r:24
                 });break
-                case 7:nObj = new Dock(this.x, this.y, {// defense dock
-                    builds:[-1, -1, -1, -1, -1, -1],
+                case 8:nObj = new Dock(this.x, this.y, {// defense dock
+                    builds:[9, 10, -1, -1, -1, -1],
                     textureID:11,r:24
                 });break
-                case 8:break
 
                 default:nObj = new Platform(this.x, this.y);break
             }
