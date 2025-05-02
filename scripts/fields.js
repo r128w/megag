@@ -23,12 +23,13 @@ class Field extends PhysicsObject {
 function renderFields(){
 
     const maxtransparency = 120 // out of 255
+    const mintransparency = 30
 
     // fields, just copypasted bullet renderer
     for(var i = 0; i < pobjects.length;i++){
         if(pobjects[i].shield){
             const transparency = Math.trunc(
-                Math.max(16,maxtransparency*(pobjects[i].shield.hp/pobjects[i].shield.maxhp))
+                mintransparency + (maxtransparency-mintransparency)*(pobjects[i].shield.hp/pobjects[i].shield.maxhp)
             ).toString(16)
             drawCircle(pobjects[i].shield.x, pobjects[i].shield.y, pobjects[i].shield.r, pobjects[i].shield.col+transparency)
         }
@@ -39,7 +40,7 @@ function renderFields(){
             let obj = sync.others[i].obj[ii]
             if(obj.shield){
                 const transparency = Math.trunc(
-                    Math.max(16,maxtransparency*(obj.shield.hp/obj.shield.maxhp))
+                    mintransparency + (maxtransparency-mintransparency)*(obj.shield.hp/obj.shield.maxhp)
                 ).toString(16)
                 drawCircle(obj.shield.x, obj.shield.y, obj.shield.r, obj.shield.col+transparency)
             }
@@ -59,6 +60,7 @@ class LocalShield extends Platform {
         this.shield = null
         this.type = type
         this.shp = config.buildings.stats[type].maxhp
+        this.maxhp = 15
     }
     renderUI(){
         if(this.cooldown > 0){
@@ -79,7 +81,10 @@ class LocalShield extends Platform {
             this.generateShield()
         }
         if(this.shield){
-            // this.shield.hp -=0.02
+            
+            // regen
+            this.shield.hp = Math.min(this.shield.maxhp, this.shield.hp+0.01)
+
             if(this.shield.dead || this.shield.hp <= 0){// shield has died
                 this.cooldown=this.mcooldown;this.shield = null// she collect on my garbage, hopefully
             }

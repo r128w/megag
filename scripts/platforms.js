@@ -10,8 +10,7 @@ class Platform extends PhysicsObject{
         this.vx = 0
         this.vy = 0
         this.platformID = 0
-        this.maxhp = 15
-        this.hp = 15
+        this.maxhp = 10
     }
     renderUI(){/*nothing, gets overridden if needed*/}
     render(){
@@ -20,6 +19,7 @@ class Platform extends PhysicsObject{
     iterate(){
 
         this.col = p.col
+        if(this.hp > this.maxhp){this.hp = this.maxhp}
 
         super.iterate()
         // dummy method
@@ -126,7 +126,7 @@ class Turret extends Platform{
 
     iterate(){
         super.iterate()
-        this.shoot.cooldown --
+        this.shoot.cooldown = (this.shoot.cooldown || 0)-1
 
 
         // find targets

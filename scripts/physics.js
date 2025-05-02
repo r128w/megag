@@ -128,7 +128,7 @@ function iterateThing(thing){
                 for(var i = 0; i < pobjects.length; i++){
 
                     let o = pobjects[i]
-                    if(o.shield){o=o.shield;console.log('shield')}
+                    if(o.shield){o=o.shield}
 
                     const d = dist(thing.x, thing.y, o.x, o.y)
                     if(d < thing.r + o.r && d != 0){
@@ -138,19 +138,20 @@ function iterateThing(thing){
                         thing.x = -10000000
                     }
                 }
-            }
+            }else{
 
-            for(var i = 0; i < config.playerMax; i++){
-                if(!sync.conns[i].open){continue}
+                for(var i = 0; i < config.playerMax; i++){
+                    if(!sync.conns[i].open){continue}
 
-                if(sync.others[i].obj.includes(thing)){continue}// to replace w alliance check or similar
+                    if(sync.others[i].obj.includes(thing)){console.log('asdf');continue}// to replace w alliance check or similar
 
-                for(var ii = 0; ii < sync.others[i].obj.length; ii++){
-                    let o = sync.others[i].obj[ii]
-                    if(o.shield){o=o.shield}
-                    if(dist(thing.x, thing.y, o.x, o.y) < thing.r + o.r){
-                        o.hp-=thing.damage // will get overwritten with what is 'correct'
-                        thing.x = -10000000
+                    for(var ii = 0; ii < sync.others[i].obj.length; ii++){
+                        let o = sync.others[i].obj[ii]
+                        if(o.shield){o=o.shield}
+                        if(dist(thing.x, thing.y, o.x, o.y) < thing.r + o.r){
+                            o.hp-=thing.damage // will get overwritten with what is 'correct'
+                            thing.x = -10000000
+                        }
                     }
                 }
             }

@@ -10,6 +10,7 @@ class Dock extends Platform {
         this.dock = true
         this.building = {id:null,progress:null}
         this.options = options.builds
+        this.maxhp = 20
     }
     build(id){
         // build a platform
@@ -78,6 +79,13 @@ class Dock extends Platform {
                     builds:[9, 10, -1, -1, -1, -1],
                     textureID:11,r:24
                 });break
+                case 9:
+                    nObj = new LocalShield(this.x, this.y, 9)
+                    break
+                case 10:
+                    nObj = new LocalShield(this.x, this.y, 10)
+                    break
+                case 11:break// planetary shield
 
                 default:nObj = new Platform(this.x, this.y);break
             }

@@ -406,6 +406,7 @@ function renderUI(){
                     c.height/2 - bmargin + scale*16 + 10,
                     "#ffffff"
                 )
+                ui.drawText(b+1, x+scale*16 + 8, c.height/2-bmargin + scale*16 + 10, "#ffffffaa")
                 b++ // peak mentioned
             }
         }
