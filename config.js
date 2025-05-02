@@ -49,15 +49,15 @@ var config = {
             1, -1, -1, -1, -1,
             -1],// preview barrels
         stats:{// misc stats
-            9:{maxhp:5, r:100, col:'#66aaee'},// local shield
-            10:{maxhp:8, r:200, col:'#66aaee'},// large local shield
-            11:{maxhp:15, r:150, col:'#66aaee'}// planetary shield
+            9:{maxhp:10, r:100, col:'#66aaee'},// local shield
+            10:{maxhp:15, r:200, col:'#66aaee'},// large local shield
+            11:{maxhp:20, r:150, col:'#66aaee'}// planetary shield
         }
     },
     bulstats:[
         {// base bullet
-            firerate: 15, // actually a cooldown
-            damage: 1,
+            firerate: 25, // actually a cooldown
+            damage: 0.5,
             range: 400,
             iv: 6,
             name: "Bullet",
@@ -66,7 +66,7 @@ var config = {
             make:{cost:null,amount:null},
         },
         {// minigun bullet
-            firerate:3,damage:0.3,range:300,iv:8,spread:0.3,name:"Minigun",textureID:0,id:1,
+            firerate:3,damage:0.1,range:300,iv:8,spread:0.3,name:"Minigun",textureID:0,id:1,
             make:{cost:{mg:25,no3:30},amount:75}
         },
         {// bomb
