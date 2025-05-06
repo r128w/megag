@@ -18,7 +18,13 @@ Tab: Toggle large minimap
 
 # Gameplay
 
-### Implemented
+### How to Orbit
+
+Players start on a green planet, and some may have trouble getting off it. It is of course completely possible. To reach orbit, you need to gain height (W to launch + shift for boost), then turn briefly sideways to gain lateral speed. When turning sideways, avoid holding down A or D, since that will make you spin uncontrollably, and remember to press the opposite direction around a second later to cancel out your angular velocity.
+
+Getting to orbit is very important; some planets, like spawn, can only be escaped this way, and putting platforms in orbit is the only way to consistently keep them off the ground.
+
+### Implemented Features
 
 Fly around the system. Planets are stationary, static masses which pull objects towards them. To allow for some stable orbits (see [3-body problem](https://en.wikipedia.org/wiki/three_body_problem)), planets have a limit to their gravitational influence, proportional to their radius, beyond which they have no gravity.
 
@@ -30,7 +36,7 @@ The Ammo Factory allows the crafting of different ammo types through the same UI
 
 Each player has a dock, which they can use to build mines and other platforms. To build from the dock, you need to be grabbed to it, and then build via the UI or hotkey. The dock only works when off the ground.
 
-### Planned
+### Planned Features
 
 - Make factions, wage interplanetary war, both in defense and offense.
 
@@ -38,14 +44,18 @@ Each player has a dock, which they can use to build mines and other platforms. T
 
 - More turret types
 
+- Damage radius around certain bullet types
+
 - More stable, reliable sync
 
 - Specialized docks for building turrets, defense, ammo platforms
 
-   - Dock builds: Mg Mine, NO3 Farm, Se Mine, Turret Dock, Defense Dock, Ammo Factory
+   - Dock: Mg Mine, NO3 Farm, Se Mine, Turret Dock, Defense Dock, Ammo Factory
  
-   - Turret dock builds: Basic Turret, Miniturret, TBD, TBD, TBD, TBD
+   - Turret dock: Basic Turret, Miniturret, Laser Turret, TBD, TBD, TBD
  
-   - Defense dock builds: Local Shield, Planetary Shield, TBD, TBD, TBD, TBD
+   - Defense dock: Local Shield, Regional Shield, Planetary Shield, TBD, TBD, TBD
  
-   - Ammo Factory makes: Minigun Ammo, Bombs, Tesla Charges, Laser Cells, TBD, TBD
+   - Ammo Factory: Minigun Ammo, Bombs, Tesla Charges, Laser Cells, TBD, TBD
+ 
+- Dune-like laser-shield interaction? Could be funny
