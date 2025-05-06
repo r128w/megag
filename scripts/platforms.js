@@ -99,7 +99,6 @@ class Turret extends Platform{
         super(x,y,16)
 
         this.shoot = config.bulstats[0]
-        this.shoot.cooldown = 0
 
         this.tr = 0 // turret rotation
         this.ttextureID = 0

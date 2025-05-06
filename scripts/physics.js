@@ -143,7 +143,7 @@ function iterateThing(thing){
                 for(var i = 0; i < config.playerMax; i++){
                     if(!sync.conns[i].open){continue}
 
-                    if(sync.others[i].obj.includes(thing)){console.log('asdf');continue}// to replace w alliance check or similar
+                    if(sync.others[i].obj.includes(thing)){continue}// to replace w alliance check or similar
 
                     for(var ii = 0; ii < sync.others[i].obj.length; ii++){
                         let o = sync.others[i].obj[ii]

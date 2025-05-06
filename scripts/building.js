@@ -76,7 +76,7 @@ class Dock extends Platform {
                     textureID:10,r:24
                 });break
                 case 8:nObj = new Dock(this.x, this.y, {// defense dock
-                    builds:[9, 10, -1, -1, -1, -1],
+                    builds:[9, 10, 11, -1, -1, -1],
                     textureID:11,r:24
                 });break
                 case 9:
@@ -85,7 +85,9 @@ class Dock extends Platform {
                 case 10:
                     nObj = new LocalShield(this.x, this.y, 10)
                     break
-                case 11:break// planetary shield
+                case 11:
+                    nObj = new PlanetaryShield(this.x, this.y, 11)
+                    break
 
                 default:nObj = new Platform(this.x, this.y);break
             }
@@ -98,7 +100,7 @@ class Dock extends Platform {
             nObj.vr = this.vr
             nObj.vx += ev*(Math.random()-0.5)
             nObj.vy += ev*(Math.random()-0.5)
-            nObj.vr += ev*0.25*(Math.random()-0.5)
+            nObj.vr += ev*0.1*(Math.random()-0.5)
             pobjects.push(nObj)
             this.building.id = null
         }

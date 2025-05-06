@@ -69,7 +69,8 @@ class LocalShield extends Platform {
         }
     }
     generateShield(){
-        this.shield = new Field(this, this.x, this.y, config.buildings.stats[this.type].r, config.buildings.stats[this.type].col,
+        this.shield = new Field(this, this.x, this.y, config.buildings.stats[this.type].r + Math.random()*20
+            , config.buildings.stats[this.type].col,
             this.shp
         )
         // pobjects.push(this.shield)// to avoid duplicates when syncing is sent without pointers or smt, not on pobjects
@@ -89,9 +90,37 @@ class LocalShield extends Platform {
                 this.cooldown=this.mcooldown;this.shield = null// she collect on my garbage, hopefully
             }
         }
+        this.updateShield()
+    }
+    updateShield(){
+        this.shield.x = this.x
+        this.shield.y = this.y
     }
     destroy(){
         super.destroy()
         this.shield.destroy()
+    }
+}
+
+class PlanetaryShield extends LocalShield {
+    constructor(x, y, type){
+        super(x, y, type)
+        this.r = 24
+    }
+    updateShield(){
+        if(this.landed != null){
+            if(this.shield){
+                this.shield.x = this.landed.x
+                this.shield.y = this.landed.y
+                this.shield.r = this.landed.r + config.buildings.stats[11].r
+            }
+        }else{
+            this.shield = null
+            this.cooldown = this.mcooldown
+        }
+    }
+    generateShield(){
+        if(this.landed == null){return}
+        super.generateShield()
     }
 }
