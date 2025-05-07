@@ -43,8 +43,8 @@ var config = {
             1080, 1280],
         binds:['y', 'u', 'i', 'h', 'j', 'k'],// shared between all docks/menus
         previews:[-1, 2, 4, 6, 8,
-            0, 9, 10, 11, 8,
-            8, 8],// preview sprites for build menu
+            0, 9, 10, 11, 12,
+            13, 14],// preview sprites for build menu
         previewb:[-1, -1, -1, -1, 0,
             1, -1, -1, -1, -1,
             -1, -1],// preview barrels
