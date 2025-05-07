@@ -30,7 +30,8 @@ function loadSprites(){
     platformSprites = [
         'small', 'dock-main',// textureID 0-1
         'mg-empty','mg-full','no3-empty','no3-full','se-empty','se-full',// 2-7
-        'turret-base', 'dock-ammo', 'dock-turret', 'dock-defense'// 8-11
+        'turret-base', 'dock-ammo', 'dock-turret', 'dock-defense',// 8-11
+        'shield-small', 'shield-medium', 'shield-big' // 12-14
     ]
 
     for(var i = 0; i < platformSprites.length;i++){
