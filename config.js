@@ -1,6 +1,6 @@
 var config = {
     minimap:{
-        drawPlanetInfluence: false,
+        drawPlanetInfluence: 8, // transparency (out of 255)
         pathPredictions:100,
         pathPredictionResolution:10,
         hellaZoom:false
@@ -37,17 +37,17 @@ var config = {
             "Regional Shield","Planetary Shield"],// 10-14
         reqs:[{mg:10,no3:5}, {mg:40,no3:50}, {mg:50,no3:40}, {mg:100,no3:120}, {mg:200,no3:150}, 
             {mg:50,no3:25,se:75}, {mg:75,no3:10,se:25}, {mg:50,no3:80}, {mg:80,no3:50}, {mg:20,se:60},
-            {mg:45,se:125}],
+            {mg:45,se:125}, {mg:150,no3:5,se:175}],
         buildtimes:[120, 480, 480, 960, 480,
             1080, 960, 960, 960, 480,
-            1080],
+            1080, 1280],
         binds:['y', 'u', 'i', 'h', 'j', 'k'],// shared between all docks/menus
         previews:[-1, 2, 4, 6, 8,
             0, 9, 10, 11, 8,
-            8],// preview sprites for build menu
+            8, 8],// preview sprites for build menu
         previewb:[-1, -1, -1, -1, 0,
             1, -1, -1, -1, -1,
-            -1],// preview barrels
+            -1, -1],// preview barrels
         stats:{// misc stats
             9:{maxhp:10, r:100, col:'#66aaee'},// local shield
             10:{maxhp:15, r:200, col:'#66aaee'},// large local shield
