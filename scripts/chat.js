@@ -18,6 +18,7 @@ var chat = {
 
     },
     render:function(){
+        ctx.font = "16px monospace"
         if(this.history.length==0){return}
         const h = c.height*0.2
         const w = Math.min(350, c.width*0.4)
