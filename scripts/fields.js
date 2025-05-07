@@ -54,7 +54,7 @@ class LocalShield extends Platform {
         // type 9 - default local shield
         // 10 - big shield
         super(x, y, 16)
-        this.textureID = 8// temp
+        this.textureID = (type==9?12:13)
         this.cooldown = 0
         this.mcooldown = 180
         this.shield = null
@@ -69,7 +69,7 @@ class LocalShield extends Platform {
         }
     }
     generateShield(){
-        this.shield = new Field(this, this.x, this.y, config.buildings.stats[this.type].r + Math.random()*20
+        this.shield = new Field(this, this.x, this.y, config.buildings.stats[this.type].r + (this.id % 20)
             , config.buildings.stats[this.type].col,
             this.shp
         )
@@ -106,13 +106,14 @@ class PlanetaryShield extends LocalShield {
     constructor(x, y, type){
         super(x, y, type)
         this.r = 24
+        this.textureID = 14
     }
     updateShield(){
         if(this.landed != null){
             if(this.shield){
                 this.shield.x = this.landed.x
                 this.shield.y = this.landed.y
-                this.shield.r = this.landed.r + config.buildings.stats[11].r
+                this.shield.r = this.landed.r + config.buildings.stats[11].r + (this.id % 20)
             }
         }else{
             this.shield = null
