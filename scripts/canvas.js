@@ -322,28 +322,37 @@ function renderUI(){
     if(p.boost.f < p.boost.max){
         drawBar(p.x, p.y+p.r+10, 30, p.boost.f/p.boost.max)
     }
-
-    // planet overlay
-    if(p.landed != null){
-        const pl = p.landed
-        const w = pl.r > 100 ? 150 : 100
-        const h = pl.r > 100 ? 100 : 50
-        const margin = pl.r > 100 ? 4 : 2
-        const x = (pl.r < 150 ? pl.x : (2*p.x+pl.x)/3) - w/2
-        const y = (pl.r < 150 ? pl.y : (2*p.y+pl.y)/3) - h/2
-        ctx.font = (w/10) + "px monospace"
-        drawRect(x, y, w, h, "#ffffff55")
-        ctx.fillStyle="#000000"
-        ctx.textAlign="left"
-        ui.worldText(pl.name, x+margin, y+w/10+margin, w)
-        ui.worldText("Magnesium: " + pl.resources.mg, x+margin, y+w/5+2*margin)
-        ui.worldText("Nitrate: " + pl.resources.no3, x+margin, y+3*w/10+3*margin)
-        ui.worldText("Selenium: " + pl.resources.se, x+margin, y+4*w/10+4*margin)
-        ui.worldText("Hold E to mine", x+margin, y+5*w/10+5*margin)
-    }
+    
 
     if(!input.tabbed){
-        // build menu, bottom left
+        
+
+        if(p.landed != null){
+            // planet overlay
+            const pl = p.landed
+            const w = pl.r > 100 ? 150 : 100
+            const h = pl.r > 100 ? 100 : 50
+            const margin = pl.r > 100 ? 4 : 2
+            const x = (pl.r < 150 ? pl.x : (2*p.x+pl.x)/3) - w/2
+            const y = (pl.r < 150 ? pl.y : (2*p.y+pl.y)/3) - h/2
+            ctx.font = (w/10) + "px monospace"
+            drawRect(x, y, w, h, "#ffffff55")
+            ctx.fillStyle="#000000"
+            ctx.textAlign="left"
+            ui.worldText(pl.name, x+margin, y+w/10+margin, w)
+            ui.worldText("Magnesium: " + pl.resources.mg, x+margin, y+w/5+2*margin)
+            ui.worldText("Nitrate: " + pl.resources.no3, x+margin, y+3*w/10+3*margin)
+            ui.worldText("Selenium: " + pl.resources.se, x+margin, y+4*w/10+4*margin)
+            ui.worldText("Hold E to mine", x+margin, y+5*w/10+5*margin)
+        }
+
+        for(var i = 0; i < pobjects.length; i ++){// platform uis (bars, build menus, etc)
+            if(pobjects[i].class == 'Platform'){
+                pobjects[i].renderUI()
+            }
+        }
+
+        // resource/player menu, bottom left
         const margin = 10
         const w = Math.min(Math.max(c.width * 0.4, 250), 400) - margin*2
         const h = c.height/3 - 2*margin
@@ -359,65 +368,60 @@ function renderUI(){
         ui.drawText(`Magnesium: ${p.resources.mg}`, x + 27, y + 48, config.resources.colors.mg)
         ui.drawText(`Nitrate: ${p.resources.no3}`, x + 27, y + 72, config.resources.colors.no3)
         ui.drawText(`Selenium: ${p.resources.se}`, x + 27, y + 96, config.resources.colors.se)
-        
-    }
 
-    for(var i = 0; i < pobjects.length; i ++){
-        if(pobjects[i].class == 'Platform'){
-            pobjects[i].renderUI()
-        }
-    }
+        chat.render()
 
-    // ammo types 'hotbar' at bottom
-    let a = 0
-    for(var i = 0; i < p.stuff.ammo.length; i ++){
-        if(p.stuff.ammo[i] || i == 0){a++}}
-
-    if(!(p.shoot.id == 0 && a == 1)){
-        const spacing = Math.max(50 - (a*5), 20)
-        const bmargin = 70
-        const scale = 3
-        ctx.textAlign = 'center'
-        ctx.font = '15px monospace'
-        let b = 0
+        // ammo types 'hotbar' at bottom
+        let a = 0
         for(var i = 0; i < p.stuff.ammo.length; i ++){
-            if(p.stuff.ammo[i] > 0 || i == 0){
+            if(p.stuff.ammo[i] || i == 0){a++}}
 
-                const x = ((scale*16)*a + spacing*(a-1))*-0.5 + b * (spacing + (scale*16))
-                
-                if(p.shoot.id == i){// highlight if selected
-                    const extra = 15// margin
-                    ui.drawRect(x - extra, c.height/2 - bmargin - extra, 16*scale + 2*extra, 16*scale + 2*extra, "#ffffff55")
+        if(!(p.shoot.id == 0 && a == 1)){
+            const spacing = Math.max(50 - (a*5), 20)
+            const bmargin = 70
+            const scale = 3
+            ctx.textAlign = 'center'
+            ctx.font = '15px monospace'
+            let b = 0
+            for(var i = 0; i < p.stuff.ammo.length; i ++){
+                if(p.stuff.ammo[i] > 0 || i == 0){
+
+                    const x = ((scale*16)*a + spacing*(a-1))*-0.5 + b * (spacing + (scale*16))
+                    
+                    if(p.shoot.id == i){// highlight if selected
+                        const extra = 15// margin
+                        ui.drawRect(x - extra, c.height/2 - bmargin - extra, 16*scale + 2*extra, 16*scale + 2*extra, "#ffffff55")
+                    }
+
+                    ctx.drawImage(
+                        sprites.bulicons,
+                        i*16,0,16,16,
+                        x,
+                        c.height/2 - bmargin,
+                        16*scale,16*scale
+                    )
+                    ui.drawText(
+                        config.bulstats[i].name,
+                        x + scale*16 / 2,
+                        c.height/2 - bmargin,
+                        "#ffffff"
+                    )
+                    ui.drawText(
+                        i == 0 ? "Inf" : p.stuff.ammo[i],
+                        x + scale*16 / 2,
+                        c.height/2 - bmargin + scale*16 + 10,
+                        "#ffffff"
+                    )
+                    ui.drawText(b+1, x+scale*16 + 8, c.height/2-bmargin + scale*16 + 10, "#ffffffaa")
+                    b++ // peak mentioned
                 }
-
-                ctx.drawImage(
-                    sprites.bulicons,
-                    i*16,0,16,16,
-                    x,
-                    c.height/2 - bmargin,
-                    16*scale,16*scale
-                )
-                ui.drawText(
-                    config.bulstats[i].name,
-                    x + scale*16 / 2,
-                    c.height/2 - bmargin,
-                    "#ffffff"
-                )
-                ui.drawText(
-                    i == 0 ? "Inf" : p.stuff.ammo[i],
-                    x + scale*16 / 2,
-                    c.height/2 - bmargin + scale*16 + 10,
-                    "#ffffff"
-                )
-                ui.drawText(b+1, x+scale*16 + 8, c.height/2-bmargin + scale*16 + 10, "#ffffffaa")
-                b++ // peak mentioned
             }
         }
+        
     }
 
 
     renderMinimap()
-    chat.render()// i LOVE switching up my standards
 
 }
 
