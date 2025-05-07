@@ -166,9 +166,11 @@ function renderMinimap(){
 
         ui.drawCircle(drawX, drawY, planets[i].r * minimapScale, planets[i].col)
 
-        if(config.minimap.drawPlanetInfluence){
-            ui.drawCircle(drawX, drawY, planets[i].r * config.planetInfluenceFactor * minimapScale, planets[i].col+"11")
-        }
+        const planetInfluenceTransparency = (config.minimap.drawPlanetInfluence == true ? 17 : config.minimap.drawPlanetInfluence)
+        let string = (planetInfluenceTransparency || 0).toString(16)
+        if(string.length == 1){string = "0"+string}
+
+        ui.drawCircle(drawX, drawY, planets[i].r * config.planetInfluenceFactor * minimapScale, planets[i].col+string)
         // ctx.beginPath()
         // ctx.moveTo(drawX + gravLimit*minimapScale, drawY)
         // ctx.lineTo(drawX, drawY + gravLimit*minimapScale)
