@@ -44,8 +44,10 @@ function loadSprites(){
     loadSprite('bullets/bul-main', 'bullets')// bullets textureid 0
     loadSprite('bullets/bomb', 'bullets')
 
-    loadSprite('resources2', 'resources')// resources sprite
-    loadSprite('bul-icons', 'bulicons')// for bullets, hotbar etc
+    loadSprite('ui/resources2', 'ui')
+    loadSprite('ui/bul-icons', 'ui')
+    loadSprite('ui/player-icon', 'ui')
+    loadSprite('ui/pointer', 'ui')
 }
 
 var cam = {
@@ -121,7 +123,7 @@ function renderFrame(){
 function renderMinimap(){
 
 
-    const minimapWidth = (input.tabbed ? Math.min(c.height - 40, c.width/2 - 120) : 250);
+    const minimapWidth = (input.tabbed ? Math.min(c.height - 40, c.width/2 - 200) : 250);
 
     ctx.save()
 
@@ -324,7 +326,7 @@ function renderUI(){
     }
     
 
-    if(!input.tabbed){
+    if(!input.tabbed){// normal ui
         
 
         if(p.landed != null){
@@ -363,7 +365,7 @@ function renderUI(){
         ctx.font = "20px monospace"
         ctx.textAlign="left"
         ui.drawText(p.username, x, y + 24, p.col)
-        ctx.drawImage(sprites.resources, x, y+24+margin/2)
+        ctx.drawImage(sprites.ui[0], x, y+24+margin/2)
        
         ui.drawText(`Magnesium: ${p.resources.mg}`, x + 27, y + 48, config.resources.colors.mg)
         ui.drawText(`Nitrate: ${p.resources.no3}`, x + 27, y + 72, config.resources.colors.no3)
@@ -394,7 +396,7 @@ function renderUI(){
                     }
 
                     ctx.drawImage(
-                        sprites.bulicons,
+                        sprites.ui[1],
                         i*16,0,16,16,
                         x,
                         c.height/2 - bmargin,
@@ -418,6 +420,19 @@ function renderUI(){
             }
         }
         
+    }else{// navigation mode
+        // player velocity, etc menu
+        const x = -90
+        const y = c.height/2 - 200
+        const w = 180
+        const h = 180
+        ui.drawRect(x,y,w,h,"#33333366")
+        ctx.fillStyle = "#ffffff"
+        ctx.beginPath()
+        ctx.moveTo(x + w/2, y+60)
+        ctx.lineTo(x + w/2 + 30, y + 120)
+        ctx.lineTo(x + w/2 - 30, y + 120)
+        ctx.fill()
     }
 
 
