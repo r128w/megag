@@ -14,7 +14,7 @@ E: Interact - Grab and release platforms
 
 Space: Shoot
 
-Tab: Toggle large minimap
+Tab: Toggle navigation mode
 
 # Gameplay
 
@@ -52,9 +52,9 @@ Each player has a dock, which they can use to build mines and other platforms. T
 
    - Dock: Mg Mine, NO3 Farm, Se Mine, Turret Dock, Defense Dock, Ammo Factory
  
-   - Turret dock: Basic Turret, Miniturret, Laser Turret, TBD, TBD, TBD
+   - Turret Dock: Basic Turret, Miniturret, Laser Turret, TBD, TBD, TBD
  
-   - Defense dock: Local Shield, Regional Shield, Planetary Shield, TBD, TBD, TBD
+   - Defense Dock: Local Shield, Regional Shield, Planetary Shield, TBD, TBD, TBD
  
    - Ammo Factory: Minigun Ammo, Bombs, Tesla Charges, Laser Cells, TBD, TBD
  
