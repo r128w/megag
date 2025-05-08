@@ -123,7 +123,7 @@ function renderFrame(){
 function renderMinimap(){
 
 
-    const minimapWidth = (input.tabbed ? Math.min(c.height - 40, c.width/2 - 200) : 250);
+    const minimapWidth = (input.tabbed ? Math.min(c.height - 40, c.width/2 - 150) : 250);
 
     ctx.save()
 
@@ -421,18 +421,65 @@ function renderUI(){
         }
         
     }else{// navigation mode
+
         // player velocity, etc menu
+        ctx.textAlign = "center"
+        ctx.font = "8px monospace"
         const x = -90
         const y = c.height/2 - 200
         const w = 180
         const h = 180
         ui.drawRect(x,y,w,h,"#33333366")
+
+        // ctx.drawImage(sprites.ui[2], x + w/2 - 25, y + 65, 50, 50) // playericon sprite
         ctx.fillStyle = "#ffffff"
         ctx.beginPath()
-        ctx.moveTo(x + w/2, y+60)
-        ctx.lineTo(x + w/2 + 30, y + 120)
-        ctx.lineTo(x + w/2 - 30, y + 120)
+        ctx.moveTo(x + w/2, y + 65)
+        ctx.lineTo(x + w/2 - 25, y + 115)
+        ctx.lineTo(x + w/2 + 25, y + 115)
         ctx.fill()
+
+        let b = {d:1e10,id:0,x:10,y:0} // closest planet arrow
+        for(var i = 0; i < planets.length; i ++){
+            let dx = p.x - planets[i].x
+            let dy = p.y - planets[i].y
+            let d = dx*dx+dy*dy
+            if(d < b.d){b = {d:d,id:i,x:dx,y:dy}}
+        }
+
+        let angle = Math.atan2(b.y, b.x) - p.rot + 1.57
+        ui.drawCircle(x+w/2 + 50*Math.cos(angle), y + 90 + 50*Math.sin(angle), 9, planets[b.id].col)
+        ui.drawText("p", x + w/2 + 50*Math.cos(angle), y + 92 + 50*Math.sin(angle), "#000000")
+
+        let sb = {d:1e10,id:0,x:10,y:0} // second closest planet arrow
+        for(var i = 0; i < planets.length; i ++){
+            if(i == b.id){continue}
+            let dx = p.x - planets[i].x
+            let dy = p.y - planets[i].y
+            let d = dx*dx+dy*dy
+            if(d < sb.d){sb = {d:d,id:i,x:dx,y:dy}}
+        }
+        angle = Math.atan2(sb.y, sb.x) - p.rot + 1.57
+        ui.drawCircle(x+w/2 + 50*Math.cos(angle), y + 90 + 50*Math.sin(angle), 7, planets[sb.id].col)
+        ui.drawText("p", x + w/2 + 50*Math.cos(angle), y + 92 + 50*Math.sin(angle), "#000000")
+
+        if(Math.abs(p.vx) + Math.abs(p.vy) > 1){
+            const angle = Math.atan2(p.vy, p.vx) - p.rot - 1.57
+            // ui.drawSpriteRot(sprites.ui[3], x + w/2, y + w/2, 
+            //     angle, 60)
+            ui.drawCircle(x+w/2 + 50*Math.cos(angle), y + 90 + 50*Math.sin(angle), 7, "#ffee66")
+            ui.drawText("v", x + w/2 + 50*Math.cos(angle), y + 92 + 50*Math.sin(angle), "#000000")
+        }
+
+        if(Math.abs(p.vr) > 0.01){
+            const bw = 50*Math.atan(4 * p.vr)
+            const bx = x + w/2 + (p.vr > 0 ? 8: -8)
+            ui.drawRect(bx, y + 15, bw, 10, "#ffffff")
+            ui.drawText("vr", bx + bw/2, y + 12, "#ffffff")
+        }
+
+        
+
     }
 
 
@@ -477,5 +524,6 @@ const ui = {
     drawRect:(x,y,w,h,col="#ffffff")=>{drawRect(x-cam.xo,y-cam.yo,w,h,col)},
     drawCircle:(x,y,r,col)=>{drawCircle(x-cam.xo,y-cam.yo,r,col)},
     worldText:(text, x, y, w=100000)=>{ctx.fillText(text, x+cam.xo, y+cam.yo, w)},
-    drawText:(text, x, y, col="#000000")=>{ctx.fillStyle=col;ctx.fillText(text, x, y)}
+    drawText:(text, x, y, col="#000000")=>{ctx.fillStyle=col;ctx.fillText(text, x, y)},
+    drawSpriteRot:(sprite, x, y, rot, r, smoothed = false)=>{drawSpriteRot(sprite, x - cam.xo, y - cam.yo, rot, r, smoothed)}
 }
