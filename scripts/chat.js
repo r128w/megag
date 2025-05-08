@@ -9,7 +9,8 @@ var chat = {
 
         this.history.push({
             content:msg,
-            type:type
+            type:type,
+            ts:Date.now()
         })
         if(this.history.length > config.chatLength){
             this.history.splice(0, config.chatLength-this.history.length)
@@ -20,6 +21,7 @@ var chat = {
     render:function(){
         ctx.font = "16px monospace"
         if(this.history.length==0){return}
+        if(Date.now() - this.history[this.history.length-1].ts > 15000){return}
         const h = c.height*0.2
         const w = Math.min(350, c.width*0.4)
 
