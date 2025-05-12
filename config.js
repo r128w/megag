@@ -70,7 +70,7 @@ var config = {
             make:{cost:{mg:25,no3:30},amount:75}
         },
         {// bomb
-            firerate:60,damage:10,range:300,iv:2,spread:1,name:"Bomb",textureID:1,id:2,
+            firerate:60,damage:10,range:300,iv:2,spread:1,name:"Bomb",textureID:1,br:50,id:2,
             make:{cost:{mg:10,no3:50},amount:5}
         }
     ]
