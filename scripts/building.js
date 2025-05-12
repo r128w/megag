@@ -11,6 +11,7 @@ class Dock extends Platform {
         this.building = {id:null,progress:null}
         this.options = options.builds
         this.maxhp = 20
+        this.hp = 20
     }
     build(id){
         // build a platform
@@ -121,6 +122,7 @@ class Dock extends Platform {
         super.render()
     }
     renderUI(){// renders the interface with the dock, around building
+        super.renderUI()
         if(this.building.id!=null){
             // scales with radius (for diff sized docks)
             drawBar(this.x, this.y+10, 60 * (this.r/32), this.building.progress / (config.buildings.buildtimes[this.building.id]))

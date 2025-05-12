@@ -31,11 +31,8 @@ var input = {
             return temp
         }
         return input._other
-    }
-}
-// console.log("ds")
-window.addEventListener('DOMContentLoaded', ()=>{// who up nesting they listeners
-    window.addEventListener('keydown', (e) => {
+    },
+    keydown:(e) => {
         
         let key=e.key.toLowerCase()
 
@@ -63,9 +60,8 @@ window.addEventListener('DOMContentLoaded', ()=>{// who up nesting they listener
             // default:console.log(e.key);break
             default: input._other = key;setTimeout(()=>{input._other=null},30);break
         }
-    })
-    window.addEventListener('keyup', (e) => {
-
+    },
+    keyup: (e) => {
         let key=e.key.toLowerCase()
 
         switch(key){
@@ -90,7 +86,12 @@ window.addEventListener('DOMContentLoaded', ()=>{// who up nesting they listener
             case "shift":input.shift=false;break
             case "tab":input.tab=false;e.preventDefault();break
         }
-    })
+    }
+}
+
+window.addEventListener('DOMContentLoaded', ()=>{// who up nesting they listeners
+    window.addEventListener('keydown', input.keydown)
+    window.addEventListener('keyup', input.keyup)
 })
 
 c.addEventListener('mousemove', (e)=>{

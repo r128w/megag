@@ -83,6 +83,7 @@ class Player extends PhysicsObject{
                 const dy = Math.sin(this.rot+spmod)
                 const b = new Bullet(this.x+this.r*dx, this.y+this.r*dy, this.vx+this.shoot.iv*dx, this.vy+this.shoot.iv*dy)
                 b.rot = this.rot
+                b.br = this.shoot.br
                 b.damage = this.shoot.damage
                 b.textureID = this.shoot.textureID
                 pobjects.push(b)

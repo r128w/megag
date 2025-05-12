@@ -471,8 +471,8 @@ function renderUI(){
             ui.drawText("v", x + w/2 + 50*Math.cos(angle), y + 92 + 50*Math.sin(angle), "#000000")
         }
 
-        if(Math.abs(p.vr) > 0.01){
-            const bw = 50*Math.atan(4 * p.vr)
+        if(Math.abs(p.vr) > 0.005){
+            const bw = 50*Math.atan(10 * p.vr)
             const bx = x + w/2 + (p.vr > 0 ? 8: -8)
             ui.drawRect(bx, y + 15, bw, 10, "#ffffff")
             ui.drawText("vr", bx + bw/2, y + 12, "#ffffff")

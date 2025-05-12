@@ -12,7 +12,12 @@ class Platform extends PhysicsObject{
         this.platformID = 0
         this.maxhp = 10
     }
-    renderUI(){/*nothing, gets overridden if needed*/}
+    renderUI(){
+        // health bar
+        if(this.hp != this.maxhp){
+            drawBar(this.x, this.y+this.r+5, 50, this.hp/this.maxhp,"#666666",this.col)
+        }
+    }
     render(){
         drawSpriteRot(sprites.platforms[this.textureID], this.x, this.y, this.rot, this.r)
     }

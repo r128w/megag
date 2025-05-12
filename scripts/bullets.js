@@ -12,6 +12,7 @@ class Bullet extends PhysicsObject {
         this.lifetime = expiry
         this.age = 0
         this.damage = 1
+        this.br = 0// blast radius
 
     }
     iterate(){
@@ -64,6 +65,7 @@ class AmmoFactory extends Platform {
         }
     }
     renderUI(){// much is stolen from the dock renderui
+        super.renderUI()
         if(p.grabbed != this){return}
 
         ctx.textAlign = "center"

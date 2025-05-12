@@ -131,9 +131,20 @@ function iterateThing(thing){
                     if(o.shield){o=o.shield}
 
                     const d = dist(thing.x, thing.y, o.x, o.y)
-                    if(d < thing.r + o.r && d != 0){
+                    if(d < thing.r + o.r + (thing.br || 0) && d != 0){
                         // hit
-                        o.hp -= thing.damage
+                        if(thing.br){
+                            for(var i =0; i < pobjects.length ; i++){
+                                let oo = pobjects[i]
+                                if(oo.shield){oo=oo.shield}
+                                if(dist(thing.x, thing.y, oo.x, oo.y) < thing.br + thing.r + oo.r){
+                                    oo.hp -= thing.damage
+                                }
+                            }
+                        }else{
+                            o.hp -= thing.damage
+                        }
+
                         // sent to the shadow realm so that it can be deleted, later
                         thing.x = -10000000
                     }
