@@ -80,13 +80,12 @@ class PhysicsObject {
         for(var i = 0; i < 20; i ++){
             const angle = Math.random()*360//radians
             const s = Math.random()*4
-            addParticle({
-                x: this.x,
-                y: this.y,
-                vx: this.vx - s*Math.cos(angle),
-                vy: this.vy - s*Math.sin(angle),
-                age: 0
-            })
+            addParticle(new Particle(
+                this.x,
+                this.y,
+                this.vx - s*Math.cos(angle),
+                this.vy - s*Math.sin(angle),
+            ))
         }
     }
 }

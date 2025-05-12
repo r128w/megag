@@ -89,9 +89,10 @@ function renderFrame(){
         }
     }
 
-    renderParticles()
     renderPlatforms()
     renderBullets()
+
+    renderVisuals()
 
     // console.log(cam.xo)
 

@@ -42,13 +42,12 @@ class Player extends PhysicsObject{
             if(input.shift){this.boost.f=Math.max(this.boost.f-1, 0)}
             this.vx+=dx*speed
             this.vy+=dy*speed
-            addParticle({
-                x: this.x - 150*dx + 3*(Math.random()-0.5),
-                y: this.y - 150*dy + 3*(Math.random()-0.5),
-                vx: this.vx - 10*dx + (Math.random()-0.5),
-                vy: this.vy - 10*dy + (Math.random()-0.5),
-                age: 0
-            })
+            addParticle(new Particle(
+                this.x - 150*dx + 3*(Math.random()-0.5),
+                this.y - 150*dy + 3*(Math.random()-0.5),
+                this.vx - 50*dx + (Math.random()-0.5),
+                this.vy - 50*dy + (Math.random()-0.5),
+            ))
         }
 
         if(input.s){
@@ -210,7 +209,7 @@ var entities = []
 
 function iterateFrame(){
 
-    iterateParticles()
+    iterateVisuals()
     iteratePlanets()
     iteratePhysics()
 
