@@ -1,19 +1,32 @@
-var visuals = []
 
 function iterateVisuals(){
-    for(var i = 0; i < visuals.length;i++){
-        visuals[i].iterate()
+    for(var i = 0; i < visuals.list.length;i++){
+        visuals.list[i].iterate()
     }
 }
 
 function renderVisuals(){
-    for(var i = 0; i < visuals.length;i++){
-        visuals[i].render()
+    for(var i = 0; i < visuals.list.length;i++){
+        visuals.list[i].render()
     }
 }
 
-function addParticle(p){
-    visuals.push(p)
+var particles = {
+    add:function(p){
+        visuals.list.push(p)
+    },
+    burst:function(x,y,amount=20, speed=4){
+        for(var i = 0; i < amount; i ++){
+            const angle = Math.random()*360//radians
+            const s = Math.random()*speed
+            this.add(new Particle(
+                x,
+                y,
+                s*Math.cos(angle),
+                s*Math.sin(angle),
+            ))
+        }
+    }
 }
 
 class Visual {
@@ -24,9 +37,10 @@ class Visual {
         this.col = col
         this.lifetime=lifetime
         this.age=0
+        this.id = Date.now()-Math.trunc(Math.random()*100000000)// same as physicsobject
     }
     destroy(){
-        visuals.splice(visuals.indexOf(this), 1)
+        visuals.list.splice(visuals.list.indexOf(this), 1)
     }
     iterate(){
         this.age++
@@ -58,7 +72,47 @@ class Particle extends Visual {
         this.y+=this.vy
     }
     render(){
-        // console.log(this.texture)
         drawSprite(this.texture, this.x, this.y)
+    }
+}
+
+class Explosion extends Visual {
+    constructor(x, y, size, col=color.warm(), speed=3){
+        super(x,y,size,col)
+        this.size = size
+        this.speed = speed
+        this.lifetime = size/speed
+        this.class = "Explosion"
+    }
+    iterate(){
+        super.iterate()
+        this.size-=this.speed
+    }
+    render(){
+        drawCircle(this.x, this.y, this.size, this.col + "33")
+    }
+    static fromJSON(json){
+        const obj = new Explosion(json.x, json.y, json.size, json.col, json.speed)
+        obj.id = json.id
+        obj.class = "Explosion"
+        return obj
+    }
+}
+
+var visuals = {
+    list:[],
+    add:function(v){
+        let toAdd = v;
+        if(toAdd instanceof Explosion){this._add(toAdd)}
+        if(v.class == "Explosion"){
+            toAdd = Explosion.fromJSON(v)
+        }
+        if(toAdd){this._add(toAdd)}
+    },
+    _add:function(v){
+        for(var i = 0; i < this.list.length; i ++){
+            if(this.list[i].id == v.id){return}
+        }
+        this.list.push(v)
     }
 }

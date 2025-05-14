@@ -16,10 +16,22 @@ class Bullet extends PhysicsObject {
 
     }
     iterate(){
+
+        if(this.dead){return}
+        
         iterateThing(this)
-        if(this.age > this.lifetime || this.landed || this.x < -config.systemSize){
-            this.destroy()
-        }
+        // if(this.age > this.lifetime || this.landed){
+        //     this.destroy()
+        // }
+    }
+    destroy(){
+        if(this.dead){return}
+        if(this.br){Bullet.detonate(this)}
+        super.destroy()
+    }
+    static detonate(o){//visual only
+        visuals.add(new Explosion(o.x, o.y, o.br))
+        particles.burst(o.x, o.y, 12, 5)
     }
 
 }
@@ -28,6 +40,7 @@ function renderBullets(){
         // bullets, just copypasted platform renderer
        for(var i = 0; i < pobjects.length;i++){
            if(pobjects[i].class == 'Bullet'){
+                if(pobjects[i].dead){continue}
                drawSpriteRot(sprites.bullets[pobjects[i].textureID], pobjects[i].x, pobjects[i].y, pobjects[i].rot)
            }
        }
@@ -36,6 +49,7 @@ function renderBullets(){
            for(var ii = 0; ii < sync.others[i].obj.length;ii++){
                let obj = sync.others[i].obj[ii]
                if(obj.class == 'Bullet'){
+                if(obj.dead){continue}
                    drawSpriteRot(sprites.bullets[obj.textureID], obj.x, obj.y, obj.rot)
                }
            }

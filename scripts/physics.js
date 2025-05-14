@@ -77,20 +77,13 @@ class PhysicsObject {
     destroy(){// if it is destroyed
         pobjects.splice(pobjects.lastIndexOf(this), 1)
         this.dead = true
-        for(var i = 0; i < 20; i ++){
-            const angle = Math.random()*360//radians
-            const s = Math.random()*4
-            addParticle(new Particle(
-                this.x,
-                this.y,
-                this.vx - s*Math.cos(angle),
-                this.vy - s*Math.sin(angle),
-            ))
-        }
+        particles.burst(this.x, this.y, 20, 4)
     }
 }
 
 function iterateThing(thing){
+
+    if(thing.dead){return}
 
     thing.x += thing.vx
     thing.y += thing.vy
@@ -118,8 +111,9 @@ function iterateThing(thing){
             thing.vr = 0
             // thing.rot = Math.atan2(thing.vy, thing.vx)
             thing.age ++
-            if(thing.landed || thing.age > thing.lifetime){// ten second lifetime on average
-                thing.x = -10000000// remove from game until it gets deleted by owner
+            if((thing.landed || thing.age > thing.lifetime) && !thing.dead){// ten second lifetime on average
+                if(this.br){Bullet.detonate(thing)}
+                thing.dead = true
             }
 
             if(!pobjects.includes(thing)){// if this is someone elses bullet
@@ -132,7 +126,9 @@ function iterateThing(thing){
                     const d = dist(thing.x, thing.y, o.x, o.y)
                     if(d < thing.r + o.r + (thing.br || 0) && d != 0){
                         // hit
+
                         if(thing.br){
+                            Bullet.detonate(thing)
                             for(var i =0; i < pobjects.length ; i++){
                                 let oo = pobjects[i]
                                 if(oo.shield){oo=oo.shield}
@@ -144,8 +140,7 @@ function iterateThing(thing){
                             o.hp -= thing.damage
                         }
 
-                        // sent to the shadow realm so that it can be deleted, later
-                        thing.x = -10000000
+                        thing.dead = true
                     }
                 }
             }else{

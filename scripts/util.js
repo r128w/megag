@@ -60,6 +60,12 @@ const color = {
             a.g*ant+b.g*amt,
             a.b*ant+b.b*amt
         )
+    },
+    warm:function(){
+        // generates red-yellow color
+        const g = Math.random()*255
+        const b = Math.random()*100
+        return this.rgbToHex(255, g, b)
     }
     
 }
