@@ -112,7 +112,7 @@ function iterateThing(thing){
             // thing.rot = Math.atan2(thing.vy, thing.vx)
             thing.age ++
             if((thing.landed || thing.age > thing.lifetime) && !thing.dead){// ten second lifetime on average
-                if(this.br){Bullet.detonate(thing)}
+                if(thing.br){Bullet.detonate(thing)}
                 thing.dead = true
             }
 
