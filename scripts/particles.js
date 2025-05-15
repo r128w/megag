@@ -101,18 +101,20 @@ class Explosion extends Visual {
 
 var visuals = {
     list:[],
-    add:function(v){
+    add:function(v, external=false){
+        // external is whether it came from others(to avoid infinite looping visuals from one to one)
         let toAdd = v;
-        if(toAdd instanceof Explosion){this._add(toAdd)}
+        if(toAdd instanceof Explosion){this._add(toAdd,external)}
         if(v.class == "Explosion"){
             toAdd = Explosion.fromJSON(v)
         }
-        if(toAdd){this._add(toAdd)}
+        if(toAdd){this._add(toAdd,external)}
     },
-    _add:function(v){
+    _add:function(v, external=false){
         for(var i = 0; i < this.list.length; i ++){
             if(this.list[i].id == v.id){return}
         }
         this.list.push(v)
+        if(!external){smallUpdate(v, 4)}
     }
 }

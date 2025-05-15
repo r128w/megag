@@ -15,7 +15,8 @@ var sync = {
         recon:null,
         small:null
     }, // for resetting
-    smallqueue:[]
+    smallqueue:[],
+    visqueue:[]
 }
 
 function resetConn(id){
@@ -151,8 +152,9 @@ async function establishConns(){
 function receiveData(stuff, a){
     // 0: init
     // 1: full pobject update
-    // 2: additional object (shooting ,etc)
+    // 2: small update (shooting, etc)
     // 3: planet update
+    // 4: visual update
 
 
     switch(stuff.type){
@@ -176,10 +178,12 @@ function receiveData(stuff, a){
             }
             break
         case 3:
-
-            // console.log('received planet update', stuff.payload)
-
             planets[stuff.payload.id].resources = stuff.payload.value
+            break
+        case 4:
+            for(var i = 0; i < stuff.payload.length; i ++){
+                visuals.add(stuff.payload[i], true)
+            }
             break
     }
 }
@@ -216,38 +220,61 @@ function initEmptySync(){
 
 function sendSmallUpdate(){
 
-    if(sync.smallqueue.length == 0){return}
+    if(sync.smallqueue.length != 0){
 
-    for(var i = 0; i < config.playerMax; i++){
-        if(!sync.conns[i]){continue}
-        if(!sync.conns[i].open){continue}
+        for(var i = 0; i < config.playerMax; i++){
+            if(!sync.conns[i]){continue}
+            if(!sync.conns[i].open){continue}
+            
+            let toSend = {type:2,payload:sync.smallqueue,ts:Date.now()}
+
+            sync.conns[i].send(toSend)
+        }
         
-        let toSend = {type:2,payload:sync.smallqueue,ts:Date.now()}
-
-        sync.conns[i].send(toSend)
+        sync.smallqueue = []// empty queue after sending
     }
-    
-    sync.smallqueue = []// empty queue after sending
+
+    if(sync.visqueue.length != 0){
+
+        for(var i = 0; i < config.playerMax; i++){
+            if(!sync.conns[i]){continue}
+            if(!sync.conns[i].open){continue}
+            
+            let toSend = {type:2,payload:sync.visqueue,ts:Date.now()}
+
+            sync.conns[i].send(toSend)
+        }
+        
+        sync.visqueue = []// empty queue after sending
+    }
 }
 
 function smallUpdate(data, type=2){
     // sends small update (type 2+)
     // 2 - object
     // 3 - planet
+    // 4 - visual
 
-    if(type==2){
-        // add to queue
-        sync.smallqueue.push(data)
-        return
-    }
-    for(var i = 0; i < config.playerMax; i++){
-        if(!sync.conns[i]){continue}
-        if(!sync.conns[i].open){continue}
+    switch(type){
+        case 2:
+            // add to objects queue
+            sync.smallqueue.push(data)
+            break
+        case 3:
+            for(var i = 0; i < config.playerMax; i++){
+                if(!sync.conns[i]){continue}
+                if(!sync.conns[i].open){continue}
+                
+                let toSend = {type:type,payload:data,ts:Date.now()}
         
-        let toSend = {type:type,payload:data,ts:Date.now()}
-
-        sync.conns[i].send(toSend)
+                sync.conns[i].send(toSend)
+            }
+            break
+        case 4:
+            sync.visqueue.push(data)
+            break
     }
+    
     
 }
 
