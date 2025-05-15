@@ -44,8 +44,6 @@ Each player has a dock, which they can use to build mines and other platforms. T
 
 - More turret types
 
-- Damage radius around certain bullet types
-
 - More stable, reliable sync
 
 - Specialized docks for building turrets, defense, ammo platforms
