@@ -76,8 +76,11 @@ const baseconfig = {
     ]
 }
 
-var config = baseconfig || JSON.parse(localStorage.getItem('config'))
+var config = JSON.parse(localStorage.getItem('config')) || baseconfig
 
 function updateInfo(){
-    config = baseconfig || JSON.parse(localStorage.getItem('config'))
+    config = JSON.parse(localStorage.getItem('config')) || baseconfig
+    try{loadUserInfo()}catch(e){}
 }
+
+setInterval(updateInfo, 10000)

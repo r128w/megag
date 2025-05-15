@@ -25,6 +25,11 @@
         <button class="center" onclick="
             window.open('https://r128w.github.io/megag/settings.html', '_blank')
         ">Settings</button>
+        <script>window.addEventListener('message',(e)=>{
+            localStorage.setItem('config', JSON.stringify(e.data.config))
+            localStorage.setItem('userinfo', JSON.stringify(e.data.user))
+            console.log(e.data)
+            })</script>
 
         <script src="config.js"></script>
         <script src="scripts/menu.js"></script>
