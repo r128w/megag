@@ -1,4 +1,4 @@
-var config = {
+const baseconfig = {
     minimap:{
         drawPlanetInfluence: 8, // transparency (out of 255)
         pathPredictions:100,
@@ -74,4 +74,10 @@ var config = {
             make:{cost:{mg:10,no3:50},amount:5}
         }
     ]
+}
+
+var config = baseconfig || JSON.parse(localStorage.getItem('config'))
+
+function updateInfo(){
+    config = baseconfig || JSON.parse(localStorage.getItem('config'))
 }

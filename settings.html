@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MegaGravity</title>
+        <link rel="stylesheet" href="../main.css">
+        <link rel="icon" type="icon/x-image" href="https://r128w.github.io/megag/assets/mg.png">
+
+        <style>p{text-align: center;}</style>
+    </head>
+    <body>
+
+        <h3 style="text-align: center;">MegaGravity Settings</h3>
+
+        <div id="userinfobox" class="hidden" style="position:fixed;top:30%;width:fit-content;height:fit-content;background-color: #111;min-width:25%"></div>
+            <p>Username</p>
+            <p contenteditable="true" id ='usernamebox' style="text-align:center;background-color: #222;min-width: 150px;max-width: fit-content;margin:auto">Anonymous</p>
+            <p>User Color</p>
+            <input type="color" id="usercolor" value="#ffffff" style="position:absolute;left:35%;width:30%">
+            <br><br><br>
+            <button onclick="updateUserInfo()" style="position:absolute;left:35%;width:30%;bottom:5px">OK</button>
+        </div>
+
+        <div id="configbox">
+            <p>Draw Planet Influence Radius<span><input id="input-1"type="checkbox"></span></p>
+        </div>
+
+        <script src="./config.js"></script>
+
+        <script>
+            let curConfig = baseconfig || JSON.parse(localStorage.getItem('config'))
+            function loadUserInfo(){
+                let info = JSON.parse(localStorage.getItem('userinfo') || `{"name":"Anonymous","col":"#ffffff"}`)
+                document.getElementById('usernamebox').innerText=info.name
+                document.getElementById('usercolor').value=info.col
+            }
+            function updateInfo(){
+
+                curConfig.minimap.drawPlanetInfluence = document.getElementById('input-1').checked
+
+                localStorage.setItem('userinfo', 
+                `{"name":"${document.getElementById('usernamebox').innerText}","col":"${document.getElementById('usercolor').value}"}`)
+            
+                localStorage.setItem('config', JSON.stringify(curConfig))
+            }
+            function resetInfo(){
+                curConfig = baseconfig
+                updateInfo()
+            }
+
+            loadUserInfo()
+            const inputs = document.getElementsByTagName("input")
+            for(var i = 0; i < inputs.length; i++){
+                inputs[i].oninput=updateInfo
+            }
+        </script>
+
+    </body>
+</html>

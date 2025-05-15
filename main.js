@@ -16,6 +16,11 @@ async function initGame(multiplayer=true){
     pobjects.push(new Player(800 * Math.cos(angle), 800 * Math.sin(angle)))
     pobjects.push(new Dock(1000 * Math.cos(angle+0.1), 1000 * Math.sin(angle+0.1)))
 
+    // combat testing
+    // pobjects.push(new LocalShield(1000 * Math.cos(angle+0.1), 1000 * Math.sin(angle+0.1), 10))
+    // pobjects.push(new Turret(1000 * Math.cos(angle+0.1), 1000 * Math.sin(angle+0.1), 'mini'))
+    // pobjects.push(new Turret(1000 * Math.cos(angle+0.1), 1000 * Math.sin(angle+0.1), 'gun'))
+
     for(var i = 0; i < pobjects.length; i ++){// give the starting objects some random nudges
         pobjects[i].vr = 0.01 * (Math.random()-0.5)
         pobjects[i].rot = angle
@@ -25,7 +30,7 @@ async function initGame(multiplayer=true){
 
     p = pobjects[0]
 
-    updateUserInfo()
+    updateInfo()
 
     if(multiplayer){
         chat.system("Joined Multiplayer")

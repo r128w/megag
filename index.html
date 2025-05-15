@@ -13,19 +13,18 @@
 
         <canvas id="main-canvas" style="width:100%;height:93vh"></canvas>
         
-        <div id="userinfobox" class="hidden" style="position:fixed;top:30%;width:fit-content;height:fit-content;background-color: #111;min-width:25%">
+        <!-- <div id="userinfobox" class="hidden" style="position:fixed;top:30%;width:fit-content;height:fit-content;background-color: #111;min-width:25%">
             <p>Username</p>
             <p contenteditable="true" id ='usernamebox' style="text-align:center;background-color: #222;min-width: 150px;max-width: fit-content;margin:auto">Anonymous</p>
             <p>User Color</p>
             <input type="color" id="usercolor" value="#ffffff" style="position:absolute;left:35%;width:30%">
             <br><br><br>
             <button onclick="updateUserInfo()" style="position:absolute;left:35%;width:30%;bottom:5px">OK</button>
-        </div>
+        </div> -->
         
         <button class="center" onclick="
-            document.getElementById('userinfobox').className='';
-            let ubox = document.getElementById('userinfobox');ubox.style.left = `${(window.innerWidth-ubox.clientWidth)/2}px`
-        ">Change User Info</button>
+            window.open('https://r128w.github.io/megag/settings.html', '_blank')
+        ">Settings</button>
 
         <script src="config.js"></script>
         <script src="scripts/menu.js"></script>
