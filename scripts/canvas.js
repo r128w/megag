@@ -170,7 +170,7 @@ function renderMinimap(){
 
         ui.drawCircle(drawX, drawY, planets[i].r * minimapScale, planets[i].col)
 
-        const planetInfluenceTransparency = (config.minimap.drawPlanetInfluence == true ? 17 : config.minimap.drawPlanetInfluence)
+        const planetInfluenceTransparency = (config.minimap.drawPlanetInfluence == true ? 8 : config.minimap.drawPlanetInfluence)
         let string = (planetInfluenceTransparency || 0).toString(16)
         if(string.length == 1){string = "0"+string}
 
