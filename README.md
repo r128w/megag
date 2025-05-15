@@ -46,6 +46,10 @@ Each player has a dock, which they can use to build mines and other platforms. T
 
 - More stable, reliable sync
 
+- Sound effects and music
+
+- Settings for sound and graphics
+
 - Specialized docks for building turrets, defense, ammo platforms
 
    - Dock: Mg Mine, NO3 Farm, Se Mine, Turret Dock, Defense Dock, Ammo Factory
