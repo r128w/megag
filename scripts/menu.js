@@ -29,7 +29,7 @@ function initMenu(){
 }
 
 function runMenu(){
-    let a = document.getElementById('userinfobox');a.style.left = `${(window.innerWidth-a.clientWidth)/2}px`
+    // let a = document.getElementById('userinfobox');a.style.left = `${(window.innerWidth-a.clientWidth)/2}px`
     // console.log(a.clientWidth)
 
     canvasClear()
@@ -121,14 +121,14 @@ function runMenu(){
 }
 function loadUserInfo(){
     let info = JSON.parse(localStorage.getItem('userinfo') || `{"name":"Anonymous","col":"#ffffff"}`)
-    document.getElementById('usernamebox').innerText=info.name
-    document.getElementById('usercolor').value=info.col
+    try{p.col = info.col
+    p.username = info.name}catch(e){}
 }
-function updateUserInfo(){
+// function updateUserInfo(){
     
-    p.col = document.getElementById('usercolor').value
-    p.username = document.getElementById('usernamebox').innerText
+//     try{p.col = document.getElementById('usercolor').value
+//     p.username = document.getElementById('usernamebox').innerText}catch(e){}
 
-    document.getElementById('userinfobox').className = 'hidden'
-    localStorage.setItem('userinfo', `{"name":"${document.getElementById('usernamebox').innerText}","col":"${document.getElementById('usercolor').value}"}`)
-}
+//     document.getElementById('userinfobox').className = 'hidden'
+//     localStorage.setItem('userinfo', `{"name":"${document.getElementById('usernamebox').innerText}","col":"${document.getElementById('usercolor').value}"}`)
+// }
