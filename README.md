@@ -32,15 +32,13 @@ Interact with platforms, which are objects that float around the world as the pl
 
 Mines collect resources from planets, which slowly regenerate resources. Planets can also be mined manually by the player by holding E. Resources from mines are collected when the player who owns them flies nearby.
 
-The Ammo Factory allows the crafting of different ammo types through the same UI as the main Dock.L
+The Ammo Factory allows the crafting of different ammo types through the same UI as the main Dock.
 
 Each player has a dock, which they can use to build mines and other platforms. To build from the dock, you need to be grabbed to it, and then build via the UI or hotkey. The dock only works when off the ground.
 
 ### Planned Features
 
 - Make factions, wage interplanetary war, both in defense and offense.
-
-- In-game chat
 
 - More turret types
 
@@ -59,5 +57,7 @@ Each player has a dock, which they can use to build mines and other platforms. T
    - Defense Dock: Local Shield, Regional Shield, Planetary Shield, TBD, TBD, TBD
  
    - Ammo Factory: Minigun Ammo, Bombs, Tesla Charges, Laser Cells, TBD, TBD
- 
+
+- In-game chat
+  
 - Dune-like laser-shield interaction? Could be funny
