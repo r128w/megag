@@ -1,4 +1,5 @@
 const baseconfig = {
+    version:1,
     minimap:{
         drawPlanetInfluence: 8, // transparency (out of 255)
         pathPredictions:100,
@@ -72,14 +73,26 @@ const baseconfig = {
         {// bomb
             firerate:60,damage:10,range:300,iv:2,spread:1,name:"Bomb",textureID:1,br:50,id:2,
             make:{cost:{mg:10,no3:50},amount:5}
+        },
+        {// laser charge
+            firerate:60,damage:0.1,range:500,name:"Laser Charge",iv:0,textureID:-1,id:3,thick:25,// thickness
+            make:{cost:{mg:2,no3:5,se:12},amount:3}
         }
     ]
+}
+
+async function resetConfig(){
+    await localStorage.setItem('config', JSON.stringify(baseconfig))// make this more better
+    updateInfo()
 }
 
 var config = JSON.parse(localStorage.getItem('config')) || baseconfig
 
 function updateInfo(){
     config = JSON.parse(localStorage.getItem('config')) || baseconfig
+    if(config.version != baseconfig.version){// todo make this not overwrite already stuff? idk
+        resetConfig()
+    }
     try{loadUserInfo()}catch(e){}
 }
 

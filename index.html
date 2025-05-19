@@ -13,38 +13,31 @@
 
         <canvas id="main-canvas" style="width:100%;height:93vh"></canvas>
         
-        <!-- <div id="userinfobox" class="hidden" style="position:fixed;top:30%;width:fit-content;height:fit-content;background-color: #111;min-width:25%">
-            <p>Username</p>
-            <p contenteditable="true" id ='usernamebox' style="text-align:center;background-color: #222;min-width: 150px;max-width: fit-content;margin:auto">Anonymous</p>
-            <p>User Color</p>
-            <input type="color" id="usercolor" value="#ffffff" style="position:absolute;left:35%;width:30%">
-            <br><br><br>
-            <button onclick="updateUserInfo()" style="position:absolute;left:35%;width:30%;bottom:5px">OK</button>
-        </div> -->
-        
         <button class="center" onclick="
             window.open('https://r128w.github.io/megag/settings.html', '_blank')
         ">Settings</button>
         <script>window.addEventListener('message',(e)=>{
             localStorage.setItem('config', JSON.stringify(e.data.config))
             localStorage.setItem('userinfo', JSON.stringify(e.data.user))
-            console.log(e.data)
             })</script>
 
         <script src="config.js"></script>
-        <script src="scripts/menu.js"></script>
+
         <script src="scripts/canvas.js"></script>
+
+        <script src="scripts/util.js"></script>
+        <script src="scripts/input.js"></script>
+        <script src="scripts/menu.js"></script>
         <script src="scripts/physics.js"></script>
         <script src="scripts/game.js"></script>
-        <script src="scripts/input.js"></script>
         <script src="scripts/particles.js"></script>
-        <script src="scripts/util.js"></script>
         <script src="scripts/planets.js"></script>
         <script src="scripts/platforms.js"></script>
         <script src="scripts/bullets.js"></script>
         <script src="scripts/chat.js"></script>
         <script src="scripts/building.js"></script>
         <script src="scripts/fields.js"></script>
+        <script src="scripts/lasers.js"></script>
 
         <script src="scripts/sync.js"></script>
 
