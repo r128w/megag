@@ -73,7 +73,7 @@ class Dock extends Platform {
 
                 case 6:nObj = new AmmoFactory(this.x, this.y);break
                 case 7:nObj = new Dock(this.x, this.y, {// turret dock
-                    builds:[4, 5, -1, -1, -1, -1],
+                    builds:[4, 5, 12, -1, -1, -1],
                     textureID:10,r:24
                 });break
                 case 8:nObj = new Dock(this.x, this.y, {// defense dock
@@ -89,6 +89,8 @@ class Dock extends Platform {
                 case 11:
                     nObj = new PlanetaryShield(this.x, this.y, 11)
                     break
+                case 12:
+                    nObj = new Turret(this.x, this.y, 'laser');break
 
                 default:nObj = new Platform(this.x, this.y);break
             }
