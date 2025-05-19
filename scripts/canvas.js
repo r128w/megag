@@ -490,6 +490,7 @@ function renderUI(){
 
 // util drawing
 function drawSpriteRot(sprite, x, y, rot, r=-1, smoothed=false){
+    if(!sprite){return}
     if(Math.abs(x)+Math.abs(y) > config.systemSize){// rotation render limit
         return// otherwise, floating point weirdness with the translate, rotate, untranslate, unrotate
     }

@@ -11,6 +11,7 @@ class Platform extends PhysicsObject{
         this.vy = 0
         this.platformID = 0
         this.maxhp = 10
+        this.hp = 100
     }
     renderUI(){
         // health bar
@@ -64,9 +65,11 @@ function renderPlatforms(){
 }
 
 class Mine extends Platform{
-    constructor (x,y,resource){
+    constructor(x,y,resource){
         super(x, y, 16)
         this.resource = resource
+        this.maxhp = 6
+        this.hp = 6
         this.stored = 0
         switch(resource){
             case 'mg':this.textureID=2;this.platformID=1;break
@@ -103,6 +106,9 @@ class Turret extends Platform{
     constructor (x, y, type='gun'){
         super(x,y,16)
 
+        this.maxhp = 10
+        this.hp = 10
+
         this.shoot = config.bulstats[0]
 
         this.tr = 0 // turret rotation
@@ -117,6 +123,11 @@ class Turret extends Platform{
             this.textureID = 0
             this.r = 8
             this.ttextureID = 1
+            break
+            case'laser':
+            this.shoot = config.bulstats[3]
+            this.textureID = 8
+            this.ttextureID = 0
             break
         }
 
@@ -147,6 +158,7 @@ class Turret extends Platform{
             }
         }
 
+
         let best = null
         let bestdist = this.shoot.range
 
@@ -157,6 +169,7 @@ class Turret extends Platform{
                 bestdist = cur
             }
         }
+        // console.log(best)
 
         if(best == null){
             this.tr += 0.01 // idling
@@ -166,20 +179,24 @@ class Turret extends Platform{
 
         // im on a whole nother level im geeking
 
-        const delay = 0.7*(bestdist / this.shoot.iv)// naive leading
+        const delay = (0.7*(bestdist / ((this.shoot.iv) || 1000)))// naive leading
 
         this.tr = Math.atan2(best.y + delay*best.vy - this.y - this.vx*delay, best.x + delay*best.vx - this.x - this.vx*delay)
 
         if(this.shoot.cooldown <= 0){
-            const sr = this.tr + (this.shoot.spread || 0)
+            shootBullet(this.x + Math.cos(this.tr)*this.r
+                , this.y + Math.sin(this.tr)*this.r
+                , this.vx, this.vy, this.tr, this.shoot)
             this.shoot.cooldown = this.shoot.firerate
-            const dx = Math.cos(sr)
-            const dy = Math.sin(sr)
-            const b = new Bullet(this.x+this.r*dx, this.y+this.r*dy, this.vx+this.shoot.iv*dx, this.vy+this.shoot.iv*dy)
-            b.rot = sr
-            b.damage = this.shoot.damage
-            pobjects.push(b)
-            smallUpdate(b)// tell everyone about this shiny new thing
+            // const sr = this.tr + (this.shoot.spread || 0)
+            // this.shoot.cooldown = this.shoot.firerate
+            // const dx = Math.cos(sr)
+            // const dy = Math.sin(sr)
+            // const b = new Bullet(this.x+this.r*dx, this.y+this.r*dy, this.vx+this.shoot.iv*dx, this.vy+this.shoot.iv*dy)
+            // b.rot = sr
+            // b.damage = this.shoot.damage
+            // pobjects.push(b)
+            // smallUpdate(b)// tell everyone about this shiny new thing
         }
     }
 

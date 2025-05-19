@@ -36,6 +36,28 @@ class Bullet extends PhysicsObject {
 
 }
 
+function shootBullet(x, y, vx, vy, angle, shoot){
+
+    if(shoot.id == 3){// lasers
+        const l = new Laser(x, y, angle, shoot.range, shoot.thick, "#ff0000")
+        l.src = sync.self.id
+        l.damage = shoot.damage
+        visuals.add(l)
+        return
+    }
+
+    const spmod = (shoot.spread || 0) * (Math.random()-0.5)// spread mod
+    const dx = Math.cos(angle+spmod)
+    const dy = Math.sin(angle+spmod)
+    const b = new Bullet(x, y, vx+shoot.iv*dx, vy+shoot.iv*dy)
+    b.rot = angle
+    b.br = shoot.br
+    b.damage = shoot.damage
+    b.textureID = shoot.textureID
+    pobjects.push(b)
+    smallUpdate(b)// tell everyone about this shiny new thing
+}
+
 function renderBullets(){
         // bullets, just copypasted platform renderer
        for(var i = 0; i < pobjects.length;i++){
@@ -49,8 +71,8 @@ function renderBullets(){
            for(var ii = 0; ii < sync.others[i].obj.length;ii++){
                let obj = sync.others[i].obj[ii]
                if(obj.class == 'Bullet'){
-                if(obj.dead){continue}
-                   drawSpriteRot(sprites.bullets[obj.textureID], obj.x, obj.y, obj.rot)
+                if(obj.dead || obj.textureID == -1){continue}
+                drawSpriteRot(sprites.bullets[obj.textureID], obj.x, obj.y, obj.rot)
                }
            }
         }
@@ -175,7 +197,6 @@ class AmmoFactory extends Platform {
     make(id){
         if(config.bulstats[id]){
             // todo
-            console.log('make', id)
             const cost = config.bulstats[id].make.cost
             if(cost.mg>p.resources.mg){chat.problem('Not enough Magnesium.');return}
             if(cost.no3>p.resources.no3){chat.problem('Not enough Nitrate.');return}

@@ -182,7 +182,7 @@ function receiveData(stuff, a){
             break
         case 4:
             for(var i = 0; i < stuff.payload.length; i ++){
-                visuals.add(stuff.payload[i], true)
+                visuals.add(stuff.payload[i], a)
             }
             break
     }
@@ -240,7 +240,7 @@ function sendSmallUpdate(){
             if(!sync.conns[i]){continue}
             if(!sync.conns[i].open){continue}
             
-            let toSend = {type:2,payload:sync.visqueue,ts:Date.now()}
+            let toSend = {type:4,payload:sync.visqueue,ts:Date.now()}
 
             sync.conns[i].send(toSend)
         }
@@ -271,7 +271,7 @@ function smallUpdate(data, type=2){
             }
             break
         case 4:
-            sync.visqueue.push(data)
+            sync.visqueue.push(JSON.parse(JSON.stringify(data)))
             break
     }
     

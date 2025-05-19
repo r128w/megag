@@ -87,6 +87,9 @@ class Explosion extends Visual {
     iterate(){
         super.iterate()
         this.size-=this.speed
+        if(this.size <= 0){
+            this.destroy()
+        }
     }
     render(){
         drawCircle(this.x, this.y, this.size, this.col + "33")
@@ -95,18 +98,25 @@ class Explosion extends Visual {
         const obj = new Explosion(json.x, json.y, json.size, json.col, json.speed)
         obj.id = json.id
         obj.class = "Explosion"
+        obj.age = json.age
+        obj.lifetime = json.lifetime
         return obj
     }
 }
 
 var visuals = {
     list:[],
-    add:function(v, external=false){
+    add:function(v, external=false){// false: self, 0-inf: id
         // external is whether it came from others(to avoid infinite looping visuals from one to one)
         let toAdd = v;
-        if(toAdd instanceof Explosion){this._add(toAdd,external)}
+        if(toAdd instanceof Explosion){this._add(toAdd,external);return}
         if(v.class == "Explosion"){
             toAdd = Explosion.fromJSON(v)
+        }
+        if(toAdd instanceof Laser){this._add(toAdd,external);return}
+        if(v.class == "Laser"){
+            toAdd = Laser.fromJSON(v)
+            toAdd.src = external
         }
         if(toAdd){this._add(toAdd,external)}
     },
@@ -115,6 +125,6 @@ var visuals = {
             if(this.list[i].id == v.id){return}
         }
         this.list.push(v)
-        if(!external){smallUpdate(v, 4)}
+        if(external === false){smallUpdate(v, 4)}
     }
 }

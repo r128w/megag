@@ -77,16 +77,9 @@ class Player extends PhysicsObject{
                 chat.problem(`Not enough ${this.shoot.name} ammo.`)
             }else{
                 this.stuff.ammo[this.shoot.id] --
-                const spmod = (this.shoot.spread || 0) * (Math.random()-0.5)// spread mod
-                const dx = Math.cos(this.rot+spmod)
-                const dy = Math.sin(this.rot+spmod)
-                const b = new Bullet(this.x+this.r*dx, this.y+this.r*dy, this.vx+this.shoot.iv*dx, this.vy+this.shoot.iv*dy)
-                b.rot = this.rot
-                b.br = this.shoot.br
-                b.damage = this.shoot.damage
-                b.textureID = this.shoot.textureID
-                pobjects.push(b)
-                smallUpdate(b)// tell everyone about this shiny new thing
+                shootBullet(this.x + Math.cos(this.rot)*this.r
+                , this.y + Math.sin(this.rot)*this.r
+                , this.vx, this.vy, this.rot, this.shoot)
             }
         }
 
