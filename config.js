@@ -1,4 +1,3 @@
-
 const baseconfig = {
     version:3,
     minimap:{
@@ -87,10 +86,20 @@ async function resetConfig(){
     updateInfo()
 }
 
-var config = JSON.parse((localStorage.getItem('config') || JSON.stringify(baseconfig)))
+function getConfig(){
+    if(!localStorage.getItem('config')){
+        return baseconfig
+    }
+    if(localStorage.getItem('config') == 'undefined'){
+        return baseconfig
+    }
+    return JSON.parse(localStorage.getItem('config'))
+}
 
+var config = getConfig()
+ 
 function updateInfo(){
-    config = JSON.parse((localStorage.getItem('config') || JSON.stringify(baseconfig)))
+    config = getConfig()
     if(config.version != baseconfig.version){// todo make this not overwrite already stuff? idk
         resetConfig()
     }
@@ -98,4 +107,3 @@ function updateInfo(){
 }
 
 setInterval(updateInfo, 10000)
-
