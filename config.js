@@ -1,5 +1,5 @@
 const baseconfig = {
-    version:2,
+    version:3,
     minimap:{
         drawPlanetInfluence: 8, // transparency (out of 255)
         pathPredictions:100,
@@ -20,7 +20,7 @@ const baseconfig = {
         minSpacing:500,
         minPSize:200,
         maxPSize:600,
-        initSpread:7000
+        initSpread:9000
     },
     gravLimit: 5000,
     planetInfluenceFactor: 5,
@@ -86,10 +86,10 @@ async function resetConfig(){
     updateInfo()
 }
 
-var config = JSON.parse(localStorage.getItem('config')) || baseconfig
+var config = JSON.parse((localStorage.getItem('config') || JSON.stringify(baseconfig)))
 
 function updateInfo(){
-    config = JSON.parse(localStorage.getItem('config')) || baseconfig
+    config = JSON.parse((localStorage.getItem('config') || JSON.stringify(baseconfig)))
     if(config.version != baseconfig.version){// todo make this not overwrite already stuff? idk
         resetConfig()
     }
