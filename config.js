@@ -1,3 +1,4 @@
+/*
 const baseconfig = {
     version:3,
     minimap:{
@@ -97,3 +98,4 @@ function updateInfo(){
 }
 
 setInterval(updateInfo, 10000)
+*\
