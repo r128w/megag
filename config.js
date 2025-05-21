@@ -100,7 +100,7 @@ function getLocalItem(key ='config'){
     return JSON.parse(localStorage.getItem(key))
 }
 
-var config = getConfig()
+var config = getLocalItem('config')
  
 function updateInfo(){
     config = getLocalItem('config')
