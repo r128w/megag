@@ -103,7 +103,7 @@ function getLocalItem(key ='config'){
 var config = getConfig()
  
 function updateInfo(){
-    config = getConfig()
+    config = getLocalItem('config')
     if(config.version != baseconfig.version){// todo make this not overwrite already stuff? idk
         resetConfig()
     }
