@@ -120,7 +120,7 @@ function runMenu(){
 
 }
 function loadUserInfo(){
-    let info = JSON.parse(localStorage.getItem('userinfo') || `{"name":"Anonymous","col":"#ffffff"}`)
+    let info = getLocalItem('userinfo')
     try{p.col = info.col
     p.username = info.name}catch(e){}
 }
