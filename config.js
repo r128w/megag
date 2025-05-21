@@ -86,14 +86,18 @@ async function resetConfig(){
     updateInfo()
 }
 
-function getConfig(){
-    if(!localStorage.getItem('config')){
-        return baseconfig
+function getLocalItem(key ='config'){
+    if(!localStorage.getItem(key)){
+        if(key =='config'){
+        return baseconfig}else if(key =='userinfo'){
+            return {name:"Anonymous",col:"#ffffff"}}
     }
-    if(localStorage.getItem('config') == 'undefined'){
-        return baseconfig
+    if(localStorage.getItem(key) == 'undefined'){
+        if(key =='config'){
+        return baseconfig}else if(key =='userinfo'){
+            return {name:"Anonymous",col:"#ffffff"}}
     }
-    return JSON.parse(localStorage.getItem('config'))
+    return JSON.parse(localStorage.getItem(key))
 }
 
 var config = getConfig()
