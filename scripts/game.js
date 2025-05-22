@@ -176,7 +176,9 @@ class Player extends PhysicsObject{
     destroy(){
         this.hp = this.maxhp// reset health
         // respawn
-        let respawnloc = {x:Math.random()-0.5, y:Math.random()-0.5}
+        let respawnloc = {
+            x:Math.random()-0.5, 
+            y:Math.random()-0.5}
 
         this.grabbed = null
 

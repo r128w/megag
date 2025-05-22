@@ -124,7 +124,7 @@ function renderFrame(){
 function renderMinimap(){
 
 
-    const minimapWidth = (input.tabbed ? Math.min(c.height - 40, c.width/2 - 150) : 250);
+    const minimapWidth = (input.tabbed ? Math.min(c.height - 80, c.width/2 - 150) : 250);
 
     ctx.save()
 
@@ -478,6 +478,14 @@ function renderUI(){
             ui.drawRect(bx, y + 15, bw, 10, "#ffffff")
             ui.drawText("vr", bx + bw/2, y + 12, "#ffffff")
         }
+
+
+
+        // const margn = 10
+        // ui.drawRect(-c.width/2 + margn*3, c.height/2 - margn - 40, 200, 40,"#33333366")
+        // ctx.font = "12px monospace"
+        // ui.drawText("Inertial Dampening", -c.width/2 + margn*3 + 100, c.height/2 - margn - 26, "#ffffff")
+        // ui.drawRect(-c.width/2 + margn*3 + 10, c.height/2 - margn - 40 + 24, 180, 8,"#aaaaaa66")
 
         
 

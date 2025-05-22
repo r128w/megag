@@ -11,6 +11,7 @@ var input = {
     space:false,
     shift:false,
     tab:false,
+    md:false,
     num:null,// number keys
     tabbed: false, // ...
     _other: null,
@@ -111,7 +112,12 @@ function showCursor(cursor="auto"){
     c.style.cursor=cursor
 }
 
+c.addEventListener('mousedown', (e)=>{
+    input.md=true
+})
+
 c.addEventListener('mouseup', (e)=>{
+    input.md = false
     input._mc = true;
     setTimeout(()=>{input._mc=false}, 30)// JANK lmao
     showCursor()
