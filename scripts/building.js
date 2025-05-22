@@ -124,7 +124,6 @@ class Dock extends Platform {
         super.render()
     }
     renderUI(){// renders the interface with the dock, around building
-        super.renderUI()
         if(this.building.id!=null){
             // scales with radius (for diff sized docks)
             drawBar(this.x, this.y+10, 60 * (this.r/32), this.building.progress / (config.buildings.buildtimes[this.building.id]))
@@ -222,6 +221,15 @@ class Dock extends Platform {
 
 
 
+    }
+
+    destroy(){
+        if(this.textureID == 1){
+            // if this is the main dock
+            pobjects.push(new Dock(Math.random()-0.5, Math.random() - 0.5))
+        }
+        chat.problem("Dock destroyed, respawned at Spawn")
+        super.destroy()
     }
 }
 
