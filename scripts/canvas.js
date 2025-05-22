@@ -479,20 +479,42 @@ function renderUI(){
             ui.drawText("vr", bx + bw/2, y + 12, "#ffffff")
         }
 
+        renderMinimap()
 
 
-        // const margn = 10
-        // ui.drawRect(-c.width/2 + margn*3, c.height/2 - margn - 40, 200, 40,"#33333366")
-        // ctx.font = "12px monospace"
-        // ui.drawText("Inertial Dampening", -c.width/2 + margn*3 + 100, c.height/2 - margn - 26, "#ffffff")
-        // ui.drawRect(-c.width/2 + margn*3 + 10, c.height/2 - margn - 40 + 24, 180, 8,"#aaaaaa66")
+        const margn = 10
+        ui.drawRect(-c.width/2 + margn*3, c.height/2 - margn - 40, 200, 40,"#33333366")
+        ctx.font = "12px monospace"
+        ui.drawText("Inertial Dampening", -c.width/2 + margn*3 + 100, c.height/2 - margn - 26, "#ffffff")
+        ui.drawRect(-c.width/2 + margn*3 + 10, c.height/2 - margn - 40 + 24, 180, 8,"#aaaaaa66")
 
+        ui.drawRect(-c.width/2 + margn*3 + 10, c.height/2 - margn - 40 + 22, p.inertial * 180, 12,"#dddddd")
+
+        const mp = input.mousePos()
+        if(mp.x > -c.width/2 + margn*3 && mp.x < -c.width/2 + margn*3 + 200){
+            if(mp.y > c.height/2 - margn - 40 && mp.y < c.height/2 - margn - 40 + 40){
+                ui.drawRect(mp.x, mp.y-100, 200, 100,"#33333366")
+                ctx.font = "12px monospace"
+                ui.drawText("Inertial Dampening", mp.x + 100, mp.y - 85, "#ffffff")
+                ui.drawText("Divert power from boost", mp.x + 100, mp.y - 70, "#aaaaaa")
+                ui.drawText("to control the ship's", mp.x + 100, mp.y - 55, "#aaaaaa")
+                ui.drawText("rotation to ease", mp.x + 100, mp.y - 40, "#aaaaaa")
+                ui.drawText("rotational control, but", mp.x + 100, mp.y - 25, "#aaaaaa")
+                ui.drawText("slow boost regen and max.", mp.x + 100, mp.y - 10, "#aaaaaa")
+
+                if(input.md){
+                    let newValue = Math.max(0, Math.min(1, (mp.x - (-c.width/2 + margn*3 + 10)) / 180))
+                    localStorage.setItem('inertial', newValue)
+                    p.inertial = newValue
+                    console.log(newValue)
+                }
+            }
+        }
         
 
     }
 
 
-    renderMinimap()
 
 }
 
