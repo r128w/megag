@@ -87,15 +87,24 @@ async function resetConfig(){
 }
 
 function getLocalItem(key ='config'){
+    const replacements = [
+        ['config', baseconfig],
+        ['userinfo', {name:"Anonymous",col:"#ffffff"}],
+        ['inertial', 0.5]
+    ]
     if(!localStorage.getItem(key)){
-        if(key =='config'){
-        return baseconfig}else if(key =='userinfo'){
-            return {name:"Anonymous",col:"#ffffff"}}
+        for(var i = 0; i < replacements.length; i ++){
+            if(replacements[i][0]==key){
+                return replacements[i][1]
+            }
+        }
     }
     if(localStorage.getItem(key) == 'undefined'){
-        if(key =='config'){
-        return baseconfig}else if(key =='userinfo'){
-            return {name:"Anonymous",col:"#ffffff"}}
+        for(var i = 0; i < replacements.length; i ++){
+            if(replacements[i][0]==key){
+                return replacements[i][1]
+            }
+        }
     }
     return JSON.parse(localStorage.getItem(key))
 }

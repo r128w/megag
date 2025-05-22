@@ -13,8 +13,8 @@ async function initGame(multiplayer=true){
 
     const angle = Math.random()*360;// angle is in radians
 
-    pobjects.push(new Player(800 * Math.cos(angle), 800 * Math.sin(angle)))
-    pobjects.push(new Dock(1000 * Math.cos(angle+0.1), 1000 * Math.sin(angle+0.1)))
+    pobjects.push(new Player(500 * Math.cos(angle), 500 * Math.sin(angle)))
+    pobjects.push(new Dock(700 * Math.cos(angle+0.1), 700 * Math.sin(angle+0.1)))
 
     // combat testing
     // pobjects.push(new LocalShield(1000 * Math.cos(angle+0.1), 1000 * Math.sin(angle+0.1), 10))
