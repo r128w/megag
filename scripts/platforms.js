@@ -48,20 +48,33 @@ function renderPlatforms(){
                 drawCircle(
                     obj.x, obj.y, obj.r * 1.414, obj.col+"44"// root two, opacity
                 )// render silhouette of other player's color
-
                 drawSpriteRot(sprites.platforms[obj.textureID], obj.x, obj.y, obj.rot, obj.r)
-                if(obj.hp != obj.maxhp){
-                    drawBar(obj.x, obj.y+obj.r+5, 50, obj.hp/obj.maxhp,"#666666", obj.col)
-                }
-
                 if(obj.tr){
                     drawSpriteRot(sprites.barrels[obj.ttextureID], obj.x, obj.y, obj.tr, obj.r)
                 }
-
             }
         }
     }
+}
 
+function renderPlatformUI(){
+    // platforms
+    for(var i = 0; i < pobjects.length;i++){
+        if(pobjects[i].class == 'Platform'){
+            pobjects[i].renderUI()
+        }
+    }
+    for(var i = 0; i < config.playerMax; i++){
+        if(!sync.conns[i].open){continue}
+        for(var ii = 0; ii < sync.others[i].obj.length;ii++){
+            let obj = sync.others[i].obj[ii]
+            if(obj.class == 'Platform'){
+                if(obj.hp != obj.maxhp){
+                    drawBar(obj.x, obj.y+obj.r+5, 50, obj.hp/obj.maxhp,"#666666", obj.col)
+                }
+            }
+        }
+    }
 }
 
 class Mine extends Platform{

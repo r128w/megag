@@ -31,7 +31,7 @@ function loadSprites(){
         'small', 'dock-main',// textureID 0-1
         'mg-empty','mg-full','no3-empty','no3-full','se-empty','se-full',// 2-7
         'turret-base', 'dock-ammo', 'dock-turret', 'dock-defense',// 8-11
-        'shield-small', 'shield-medium', 'shield-big' // 12-14
+        'shield-small', 'shield-medium', 'shield-big', 'turret-laser' // 12-15
     ]
 
     for(var i = 0; i < platformSprites.length;i++){
@@ -40,6 +40,7 @@ function loadSprites(){
 
     loadSprite('barrels/barrel-main', 'barrels')// barrels textureid 0
     loadSprite('barrels/barrel-small', 'barrels')
+    loadSprite('barrels/barrel-exotic', 'barrels')
 
     loadSprite('bullets/bul-main', 'bullets')// bullets textureid 0
     loadSprite('bullets/bomb', 'bullets')
@@ -100,16 +101,14 @@ function renderFrame(){
         if(sync.conns[i].open){
             let op = sync.others[i].obj[0]// other player
             if(!op){continue}
-            // console.log(sync.others[i].obj)
+            drawCircle(
+                op.x, op.y, op.r * 1.414, op.col+"44"// root two, opacity
+            )// render silhouette of other player's color
             drawSpriteRot(sprites.player, op.x, op.y, op.rot, op.r, true)
-            if(op.hp != op.maxhp){
-                drawBar(op.x, op.y+op.r+5, 50, op.hp/op.maxhp,"#666666",op.col)
-            }
         }
     }
     drawSpriteRot(sprites.player, p.x, p.y, p.rot, p.r, true)
     
-
     renderFields()
 
     renderPlanets()
@@ -325,6 +324,22 @@ function renderUI(){
     if(p.boost.f < p.boost.max){
         drawBar(p.x, p.y+p.r+10, 30, p.boost.f/p.boost.max)
     }
+
+    for(var i = 0; i < config.playerMax; i++){// render player UIs
+        if(sync.conns[i].open){
+            let op = sync.others[i].obj[0]// other player
+            if(!op){continue}
+            let offset = 15
+            if(op.hp != op.maxhp){
+                drawBar(op.x, op.y+op.r+5, 50, op.hp/op.maxhp,"#666666",op.col)
+                offset += 12
+            }
+            ctx.font = "15px monospace"
+            ui.drawText(op.username, op.x + cam.xo, op.y + cam.yo + op.r + offset, color.lighten(op.col))
+        }
+    }
+
+    renderPlatformUI()
     
 
     if(!input.tabbed){// normal ui

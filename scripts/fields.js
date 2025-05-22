@@ -63,6 +63,7 @@ class LocalShield extends Platform {
         this.maxhp = 15
     }
     renderUI(){
+        super.renderUI()
         if(this.cooldown > 0){
             drawBar(this.x, this.y+10, 60 * (this.r/32), 
             this.cooldown / (this.mcooldown))
@@ -93,8 +94,10 @@ class LocalShield extends Platform {
         this.updateShield()
     }
     updateShield(){
-        this.shield.x = this.x
-        this.shield.y = this.y
+        if(this.shield){
+            this.shield.x = this.x
+            this.shield.y = this.y
+        }
     }
     destroy(){
         super.destroy()

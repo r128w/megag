@@ -66,6 +66,15 @@ const color = {
         const g = Math.random()*255
         const b = Math.random()*100
         return this.rgbToHex(255, g, b)
+    },
+    lighten:function(hex){
+        let rgb = this.hexToRgb(hex)
+        if(rgb.r+rgb.g+rgb.b<200){
+            rgb.r+=50
+            rgb.g+=50
+            rgb.b+=50
+        }
+        return this.rgbToHex(rgb.r,rgb.g,rgb.b)
     }
     
 }

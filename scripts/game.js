@@ -25,7 +25,7 @@ class Player extends PhysicsObject{
     iterate(){
 
              
-        const rspeed = 0.002 * 
+        const rspeed = (0.002 + 0.002*this.inertial) * 
         Math.max(0, 1 - Math.abs(this.vr - 0.2)) 
         * (this.grabbed!=null ? 1-(0.63*Math.atan(0.1*this.grabbed.r)):1)
 
