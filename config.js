@@ -1,5 +1,5 @@
 const baseconfig = {
-    version:3,
+    version:4,
     minimap:{
         drawPlanetInfluence: 8, // transparency (out of 255)
         pathPredictions:100,
@@ -16,16 +16,16 @@ const baseconfig = {
     bigG: 0.1,
     worldGen:{
         numPlanets:14,
-        spacing:1200,
-        minSpacing:500,
+        spacing:1900,
+        minSpacing:900,
         minPSize:200,
         maxPSize:600,
-        initSpread:9000
+        initSpread:13000
     },
     gravLimit: 5000,
     planetInfluenceFactor: 5,
     playerMax: 10,
-    systemSize:30000,// how far out before things are deleted
+    systemSize:50000,// how far out before things are deleted
     sync:{
         updateInterval: 150, // might make this adjustable easily
         reconnectInterval: 10000,
@@ -45,10 +45,10 @@ const baseconfig = {
         binds:['y', 'u', 'i', 'h', 'j', 'k'],// shared between all docks/menus
         previews:[-1, 2, 4, 6, 8,
             0, 9, 10, 11, 12,
-            13, 14, 8],// preview sprites for build menu
+            13, 14, 15],// preview sprites for build menu
         previewb:[-1, -1, -1, -1, 0,
             1, -1, -1, -1, -1,
-            -1, -1, 0],// preview barrels
+            -1, -1, 2],// preview barrels
         stats:{// misc stats
             9:{maxhp:10, r:100, col:'#66aaee'},// local shield
             10:{maxhp:15, r:200, col:'#66aaee'},// large local shield
