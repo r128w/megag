@@ -7,6 +7,8 @@ class Player extends PhysicsObject{
         this.username = 'Anonymous'// default name
         this.id = 0
 
+        this.inertial = getLocalItem('inertial')
+
         this.shoot = config.bulstats[0]
         this.shoot.cooldown = 0
         this.boost = {f:90,max:90}// just enough to orbit
@@ -22,7 +24,6 @@ class Player extends PhysicsObject{
     }
     iterate(){
 
-        // this.vr*=0.95// angular drag for the weak
              
         const rspeed = 0.002 * 
         Math.max(0, 1 - Math.abs(this.vr - 0.2)) 
@@ -33,7 +34,10 @@ class Player extends PhysicsObject{
 
         const acc = 0.02
 
-        this.boost.f = Math.min(this.boost.f+(!!this.landed ? 1 : 0.1), this.boost.max)
+        const regenFactor = 0.02 + 0.08*(1-this.inertial)
+        this.vr *= 1 - (this.inertial * 0.06)
+
+        this.boost.f = Math.min(this.boost.f+(!!this.landed ? 10*regenFactor : regenFactor), this.boost.max)
 
         if(input.w){
             const dx = acc * Math.cos(this.rot)
