@@ -420,6 +420,9 @@ function renderUI(){
                 }
             }
         }
+
+
+        renderMinimap()
         
     }else{// navigation mode
 
