@@ -339,7 +339,6 @@ function renderUI(){
         }
     }
 
-    renderPlatformUI()
     
 
     if(!input.tabbed){// normal ui
@@ -363,6 +362,9 @@ function renderUI(){
             ui.worldText("Selenium: " + pl.resources.se, x+margin, y+4*w/10+4*margin)
             ui.worldText("Hold E to mine", x+margin, y+5*w/10+5*margin)
         }
+
+
+        renderPlatformUI()
 
         // resource/player menu, bottom left
         const margin = 10
