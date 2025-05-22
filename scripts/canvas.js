@@ -364,12 +364,6 @@ function renderUI(){
             ui.worldText("Hold E to mine", x+margin, y+5*w/10+5*margin)
         }
 
-        for(var i = 0; i < pobjects.length; i ++){// platform uis (bars, build menus, etc)
-            if(pobjects[i].class == 'Platform'){
-                pobjects[i].renderUI()
-            }
-        }
-
         // resource/player menu, bottom left
         const margin = 10
         const w = Math.min(Math.max(c.width * 0.4, 250), 400) - margin*2
