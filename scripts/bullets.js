@@ -163,7 +163,7 @@ class AmmoFactory extends Platform {
                     const scale = 0.7
                     ctx.globalAlpha = 0.7
                     ctx.drawImage(
-                        sprites.bulicons, 
+                        sprites.ui[1], 
                         index*16,0,16,16,
                         x2 + pw*(1-scale)/2, y2 + pw*(1-scale)/2 - 5, pw*scale, pw*scale)
                     ctx.globalAlpha = 1

@@ -514,7 +514,7 @@ function renderUI(){
                 ui.drawText("to control the ship's", mp.x + 100, mp.y - 55, "#aaaaaa")
                 ui.drawText("rotation to ease", mp.x + 100, mp.y - 40, "#aaaaaa")
                 ui.drawText("rotational control, but", mp.x + 100, mp.y - 25, "#aaaaaa")
-                ui.drawText("slow boost regen and max.", mp.x + 100, mp.y - 10, "#aaaaaa")
+                ui.drawText("slow boost recharging.", mp.x + 100, mp.y - 10, "#aaaaaa")
 
                 if(input.md){
                     let newValue = Math.max(0, Math.min(1, (mp.x - (-c.width/2 + margn*3 + 10)) / 180))
