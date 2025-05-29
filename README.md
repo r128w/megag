@@ -1,4 +1,4 @@
-# ![Mg](https://r128w.github.io/megag/assets/mg.png) MegaGravity (WIP)
+# ![Mg](https://r128w.github.io/megag/assets/mg.png) MegaGravity
 #### A physics-based multiplayer sandbox
 
 # Controls
