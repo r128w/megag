@@ -22,7 +22,7 @@ Tab: Toggle navigation mode
 
 Players start on a green planet, and some may have trouble getting off it. It is of course completely possible. To reach orbit, you need to gain height (W to launch + shift for boost), then turn briefly sideways to gain lateral speed. When turning sideways, avoid holding down A or D, since that will make you spin uncontrollably, and remember to press the opposite direction around a second later to cancel out your angular velocity.
 
-Getting to orbit is very important; some planets, like spawn, can only be escaped this way, and putting platforms in orbit is the only way to consistently keep them off the ground.
+Getting to orbit is very important; some planets, like Spawn, can only be escaped this way, and putting platforms in orbit is the only way to consistently keep them off the ground.
 
 ### Implemented Features
 
